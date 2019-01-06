@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class Zona extends Model
 {
   protected $fillable = [
-      'nombre','descripcion','image','estado'
+      'nombre','descripcion','imagen','estado'
   ];
 
   public function scope_getAllZonas($query, $searchText){

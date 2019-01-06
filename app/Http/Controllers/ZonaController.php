@@ -12,7 +12,6 @@ class ZonaController extends Controller
   public function index(Request $request)
   {
     $zonas = Zona::_getAllZonas($request['searchText'])->paginate(7);
-    // dd($zonas );
     return view('admCentros.zona.index',["zonas"=>$zonas,"searchText"=>$request->get('searchText')]);
   }
 
