@@ -19,7 +19,7 @@
     <link rel="shortcut icon" href="{{asset('img/favicon.ico')}}">
 
   </head>
-  <body class="hold-transition skin-blue sidebar-mini sidebar-collapse">
+  <body class="hold-transition skin-blue sidebar-mini">
     <div class="wrapper">
 
       <header class="main-header">
@@ -103,6 +103,7 @@
                   <li><a href="{{url('adm/especialidad')}}"><i class="fa fa-circle-o"></i>Gestionar Especialidad</a></li>
                   <li><a href="{{url('adm/red')}}"><i class="fa fa-circle-o"></i>Gestionar Red</a></li>
                   <li><a href="{{url('adm/servicio')}}"><i class="fa fa-circle-o"></i>Gestionar Tipo de Servicio</a></li>
+                  <li><a href="{{url('adm/medico')}}"><i class="fa fa-circle-o"></i>Gestionar Medicos</a></li>
                 </ul>
               </li>
               <!-- <li class="treeview">

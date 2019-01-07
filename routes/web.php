@@ -45,6 +45,9 @@ Route::resource('adm/zona','ZonaController');
 Route::resource('adm/especialidad','EspecialidadController');
 Route::resource('adm/red','RedController');
 Route::resource('adm/servicio','TipoServicioController');
+Route::resource('adm/medico','MedicoController');
+
+
 
 // Route::resource('adm/enfermedad','EnfermedadController');
 // Route::resource('adm/sintoma','SintomaController');

@@ -11,22 +11,23 @@ class Zona extends Model
   protected $table = 'zona';
 
   protected $fillable = [
-      'nombre','descripcion','imagen','estado'
+    'nombre', 'descripcion', 'imagen', 'estado'
   ];
 
-  public function scope_getAllZonas($query, $searchText){
+  public function scope_getAllZonas($query, $searchText)
+  {
     $text = trim($searchText);
-    $result=$query->where('nombre','LIKE','%'.$text.'%')
-                    ->orWhere('id','LIKE','%'.$text.'%')
-                    ->orderBy('id','desc');
+    $result = $query->where('nombre', 'LIKE', '%' . $text . '%')
+      ->orWhere('id', 'LIKE', '%' . $text . '%')
+      ->orderBy('id', 'desc');
     return $result;
   }
 
   public function scope_insertarZona($query, $request)
   {
-    $zona= new Zona;
-    $zona->nombre=$request->get('nombre');
-    $zona->descripcion=$request->get('descripcion');
+    $zona = new Zona;
+    $zona->nombre = $request->get('nombre');
+    $zona->descripcion = $request->get('descripcion');
     $zona->save();
   }
 
@@ -41,11 +42,12 @@ class Zona extends Model
   public function scope_eliminarZona($query, $id)
   {
     $zona = Zona::findOrFail($id);
-		$zona->estado = '0';
-		$zona->update(); 
+    $zona->estado = '0';
+    $zona->update();
   }
 
-  public function scope_getAllZona($query){
-      return $query;
+  public function scope_getAllZona($query)
+  {
+    return $query;
   }
 }
