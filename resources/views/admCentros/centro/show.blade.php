@@ -107,7 +107,7 @@
              </div>
              <div class="col-sm-8 col-sm-offset-2">
                <div class="form-group">
-               <a href="{{URL::action('LugarController@index')}}"><button class="btn btn-primary btn-block" type="submit">
+               <a href="{{URL::action('CentroMedicoController@index')}}"><button class="btn btn-primary btn-block" type="submit">
                    <i class="fa fa-arrow-circle-left">Atras </i>
                  </button></a>
                </div>

@@ -6,6 +6,10 @@ use Illuminate\Database\Eloquent\Model;
 
 class TipoServicio extends Model
 {
+  public $timestamps = false;
+
+  protected $table = 'tipo_servicio';
+
   protected $fillable = [
       'nombre','descripcion'
   ];

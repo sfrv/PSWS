@@ -6,6 +6,10 @@ use Illuminate\Database\Eloquent\Model;
 
 class Nivel extends Model
 {
+  public $timestamps = false;
+
+  protected $table = 'nivel';
+
   protected $fillable = [
       'nombre','descripcion','estado'
   ];

@@ -105,7 +105,7 @@
                   <li><a href="{{url('adm/servicio')}}"><i class="fa fa-circle-o"></i>Gestionar Tipo de Servicio</a></li>
                 </ul>
               </li>
-              <li class="treeview">
+              <!-- <li class="treeview">
                 <a href="#">
                   <i class="fa fa-list-alt"></i>
                   <span>Adm. Sistemas Expertos</span>
@@ -115,7 +115,7 @@
                   <li><a href="{{url('adm/enfermedad')}}"><i class="fa fa-circle-o"></i>Gestionar Enfermedadad</a></li>
                   <li><a href="{{url('adm/sintoma')}}"><i class="fa fa-circle-o"></i>Gestionar Sintoma</a></li>
                 </ul>
-              </li>
+              </li> -->
 
             <li>
               <a href="#">
@@ -145,11 +145,7 @@
               <div class="box">
                 <div class="box-header with-border">
 
-                  <div class="box-tools pull-right">
-                    <button class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
-
-                    <button class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button>
-                  </div>
+                
                 </div>
                 <!-- /.box-header -->
                 <div class="box-body">
