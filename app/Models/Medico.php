@@ -17,9 +17,15 @@ class Medico extends Model
     public function scope_getAllMedicos($query, $searchText)
     {
         $text = trim($searchText);
-        $result = $query->where('nombre', 'LIKE', '%' . $text . '%')
-            ->orWhere('id', 'LIKE', '%' . $text . '%')
-            ->orderBy('id', 'desc');
+        if ($text == "") {
+            $result = $query->where('estado', '=', 1)
+                ->orderBy('id', 'desc');
+        } else {
+            $result = $query->where('estado', '=', 1)
+                ->where('nombre', 'LIKE', '%' . $text . '%')
+                ->orWhere('id', 'LIKE', '%' . $text . '%')
+                ->orderBy('id', 'desc');
+        }
         return $result;
     }
 
@@ -31,7 +37,7 @@ class Medico extends Model
         $medico->telefono = $request->get('telefono');
         $medico->direccion = $request->get('direccion');
         $medico->correo = $request->get('correo');
-        $medico->estado = '1';
+        $medico->estado = 1;
         $medico->save();
     }
 
@@ -49,7 +55,7 @@ class Medico extends Model
     public function scope_eliminarMedico($query, $id)
     {
         $medico = Medico::findOrFail($id);
-        $medico->estado = '0';
+        $medico->estado = 0;
         $medico->update();
     }
 
