@@ -6,7 +6,7 @@ namespace App\Http\Controllers;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Http\Request;
 use App\Models\Medico;
-use App\Http\Requests\ZonaFormRequest;
+use App\Http\Requests\MedicoFormRequest;
 
 class MedicoController extends Controller
 {

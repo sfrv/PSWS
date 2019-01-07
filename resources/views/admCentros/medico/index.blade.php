@@ -17,7 +17,7 @@
            @include('alertas.logrado')
        </div>
        <div class="box-body">
-         @include('admCentros.zona.search')
+         @include('admCentros.medico.search')
          <table class="table table-bordered" style="border-top-color: #00AEFF">
            <thead>
            <tr>
