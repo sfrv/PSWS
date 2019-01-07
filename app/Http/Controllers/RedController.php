@@ -16,41 +16,31 @@ class RedController extends Controller
 
   public function create()
   {
-    return view('admCentros.red.create');//,['trabajadores'=>$trabajadores,'alimentos'=>$alimentos]);
+    return view('admCentros.red.create');
   }
 
   public function store(Request $request){
-    $red= new Red;
-    $red->nombre=$request->get('nombre');
-    $red->descripcion=$request->get('descripcion');
-    $red->image = $request->get('image');
-    $red->save();
-    return Redirect::to('adm/red');
+    Red::_insertarRed($request);
+    return Redirect::to('adm/red')->with('msj','La Red: "'.$request['nombre'].'" se creo exitósamente.');
   }
 
   public function edit($id)
   {
-      return view("admCentros.red.edit",["red"=>Red::findOrFail($id)]);
+    return view("admCentros.red.edit",["red"=>Red::findOrFail($id)]);
   }
 
   public function update(Request $request, $id)
   {
-      $red = Red::findOrFail($id);
-      $red->nombre = $request->get('nombre');
-      $red->descripcion = $request->get('descripcion');
-      $red->image = $request->get('image');
-      $red->update();
-      return Redirect::to('adm/red');
+    Red::_editarRed($id, $request);
+    return Redirect::to('adm/red')->with('msj','La Red: '.$request->nombre.' se edito exitosamente.');
   }
 
   public function destroy($id){
-		$red = Red::findOrFail($id);
-		$red->estado = '0';
-		$red->update();
-		return Redirect::to('adm/red');
+    Red::_eliminarRed($id);
+    return Redirect::to('adm/red');
 	}
 
   public function getRedes(){
-      return json_encode(array("redes" => Red::_getAllRed()->get()));
+    return json_encode(array("redes" => Red::_getAllRed()->get()));
   }
 }

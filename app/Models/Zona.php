@@ -16,17 +16,26 @@ class Zona extends Model
 
   public function scope_getAllZonas($query, $searchText){
     $text = trim($searchText);
-    $result=$query->where('nombre','LIKE','%'.$text.'%')
+    if ($text == "") {
+      $result=$query->where('estado','=',1)
+                    ->orderBy('id','desc');
+    }else{
+      $result=$query->where('estado','=',1)
+                  ->where('nombre','LIKE','%'.$text.'%')
                     ->orWhere('id','LIKE','%'.$text.'%')
                     ->orderBy('id','desc');
+    }
+
+    
     return $result;
   }
 
   public function scope_insertarZona($query, $request)
   {
-    $zona= new Zona;
-    $zona->nombre=$request->get('nombre');
-    $zona->descripcion=$request->get('descripcion');
+    $zona = new Zona;
+    $zona->nombre = $request->get('nombre');
+    $zona->descripcion = $request->get('descripcion');
+    $zona->estado = 1;
     $zona->save();
   }
 
@@ -41,7 +50,7 @@ class Zona extends Model
   public function scope_eliminarZona($query, $id)
   {
     $zona = Zona::findOrFail($id);
-		$zona->estado = '0';
+		$zona->estado = 0;
 		$zona->update(); 
   }
 

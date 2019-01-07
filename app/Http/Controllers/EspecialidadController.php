@@ -18,50 +18,29 @@ class EspecialidadController extends Controller
 
   public function create()
   {
-    $enfermedades=DB::table('enfermedads')->get();
-    return view('admCentros.especialidad.create',['enfermedades'=>$enfermedades]);//,['trabajadores'=>$trabajadores,'alimentos'=>$alimentos]);
+    return view('admCentros.especialidad.create');
   }
 
-  public function store(Request $request){
-
-    $especialidad= new Especialidad;
-    $especialidad->nombre=$request->get('nombre');
-    $especialidad->descripcion=$request->get('descripcion');
-    $especialidad->save();
-
-    $idenfermedad=$request->get('idenfermedad');
-
-    $cont=0;
-    while($cont < count($idenfermedad)){
-        $detalleEnfermedad= new DetalleEnfermedad();
-        $detalleEnfermedad->id_especialidad=$especialidad->id;
-        $detalleEnfermedad->id_enfermedad=$idenfermedad[$cont];
-        $detalleEnfermedad->save();
-        $cont=$cont+1;
-    }
-
-    return Redirect::to('adm/especialidad');
-  }
-
-  public function show($id)
+  public function store(Request $request)
   {
-      $especialidad = DB::table('especialidads')
-      ->where('id','=', $id)
-      ->first();
-
-      $detalle = DB::table('detalle_enfermedads as de')
-      ->join('enfermedads as e','e.id', '=', 'de.id_enfermedad')
-      ->select('e.nombre')
-      ->where('de.id_especialidad','=', $id)
-      ->get();
-
-      return view('admCentros.especialidad.show',["especialidad"=> $especialidad,"detalle"=> $detalle]);//,["orden"=> $orden, "detalle" => $detalle]);
+    Especialidad::_insertarEspecialidad($request);
+    return Redirect::to('adm/especialidad')->with('msj','La especialidad: "'.$request['nombre'].'" se creo exitósamente.');
   }
+
+  public function edit($id)
+  {
+    return view("admCentros.especialidad.edit",["especialidad"=>Especialidad::findOrFail($id)]);
+  }
+
+  public function update(Request $request, $id)
+  {
+    Especialidad::_editarEspecialidad($id, $request);
+    return Redirect::to('adm/especialidad')->with('msj','La Especialidad: '.$request->nombre.' se edito exitosamente.');
+  }
+
   public function destroy($id){
-		$especialidad = Especialidad::findOrFail($id);
-		$especialidad->estado = '0';
-		$especialidad->update();
-		return Redirect::to('adm/especialidad');
+		Especialidad::_eliminarEspecialidad($id);
+    return Redirect::to('adm/especialidad');
 	}
 
   public function getEspecialidades(){

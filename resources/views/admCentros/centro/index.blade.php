@@ -37,7 +37,7 @@
                     <td>{{ $var->direccion }}</td>
                     <td>{{ $var->latitud}}|{{ $var->longitud}}</td>
                     <td>{{ $var->id_red }}</td>
-                    <td>{{ $var->id_tiposervicio }}</td>
+                    <td>{{ $var->id_tipo_servicio }}</td>
                     <td>{{ $var->id_zona }}</td>
                     <td>{{ $var->id_nivel }}</td>
                     <td>

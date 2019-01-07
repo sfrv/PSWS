@@ -5,6 +5,7 @@
   <h1 align="center">
     * * * * * <b>nombre: {{$centro->nombre}}</b> * * * * *
   </h1>
+  <br>
   <ol class="breadcrumb">
     <li><a href="{{url('/')}}"><i class="fa fa-dashboard"></i> Home</a></li>
   </ol>
@@ -80,6 +81,46 @@
                     Longitud:
                   </label>
                   <p>{{$centro->longitud}}</p>
+                </div>
+              </div>
+              <div class="form-group">
+                <div class="col-lg-6 col-md-6 col-dm-6 col-xs-12">
+                  <label for="form-field-24">
+                    Distrito:
+                  </label>
+                  <p>{{$centro->distrito}}</p>
+                </div>
+              </div>
+              <div class="form-group">
+                <div class="col-lg-6 col-md-6 col-dm-6 col-xs-12">
+                  <label for="form-field-24">
+                    UV:
+                  </label>
+                  <p>{{$centro->uv}}</p>
+                </div>
+              </div>
+              <div class="form-group">
+                <div class="col-lg-6 col-md-6 col-dm-6 col-xs-12">
+                  <label for="form-field-24">
+                    Manzano:
+                  </label>
+                  <p>{{$centro->manzano}}</p>
+                </div>
+              </div>
+              <div class="form-group">
+                <div class="col-lg-6 col-md-6 col-dm-6 col-xs-12">
+                  <label for="form-field-24">
+                    Horas de Atencion:
+                  </label>
+                  <p>{{$centro->horas_atencion}}</p>
+                </div>
+              </div>
+              <div class="form-group">
+                <div class="col-lg-6 col-md-6 col-dm-6 col-xs-12">
+                  <label for="form-field-24">
+                    Telefono:
+                  </label>
+                  <p>{{$centro->telefono}}</p>
                 </div>
               </div>
             </div>

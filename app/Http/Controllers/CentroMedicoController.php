@@ -5,7 +5,11 @@ namespace App\Http\Controllers;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Http\Request;
 use App\Models\CentroMedico;
-use App\Models\DetalleEspecialidad;
+use App\Models\Red;
+use App\Models\TipoServicio;
+use App\Models\Zona;
+use App\Models\Nivel;
+use App\Models\Especialidad;
 use DB;
 
 
@@ -21,12 +25,12 @@ class CentroMedicoController extends Controller
 
     public function create()
     {
-        $redes = DB::table('red')->get();
-        $tiposervicios = DB::table('tipo_servicio')->get();
-        $zonas = DB::table('zona')->get();
-        $niveles = DB::table('nivel')->get();
-        $especialidades = DB::table('especialidad')->get();
-        return view('admCentros.centro.create', ['especialidades' => $especialidades, 'redes' => $redes, 'tiposervicios' => $tiposervicios, 'zonas' => $zonas, 'niveles' => $niveles]);
+        $redes = Red::_getAllRedes("")->get();
+        $tiposervicios = TipoServicio::_getAllTipoServicios("")->get();
+        $zonas = Zona::_getAllZonas("")->get();
+        $niveles = Nivel::_getAllNiveles("")->get();
+        $especialidades = Especialidad::_getAllEspecialidades("")->get();
+        return view('admCentros.centro.create', compact('redes','tiposervicios','zonas','niveles','especialidades'));
     }
 
     public function store(Request $request)
@@ -39,20 +43,20 @@ class CentroMedicoController extends Controller
     {
         $centro = DB::table('centro_medico as c')
         ->join('red as r', 'r.id', '=', 'c.id_red')
-        ->join('tipo_servicio as t', 't.id', '=', 'c.id_tiposervicio')
+        ->join('tipo_servicio as t', 't.id', '=', 'c.id_tipo_servicio')
         ->join('zona as z', 'z.id', '=', 'c.id_zona')
         ->join('nivel as n', 'n.id', '=', 'c.id_nivel')
-        ->select('c.id','c.nombre','c.latitud','c.longitud','c.direccion','c.descripcion','r.nombre as nombreRed','t.nombre as nombreServicio','z.nombre as nombreZona','n.nombre as nombreNivel')
+        ->select('c.id','c.nombre','c.latitud','c.longitud','c.direccion','c.descripcion','c.distrito','c.uv','c.manzano','c.horas_atencion','telefono','r.nombre as nombreRed','t.nombre as nombreServicio','z.nombre as nombreZona','n.nombre as nombreNivel')
         ->where('c.id','=', $id)
         ->first();
         //
-        $detalle = DB::table('detalle_especialidad as de')
+        $detalle = DB::table('detalle_centro_especialidad as de')
         ->join('especialidad as e','e.id', '=', 'de.id_especialidad')
         ->select('e.nombre')
         ->where('de.id_centro_medico','=', $id)
         ->get();
   
-        return view('admCentros.centro.show',["centro"=> $centro,"detalle"=> $detalle]);//,["orden"=> $orden, "detalle" => $detalle]);
+        return view('admCentros.centro.show',compact('centro','detalle'));
     }
 
     public function edit($id)

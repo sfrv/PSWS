@@ -5,6 +5,7 @@
   <h1 align="center">
     * * * * * <b>Centros de Salud</b> * * * * *
   </h1>
+  <br>
   <ol class="breadcrumb">
     <li><a href="{{url('/')}}"><i class="fa fa-dashboard"></i> Home</a></li>
   </ol>
@@ -32,9 +33,9 @@
               	</div>
               </div>
               <div class="col-lg-6 col-md-6 col-dm-6 col-xs-12">
-              	<div class="form-group">
-              	   <label for="id_tiposervicio">Tipo de Servicio</label>
-                  <select name="id_tiposervicio" id="id_tiposervicio" class="form-control selectpicker">
+              	<div class="form-group"> 
+              	   <label for="id_tipo_servicio">Tipo de Servicio</label>
+                  <select name="id_tipo_servicio" id="id_tipo_servicio" class="form-control selectpicker">
                     @foreach($tiposervicios as $var)
     	               <option value="{{$var->id}}">{{$var->nombre}}</option>
     	              @endforeach
@@ -99,6 +100,46 @@
                     Longitud:
                   </label>
                   <input required="required" name="longitud" id="longitud" class="autosize form-control" type="number" step="any">
+                </div>
+              </div>
+              <div class="form-group">
+                <div class="col-lg-6 col-md-6 col-dm-6 col-xs-12">
+                  <label for="form-field-24">
+                    Distrito:
+                  </label>
+                  <input required="required" name="distrito" id="distrito" class="autosize form-control" type="text" step="any">
+                </div>
+              </div>
+              <div class="form-group">
+                <div class="col-lg-6 col-md-6 col-dm-6 col-xs-12">
+                  <label for="form-field-24">
+                    Uv:
+                  </label>
+                  <input required="required" name="uv" id="uv" class="autosize form-control" type="text" step="any">
+                </div>
+              </div>
+              <div class="form-group">
+                <div class="col-lg-4 col-md-4 col-dm-4 col-xs-12">
+                  <label for="form-field-24">
+                    Manzano:
+                  </label>
+                  <input required="required" name="manzano" id="manzano" class="autosize form-control" type="text" step="any">
+                </div>
+              </div>
+              <div class="form-group">
+                <div class="col-lg-4 col-md-4 col-dm-4 col-xs-12">
+                  <label for="form-field-24">
+                    Horas de Atencion:
+                  </label>
+                  <input required="required" name="horas_atencion" id="horas_atencion" class="autosize form-control" type="text" step="any">
+                </div>
+              </div>
+              <div class="form-group">
+                <div class="col-lg-4 col-md-4 col-dm-4 col-xs-12">
+                  <label for="form-field-24">
+                    Telefono:
+                  </label>
+                  <input required="required" name="telefono" id="telefono" class="autosize form-control" type="text" step="any">
                 </div>
               </div>
             </div>

@@ -40,7 +40,7 @@ class CentroMedico extends Model
 
     public function scope_insertarCentroMedico($query, $request)
     {
-        $centro = new Lugar;
+        $centro = new CentroMedico;
         $centro->nombre = $request->get('nombre');
         $centro->direccion = $request->get('direccion');
         $centro->descripcion = $request->get('descripcion');
@@ -53,18 +53,20 @@ class CentroMedico extends Model
         $centro->latitud = $request->get('latitud');
         $centro->longitud = $request->get('longitud');
         $centro->id_red = $request->get('id_red');
-        $centro->id_tiposervicio = $request->get('id_tiposervicio');
+        $centro->id_tipo_servicio = $request->get('id_tipo_servicio');
         $centro->id_zona = $request->get('id_zona');
         $centro->id_nivel = $request->get('id_nivel');
+        $centro->estado = 1;
         $centro->save();
 
         $idespecialidad = $request->get('idespecialidad');
 
         $cont = 0;
         while ($cont < count($idespecialidad)) {
-            $detalleEspecialidad = new DetalleEspecialidad();
+            $detalleEspecialidad = new DetalleCentroEspecialidad();
             $detalleEspecialidad->id_centro_medico = $centro->id;
             $detalleEspecialidad->id_especialidad = $idespecialidad[$cont];
+            $detalleEspecialidad->estado = 1;
             $detalleEspecialidad->save();
             $cont = $cont + 1;
         }

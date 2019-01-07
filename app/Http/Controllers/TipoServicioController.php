@@ -20,12 +20,10 @@ class TipoServicioController extends Controller
     return view('admCentros.servicio.create');//,['trabajadores'=>$trabajadores,'alimentos'=>$alimentos]);
   }
 
-  public function store(Request $request){
-    $servicio= new TipoServicio;
-    $servicio->nombre=$request->get('nombre');
-    $servicio->descripcion=$request->get('descripcion');
-    $servicio->save();
-    return Redirect::to('adm/servicio');
+  public function store(Request $request)
+  {
+    TipoServicio::_insertarTipoServicio($request);
+    return Redirect::to('adm/servicio')->with('msj','El tipo de Servicio: "'.$request['nombre'].'" se creo exitósamente.');
   }
 
   public function edit($id)
@@ -35,21 +33,18 @@ class TipoServicioController extends Controller
 
   public function update(Request $request, $id)
   {
-    $servicio = TipoServicio::findOrFail($id);
-    $servicio->nombre = $request->get('nombre');
-    $servicio->descripcion = $request->get('descripcion');
-    $servicio->update();
-    return Redirect::to('adm/servicio');
+    TipoServicio::_editarTipoServicio($id, $request);
+    return Redirect::to('adm/servicio')->with('msj','El tipo de Servicio: '.$request->nombre.' se edito exitosamente.');
   }
 
-  public function destroy($id){
-		$servicio = TipoServicio::findOrFail($id);
-		$servicio->estado = '0';
-		$servicio->update();
-		return Redirect::to('adm/servicio');
+  public function destroy($id)
+  {
+    TipoServicio::_eliminarTipoServicio($id);
+    return Redirect::to('adm/servicio');
 	}
 
-  public function getTipoServicios(){
+  public function getTipoServicios()
+  {
       return json_encode(array("tiposervicios" => TipoServicio::_getAllTipoServicio()->get()));
   }
 }

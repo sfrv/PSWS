@@ -19,36 +19,30 @@ class NivelController extends Controller
     return view('admCentros.nivel.create');//,['trabajadores'=>$trabajadores,'alimentos'=>$alimentos]);
   }
 
-  public function store(Request $request){
-    $nivel= new Nivel;
-    $nivel->nombre=$request->get('nombre');
-    $nivel->descripcion=$request->get('descripcion');
-    $nivel->save();
-    return Redirect::to('adm/nivel');
+  public function store(Request $request)
+  {
+    Nivel::_insertarNivel($request);
+    return Redirect::to('adm/nivel')->with('msj','El nivel: "'.$request['nombre'].'" se creo exitósamente.');
   }
 
   public function edit($id)
   {
-      return view("admCentros.nivel.edit",["nivel"=>Nivel::findOrFail($id)]);
+    return view("admCentros.nivel.edit",["nivel"=>Nivel::findOrFail($id)]);
   }
 
   public function update(Request $request, $id)
   {
-      $nivel = Nivel::findOrFail($id);
-      $nivel->nombre = $request->get('nombre');
-      $nivel->descripcion = $request->get('descripcion');
-      $nivel->update();
-      return Redirect::to('adm/nivel');
+    Nivel::_editarNivel($id, $request);
+    return Redirect::to('adm/nivel')->with('msj','El nivel: '.$request->nombre.' se edito exitosamente.');
   }
 
-  public function destroy($id){
-		$nivel = Nivel::findOrFail($id);
-		$nivel->estado = '0';
-		$nivel->update();
-		return Redirect::to('adm/nivel');
+  public function destroy($id)
+  {
+    Nivel::_eliminarNivel($id);
+    return Redirect::to('adm/nivel');
 	}
 
   public function getNiveles(){
-      return json_encode(array("niveles" => Nivel::_getAllNivel()->get()));
+    return json_encode(array("niveles" => Nivel::_getAllNivel()->get()));
   }
 }

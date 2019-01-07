@@ -25,6 +25,7 @@
          <table class="table table-bordered" style="border-top-color: #00AEFF">
            <thead>
            <tr>
+             <th class="center">ID</th>
              <th class="center">Nombre</th>
              <th class="center">Descripcion</th>
              <th class="center">Opciones</th>
@@ -33,6 +34,7 @@
            <tbody>
              @foreach($zonas as $var)
                   <tr>
+                    <td>{{ $var->id }}</td>
                     <td>{{ $var->nombre }}</td>
                     <td>{{ $var->descripcion }}</td>
                     <td>
