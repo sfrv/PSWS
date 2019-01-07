@@ -11,10 +11,11 @@ class Zona extends Model
   protected $table = 'zona';
 
   protected $fillable = [
-      'nombre','descripcion','imagen','estado'
+    'nombre', 'descripcion', 'imagen', 'estado'
   ];
 
-  public function scope_getAllZonas($query, $searchText){
+  public function scope_getAllZonas($query, $searchText)
+  {
     $text = trim($searchText);
     if ($text == "") {
       $result=$query->where('estado','=',1)
@@ -25,8 +26,6 @@ class Zona extends Model
                     ->orWhere('id','LIKE','%'.$text.'%')
                     ->orderBy('id','desc');
     }
-
-    
     return $result;
   }
 
@@ -54,7 +53,8 @@ class Zona extends Model
 		$zona->update(); 
   }
 
-  public function scope_getAllZona($query){
-      return $query;
+  public function scope_getAllZona($query)
+  {
+    return $query;
   }
 }
