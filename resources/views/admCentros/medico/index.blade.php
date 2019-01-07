@@ -2,7 +2,7 @@
 @section('contenido')
  <section class="content-header">
    <h1 align="center">
-       * * * * * <b>Zonas de Ubicacion</b> * * * * *
+       * * * * * <b>Médicos</b> * * * * *
    </h1>
  </section>
  <br>
@@ -17,7 +17,7 @@
            @include('alertas.logrado')
        </div>
        <div class="box-body">
-         <!-- @include('admCentros.zona.search') -->
+         @include('admCentros.zona.search')
          <table class="table table-bordered" style="border-top-color: #00AEFF">
            <thead>
            <tr>

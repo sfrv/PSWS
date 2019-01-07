@@ -15,4 +15,37 @@ class MedicoController extends Controller
         $medicos = Medico::_getAllMedicos($request['searchText'])->paginate(7);
         return view('admCentros.medico.index', ["medicos" => $medicos, "searchText" => $request->get('searchText')]);
     }
+
+    public function create()
+    {
+        return view('admCentros.medico.create');
+    }
+
+    public function store(MedicoFormRequest $request)
+    {
+        Medico::_insertarMedico($request);
+        return Redirect::to('adm/medico')->with('msj', 'El Medico: "' . $request['nombre'] . '" se creo exitósamente.');
+    }
+
+    public function edit($id)
+    {
+        return view("admCentros.medico.edit", ["medico" => Medico::findOrFail($id)]);
+    }
+
+    public function update(MedicoFormRequest $request, $id)
+    {
+        Medico::_editarMedico($id, $request);
+        return Redirect::to('adm/medico')->with('msj', 'El Medico: ' . $request->nombre . ' se edito exitosamente.');
+    }
+
+    public function destroy($id)
+    {
+        Medico::_eliminarMedico($id);
+        return Redirect::to('adm/medico');
+    }
+
+    public function getMedicos()
+    {
+        return json_encode(array("medicos" => Zona::_getAllMedico()->get()));
+    }
 }
