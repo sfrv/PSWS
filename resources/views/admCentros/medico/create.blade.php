@@ -23,15 +23,13 @@
               <div class="col-lg-6 col-md-6 col-dm-6 col-xs-12">
               	<div class="form-group">
               	   <label for="id_nivel">Nombre: </label>
-                   <!-- <input required="required" name="nombre" id="nombre" class="autosize form-control" type="text"> -->
-                   <textarea required="required" class="autosize form-control" id="form-field-24" name="nombre"></textarea>
+                   <input required="required" name="nombre" id="nombre" class="autosize form-control" type="text">
                   </div> 
               </div>
               <div class="col-lg-6 col-md-6 col-dm-6 col-xs-12">
               	<div class="form-group">
               	   <label for="id_nivel">Apellido: </label>
-                   <!-- <input required="required" name="apellido" id="apellido" class="autosize form-control" type="text"> -->
-                   <textarea required="required" class="autosize form-control" id="form-field-24" name="apellido"></textarea>
+                   <input required="required" name="apellido" id="apellido" class="autosize form-control" type="text">
               	</div>
               </div>
             </div>
@@ -41,15 +39,13 @@
               <div class="col-lg-6 col-md-6 col-dm-6 col-xs-12">
               	<div class="form-group">
               	   <label for="id_nivel">Telefono: </label>
-                   <!-- <input required="required" name="telefono" id="telefono" class="autosize form-control" type="number"> -->
-                   <textarea required="required" class="autosize form-control" id="form-field-24" name="telefono"></textarea>
+                   <input required="required" name="telefono" id="telefono" class="autosize form-control" type="number">
                   </div> 
               </div>
               <div class="col-lg-6 col-md-6 col-dm-6 col-xs-12">
               	<div class="form-group">
               	   <label for="id_nivel">Correo: </label>
-                   <!-- <input required="required" name="correo" id="correo" class="autosize form-control" type="mail"> -->
-                   <textarea required="required" class="autosize form-control" id="form-field-24" name="correo"></textarea>
+                   <input required="required" name="correo" id="correo" class="autosize form-control" type="mail">
               	</div>
               </div>
             </div>

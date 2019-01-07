@@ -38,14 +38,14 @@
                     <td>{{ $var->direccion }}</td>
                     <td>{{ $var->correo }}</td>
                     <td>
-                      <!-- <a href="{{URL::action('ZonaController@edit',$var->id)}}" class="btn btn-info" data-placement="top" data-original-title="Edit"><i class="fa fa-edit"></i></a>
-                      <a href="" data-target="#modal-delete-{{$var->id}}" data-toggle="modal" class="btn btn-danger" data-placement="top" data-original-title="Remove"><i class="fa fa-times fa fa-white"></i></a> -->
+                      <a href="{{URL::action('MedicoController@edit',$var->id)}}" class="btn btn-info" data-placement="top" data-original-title="Edit"><i class="fa fa-edit"></i></a>
+                      <a href="" data-target="#modal-delete-{{$var->id}}" data-toggle="modal" class="btn btn-danger" data-placement="top" data-original-title="Remove"><i class="fa fa-times fa fa-white"></i></a>
 
-                      <a href=# class="btn btn-info" data-placement="top" data-original-title="Edit"><i class="fa fa-edit"></i></a>
-                      <a href=# data-toggle="modal" class="btn btn-danger" data-placement="top" data-original-title="Remove"><i class="fa fa-times fa fa-white"></i></a>
+                      <!-- <a href=# class="btn btn-info" data-placement="top" data-original-title="Edit"><i class="fa fa-edit"></i></a> -->
+                      <!-- <a href=# data-toggle="modal" class="btn btn-danger" data-placement="top" data-original-title="Remove"><i class="fa fa-times fa fa-white"></i></a> -->
                     </td>
                   </tr>
-                  <!-- @include('admCentros.zona.modal') -->
+                  @include('admCentros.medico.modal')
               @endforeach
            </tbody>
          </table>

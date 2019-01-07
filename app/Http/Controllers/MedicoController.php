@@ -24,7 +24,7 @@ class MedicoController extends Controller
     public function store(MedicoFormRequest $request)
     {
         Medico::_insertarMedico($request);
-        return Redirect::to('adm/medico')->with('msj', 'El Medico: "' . $request['nombre'] . '" se creo exitósamente.');
+        return Redirect::to('adm/medico')->with('msj', 'El Medico: "' . $request['nombre'] . ' ' . $request['apellido'] . '" se creo exitósamente.');
     }
 
     public function edit($id)
@@ -35,7 +35,7 @@ class MedicoController extends Controller
     public function update(MedicoFormRequest $request, $id)
     {
         Medico::_editarMedico($id, $request);
-        return Redirect::to('adm/medico')->with('msj', 'El Medico: ' . $request->nombre . ' se edito exitosamente.');
+        return Redirect::to('adm/medico')->with('msj', 'El Medico: "' . $request->nombre . ' ' . $request->apellido . '" se edito exitosamente.');
     }
 
     public function destroy($id)

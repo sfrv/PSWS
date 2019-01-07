@@ -31,6 +31,7 @@ class Medico extends Model
         $medico->telefono = $request->get('telefono');
         $medico->direccion = $request->get('direccion');
         $medico->correo = $request->get('correo');
+        $medico->estado = '1';
         $medico->save();
     }
 
