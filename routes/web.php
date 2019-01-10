@@ -16,14 +16,14 @@ Route::get('/', function () {
 });
 Route::resource('dashboard','DashBoardController');
 Route::resource('home','HomeController');
-// Route::get('get-contratos/{id}',[
-// 	'uses' => 'ContratoController@get_contratos'
-// ]);
-//
-// Route::get('get-plandepagos/{id}',[
-// 	'uses' => 'PlanDePagoController@get_plandepagos'
-// ]);
-//
+Route::get('adm/centro/cartera_servicio/{id}',[
+	'as' => 'create-cartera-servicio',
+	'uses' => 'CentroMedicoController@create_cartera_servicio'
+]);
+Route::get('adm/centro/guardar_cartera_servicio',[
+	'as' => 'guardar-cartera-servicio',
+	'uses' => 'CentroMedicoController@guardar_cartera_servicio'
+]);
 // Route::get('get-cuotas/{id}',[
 // 	'uses' => 'CuotaController@get_cuotas'
 // ]);

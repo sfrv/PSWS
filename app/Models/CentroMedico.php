@@ -91,7 +91,7 @@ class CentroMedico extends Model
     {
         $detalle = DB::table('detalle_centro_especialidad as de')
         ->join('especialidad as e','e.id', '=', 'de.id_especialidad')
-        ->select('e.nombre')
+        ->select('e.nombre','de.id')
         ->where('de.id_centro_medico','=', $id)
         ->get();
 
