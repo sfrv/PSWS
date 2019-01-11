@@ -16,26 +16,30 @@ Route::get('/', function () {
 });
 Route::resource('dashboard','DashBoardController');
 Route::resource('home','HomeController');
-Route::get('adm/centro/cartera_servicio/{id}',[
+Route::get('adm/centro/create_cartera_servicio/{id}',[
 	'as' => 'create-cartera-servicio',
-	'uses' => 'CentroMedicoController@create_cartera_servicio'
+	'uses' => 'CarteraServicioController@create_cartera_servicio'
 ]);
 Route::get('adm/centro/guardar_cartera_servicio',[
 	'as' => 'guardar-cartera-servicio',
-	'uses' => 'CentroMedicoController@guardar_cartera_servicio'
+	'uses' => 'CarteraServicioController@guardar_cartera_servicio'
 ]);
-// Route::get('get-cuotas/{id}',[
-// 	'uses' => 'CuotaController@get_cuotas'
-// ]);
-//
-// Route::get('get-pagos/{id}',[
-// 	'uses' => 'PagoController@get_pagos'
-// ]);
-//
-// //ENVIOS DE POST
-// Route::get('enviar-pago',[
-// 	'uses' => 'PagoController@enviar_pago'
-// ]);
+Route::get('adm/centro/actualizar_cartera_servicio',[
+	'as' => 'actualizar-cartera-servicio',
+	'uses' => 'CarteraServicioController@actualizar_cartera_servicio'
+]);
+Route::get('adm/centro/index_cartera_servicio/{id}',[
+	'as' => 'index-cartera-servicio',
+	'uses' => 'CarteraServicioController@index_cartera_servicio'
+]);
+Route::get('adm/centro/show_cartera_servicio/{id}',[
+	'as' => 'show-cartera-servicio',
+	'uses' => 'CarteraServicioController@show_cartera_servicio'
+]);
+Route::get('adm/centro/edit_cartera_servicio/{id}',[
+	'as' => 'edit-cartera-servicio',
+	'uses' => 'CarteraServicioController@edit_cartera_servicio'
+]);
 
 //////////////////////////////////////
 

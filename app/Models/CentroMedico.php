@@ -98,6 +98,20 @@ class CentroMedico extends Model
         return $detalle;
     }
 
+    public function scope_obtenerCarteraServicios($query, $id)
+    {
+        $cartera_servicios = DB::table('centro_medico as a')
+        ->join('detalle_centro_especialidad as b','a.id', '=', 'b.id_centro_medico')
+        ->join('servicio as c','b.id', '=', 'c.id_detalle_centro_especialidad')
+        ->join('cartera_servicio as d','c.id_cartera_servicio', '=', 'd.id')
+        ->select('d.*')
+        ->where('a.id','=', $id)
+        ->distinct()
+        ->get();
+
+        return $cartera_servicios;
+    }
+
     public function scope_eliminarCentroMedico($query, $id)
     {
         $centro = CentroMedico::findOrFail($id);

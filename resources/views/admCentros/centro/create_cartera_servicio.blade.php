@@ -116,8 +116,11 @@ function editar(cont,id) {
 		document.getElementById("text_d"+cont).disabled = false;
 		document.getElementById("text_h"+cont).disabled = false;
 		document.getElementById("text_o"+cont).disabled = false;
-		datos.splice(cont,1);
-		filas.splice(cont,1);
+		// datos.splice(cont,1);
+		// filas.splice(cont,1);
+		var n_i = obtenerIndDato(cont);
+    	datos.splice(n_i,1);
+		removeItemFromArr( filas, cont );
 	}else{
 		console.log("Registro en Edicion");
 	}
@@ -135,7 +138,7 @@ function adicionar(cont,id)
 		var hora = document.getElementById("text_h"+cont).value;
 		var observacion = document.getElementById("text_o"+cont).value;
 		var dato = [];
-		dato.push(id,servicio,dia,hora,observacion);
+		dato.push(id,servicio,dia,hora,observacion,cont);
 		// datos.push(dato);
 		datos.splice(cont, 0, dato);
 
@@ -157,9 +160,15 @@ function adicionar(cont,id)
 function eliminar(cont)
 {
 
-	datos.splice(cont,1);
-	filas.splice(cont,1);
+	// datos.splice(cont,1);
+	// filas.splice(cont,1);
+	var n_i = obtenerIndDato(cont);
+	if (n_i != -1) {
+		datos.splice(n_i,1);
+	}
+	removeItemFromArr( filas, cont );
 	$('#fila_s'+cont).remove();
+	$('#fila_d'+cont).remove();
 	$('#fila_h'+cont).remove();
 	$('#fila_ob'+cont).remove();
 	$('#fila_op'+cont).remove();
@@ -196,6 +205,25 @@ function guardar(){
   	}).done(function(info){
   		window.location.href = "{{url('adm/centro')}}";
   	});
+}
+
+function removeItemFromArr ( arr, item ) {
+    var i = arr.indexOf( item );
+ 
+    if ( i !== -1 ) {
+        arr.splice( i, 1 );
+    }
+}
+
+function obtenerIndDato(ind) {
+  var c = 0;
+  for (var i = 0; i < datos.length; i++) {
+    if (datos[i][5] == ind) {
+      return c;
+    }
+    c++;
+  }
+  return -1;
 }
 
 </script>
