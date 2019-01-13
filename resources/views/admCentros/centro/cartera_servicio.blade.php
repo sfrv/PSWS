@@ -160,6 +160,7 @@ function eliminar(cont)
 	datos.splice(cont,1);
 	filas.splice(cont,1);
 	$('#fila_s'+cont).remove();
+	$('#fila_d'+cont).remove();
 	$('#fila_h'+cont).remove();
 	$('#fila_ob'+cont).remove();
 	$('#fila_op'+cont).remove();
