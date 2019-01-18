@@ -84,16 +84,13 @@
 </section>
 @push ('scripts')
 <script>
-var x = document.getElementById("mynav");
-x.className += " sidebar-collapse";
-
 var cont = 0;
 var datos = [];
 var objeto = {};
-var datos_filas = [];
+var filas = [];
 // var especialidades = []; 
 // var my_var = {!! $detalle2 !!};
-// console.log(cont);
+console.log(cont);
 
 function agregar(id)
 {
@@ -101,48 +98,92 @@ function agregar(id)
 	var fila_dia = '<div id="fila_d'+cont+'"><input style="margin-bottom: 14px;" id="text_d'+cont+'" type="text" step="any"> </br></div>';
 	var fila_hora ='<div id="fila_h'+cont+'"><input style="margin-bottom: 14px;" id="text_h'+cont+'" type="text" step="any"> <br></div>';
 	var fila_observacion = '<div id="fila_ob'+cont+'"><input style="margin-bottom: 14px;" id="text_o'+cont+'" type="text" step="any"><br></div>';
-	var fila_opcion = '<div id="fila_op'+cont+'"><button style="margin-bottom: 5px;" type="button" class="btn btn-danger" onclick="eliminar('+cont+');"><i class="fa fa-close"></i></button><br></div>';
-	var fila = [];//new
-	fila.push(cont,id);//new
-	datos_filas.splice(cont, 0, fila);//new
+	var fila_opcion = '<div id="fila_op'+cont+'"><button style="margin-bottom: 5px;" type="button" class="btn btn-danger" onclick="eliminar('+cont+');"><i class="fa fa-close"></i></button> <button style="margin-bottom: 5px;" type="button" class="btn btn-info" onclick="editar('+cont+ ','+id+');"><i class="fa fa-edit"></i></button> <button style="margin-bottom: 5px;" type="button" class="btn btn-primary" onclick="adicionar('+cont+ ','+id+');"><i class="fa fa-save"></i></button><br></div>';
+	
 	cont++;
 	$('#especialidad_servicio'+id).append(fila_servicio);
 	$('#especialidad_dia'+id).append(fila_dia);
 	$('#especialidad_hora'+id).append(fila_hora);
 	$('#especialidad_observacion'+id).append(fila_observacion);
 	$('#especialidad_opcion'+id).append(fila_opcion);
-	console.log(datos_filas);//new
+	console.log(cont);
+	// console.log(filas);
+}
+
+function editar(cont,id) {
+	if (filas.includes(cont)) {
+		document.getElementById("text_s"+cont).disabled = false;
+		document.getElementById("text_d"+cont).disabled = false;
+		document.getElementById("text_h"+cont).disabled = false;
+		document.getElementById("text_o"+cont).disabled = false;
+		// datos.splice(cont,1);
+		// filas.splice(cont,1);
+		var n_i = obtenerIndDato(cont);
+    	datos.splice(n_i,1);
+		removeItemFromArr( filas, cont );
+	}else{
+		console.log("Registro en Edicion");
+	}
+	console.log(datos);
+	console.log(filas);
+}
+
+function adicionar(cont,id)
+{
+	if (!filas.includes(cont)) {//verifico si la fila ya se dio el boton guardar
+		// filas.push(cont);
+		filas.splice(cont, 0, cont);
+		var servicio = document.getElementById("text_s"+cont).value;
+		var dia = document.getElementById("text_d"+cont).value;
+		var hora = document.getElementById("text_h"+cont).value;
+		var observacion = document.getElementById("text_o"+cont).value;
+		var dato = [];
+		dato.push(id,servicio,dia,hora,observacion,cont);
+		// datos.push(dato);
+		datos.splice(cont, 0, dato);
+
+		document.getElementById("text_s"+cont).disabled = true;
+		document.getElementById("text_d"+cont).disabled = true;
+		document.getElementById("text_h"+cont).disabled = true;
+		document.getElementById("text_o"+cont).disabled = true;
+	}else{
+		alert("Registro Ya Guardado.");
+	}
+	// document.getElementById("text_s"+cont).disabled = true;
+	// document.getElementById("text_h"+cont).disabled = true;
+	// document.getElementById("text_o"+cont).disabled = true;
+	
+	console.log(datos);
+	console.log(filas);
 }
 
 function eliminar(cont)
 {
-	var n_i = getIndDato(cont);
+
+	// datos.splice(cont,1);
+	// filas.splice(cont,1);
+	var n_i = obtenerIndDato(cont);
 	if (n_i != -1) {
-		datos_filas.splice(n_i,1);
+		datos.splice(n_i,1);
 	}
-	console.log(datos_filas);
+	removeItemFromArr( filas, cont );
 	$('#fila_s'+cont).remove();
 	$('#fila_d'+cont).remove();
 	$('#fila_h'+cont).remove();
 	$('#fila_ob'+cont).remove();
 	$('#fila_op'+cont).remove();
+	// cont--;
+	console.log(datos);
+	console.log(filas);
+	console.log(cont);
+	// console.log(cont);
+	// console.log(datos);
 }
 
 function guardar(){
-
 	var titulo = document.getElementById("titulo").value;
 	var mes = document.getElementById("mes").value;
 	var anio = document.getElementById("anio").value;
-
-	for (var i = 0; i < datos_filas.length; i++) {
-		var servicio = document.getElementById("text_s"+datos_filas[i][0]).value;
-		var dia = document.getElementById("text_d"+datos_filas[i][0]).value;
-		var hora = document.getElementById("text_h"+datos_filas[i][0]).value;
-		var observacion = document.getElementById("text_o"+datos_filas[i][0]).value;
-		var dato = [];
-		dato.push(datos_filas[i][1],servicio,dia,hora,observacion);//
-		datos.push(dato);
-	}
 
 	objeto = {
 		"titulo": titulo,
@@ -166,10 +207,18 @@ function guardar(){
   	});
 }
 
-function getIndDato(ind) {
+function removeItemFromArr ( arr, item ) {
+    var i = arr.indexOf( item );
+ 
+    if ( i !== -1 ) {
+        arr.splice( i, 1 );
+    }
+}
+
+function obtenerIndDato(ind) {
   var c = 0;
-  for (var i = 0; i < datos_filas.length; i++) {
-    if (datos_filas[i][0] == ind) {
+  for (var i = 0; i < datos.length; i++) {
+    if (datos[i][5] == ind) {
       return c;
     }
     c++;

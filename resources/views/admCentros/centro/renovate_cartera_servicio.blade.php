@@ -3,7 +3,7 @@
 
 <section class="content-header">
   <h1 align="center">
-    * * * * * <b>Editar Cartera de Servicio: {{$cartera_servicio->id}}</b> * * * * *
+    * * * * * <b>Renovar Cartera de Servicio: {{$cartera_servicio->id}} | {{$cartera_servicio->mes}} | {{$cartera_servicio->anio}}</b> * * * * *
   </h1>
   <br>
   <ol class="breadcrumb">
@@ -71,8 +71,8 @@
              </div>
              <div class="col-sm-8 col-sm-offset-2">
                <div class="form-group">
-                <button onclick="actualizar()" class="btn btn-primary btn-block" type="submit">
-                   <i class="fa fa-arrow-circle-right"> Editar Cartera de Servicio </i>
+                <button onclick="guardar()" class="btn btn-primary btn-block" type="submit">
+                   <i class="fa fa-arrow-circle-right"> Renovar Cartera de Servicio </i>
                 </button>
                </div>
              </div>
@@ -99,7 +99,7 @@ for(i=0;i<servicios.length;i++){
   	var fila_dia = '<div id="fila_d'+cont+'"><input style="margin-bottom: 14px;" id="text_d'+cont+'" type="text" value="'+servicios[i]['dias']+'"></br></div>';
   	var fila_hora = '<div id="fila_h'+cont+'"><input style="margin-bottom: 14px;" id="text_h'+cont+'" type="text" value="'+servicios[i]['hora']+'"></br></div>';
   	var fila_observacion = '<div id="fila_ob'+cont+'"><input style="margin-bottom: 14px;" id="text_o'+cont+'" type="text" value="'+servicios[i]['observacion']+'"></br></div>';
-    var fila_opcion = '<div id="fila_op'+cont+'"><button style="margin-bottom: 5px;" type="button" class="btn btn-warning" onclick="eliminar('+cont+','+servicios[i]['id']+');"><i class="fa fa-close"></i></button> <br></div>';
+    var fila_opcion = '<div id="fila_op'+cont+'"><button style="margin-bottom: 5px;" type="button" class="btn btn-danger" onclick="eliminar('+cont+');"><i class="fa fa-close"></i></button><br></div>';
 
   	$('#especialidad_servicio'+servicios[i]['id_detalle_centro_especialidad']).append(fila_servicio);
   	$('#especialidad_dia'+servicios[i]['id_detalle_centro_especialidad']).append(fila_dia);
@@ -108,10 +108,11 @@ for(i=0;i<servicios.length;i++){
     $('#especialidad_opcion'+servicios[i]['id_detalle_centro_especialidad']).append(fila_opcion);
 
     var fila = [];//new
-    fila.push(cont,servicios[i]['id']);//new
+    fila.push(cont,servicios[i]['id_detalle_centro_especialidad']);//new
     datos_filas.splice(cont, 0, fila);//new
     cont++;
 }
+console.log(datos_filas);
 
 function agregar(id)
 {
@@ -119,70 +120,39 @@ function agregar(id)
   var fila_dia = '<div id="fila_d'+cont+'"><input style="margin-bottom: 14px;" id="text_d'+cont+'" type="text" step="any"> </br></div>';
   var fila_hora ='<div id="fila_h'+cont+'"><input style="margin-bottom: 14px;" id="text_h'+cont+'" type="text" step="any"> <br></div>';
   var fila_observacion = '<div id="fila_ob'+cont+'"><input style="margin-bottom: 14px;" id="text_o'+cont+'" type="text" step="any"><br></div>';
-  var fila_opcion = '<div id="fila_op'+cont+'"><button style="margin-bottom: 5px;" type="button" class="btn btn-danger" onclick="eliminarFilaNueva('+cont+');"><i class="fa fa-close"></i></button><br></div>';
-  var fila_new = [];//new
-  fila_new.push(cont,id);//new
-  datos_filas_new.splice(cont, 0, fila_new);//new
+  var fila_opcion = '<div id="fila_op'+cont+'"><button style="margin-bottom: 5px;" type="button" class="btn btn-danger" onclick="eliminar('+cont+');"><i class="fa fa-close"></i></button><br></div>';
+  var fila = [];//new
+  fila.push(cont,id);//new
+  datos_filas.splice(cont, 0, fila);//new
   cont++;
   $('#especialidad_servicio'+id).append(fila_servicio);
   $('#especialidad_dia'+id).append(fila_dia);
   $('#especialidad_hora'+id).append(fila_hora);
   $('#especialidad_observacion'+id).append(fila_observacion);
   $('#especialidad_opcion'+id).append(fila_opcion);
-  console.log(datos_filas_new);//new
+  console.log(datos_filas);//new
 }
 
-function eliminarFilaNueva(cont)
+function eliminar(cont)
 {
-  var n_i = getIndDato(cont,datos_filas_new);
-  if (n_i != -1) {
-    datos_filas_new.splice(n_i,1);
-  }
-  console.log(datos_filas_new);
-  $('#fila_s'+cont).remove();
-  $('#fila_d'+cont).remove();
-  $('#fila_h'+cont).remove();
-  $('#fila_ob'+cont).remove();
-  $('#fila_op'+cont).remove();
-}
-
-function eliminar(cont,id_servicio)
-{
-  if (datos_filas_delete == -1)
-    datos_filas_delete = [];
-
   var n_i = getIndDato(cont,datos_filas);
   if (n_i != -1) {
     datos_filas.splice(n_i,1);
-    datos_filas_delete.push(id_servicio);
     console.log(datos_filas);
-    console.log(datos_filas_delete);
     $('#fila_s'+cont).remove();
     $('#fila_d'+cont).remove();
     $('#fila_h'+cont).remove();
     $('#fila_ob'+cont).remove();
     $('#fila_op'+cont).remove();
   }
-  
 }
 
-function actualizar(){
+function guardar(){
   var datos = [];
-  var datos_new = [];
 
   var titulo = document.getElementById("titulo").value;
   var mes = document.getElementById("mes").value;
   var anio = document.getElementById("anio").value;
-
-  for (var i = 0; i < datos_filas_new.length; i++) {
-    var servicio = document.getElementById("text_s"+datos_filas_new[i][0]).value;
-    var dia = document.getElementById("text_d"+datos_filas_new[i][0]).value;
-    var hora = document.getElementById("text_h"+datos_filas_new[i][0]).value;
-    var observacion = document.getElementById("text_o"+datos_filas_new[i][0]).value;
-    var dato_new = [];
-    dato_new.push(datos_filas_new[i][1],servicio,dia,hora,observacion);//
-    datos_new.push(dato_new);
-  }
 
   for (var i = 0; i < datos_filas.length; i++) {
     var servicio = document.getElementById("text_s"+datos_filas[i][0]).value;
@@ -193,31 +163,24 @@ function actualizar(){
     dato.push(datos_filas[i][1],servicio,dia,hora,observacion);//
     datos.push(dato);
   }
-  // console.log(datos);
-  if (datos_filas_delete.length == 0)
-    datos_filas_delete = -1;
-  if (datos_filas_new.length == 0)
-    datos_new = -1;
+  console.log(datos)
 
   objeto = {
     "titulo": titulo,
     "mes": mes,
     "anio": anio,
-    "datos": datos,
-    "datos_filas_delete": datos_filas_delete,
-    "datos_new": datos_new,
-    "id": "{{$cartera_servicio->id}}"
+    "datos": datos
   };
   // console.log(objeto);
   var parametros = {
       my_json: objeto
   };
 
-  // console.log(objeto["datos"])
+  console.log(objeto["datos"])
 
     $.ajax({
       type: "GET", 
-      url: "{{route('actualizar-cartera-servicio')}}",
+      url: "{{route('guardar-cartera-servicio')}}",
       data: parametros
     }).done(function(info){
       window.location.href = "{{url('adm/centro')}}";
@@ -234,6 +197,7 @@ function getIndDato(ind, array_l) {
   }
   return -1;
 }
+
 
 </script>
 @endpush

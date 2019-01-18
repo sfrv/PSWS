@@ -44,7 +44,7 @@
                       <a href="" data-target="#modal-delete-{{$var->id}}" data-toggle="modal" class="btn btn-danger" data-placement="top" data-original-title="Remove"><i class="fa fa-times fa fa-white"></i></a>
                       <a href="{{URL::action('CentroMedicoController@show',$var->id)}}" class="btn btn-info" data-placement="top"><i class="fa fa-eye"></i></a>
                       <a href="{{ route('index-cartera-servicio', $var->id) }}" class="btn btn-success" data-placement="top"><i class="fa fa-bars"></i></a>
-                      <a href="{{ route('create-cartera-servicio', $var->id) }}" class="btn btn-info" data-placement="top" data-original-title="Ver Detalle de Orden de Produccion"><i class="fa fa-plus"></i></a>
+                      <a href="{{ route('create-rol-turno', $var->id) }}" class="btn btn-primary" data-placement="top"><i class="fa fa-bars"></i></a>
                     </td>
                   </tr>
                   @include('admCentros.centro.modal')

@@ -40,7 +40,15 @@ Route::get('adm/centro/edit_cartera_servicio/{id}',[
 	'as' => 'edit-cartera-servicio',
 	'uses' => 'CarteraServicioController@edit_cartera_servicio'
 ]);
+Route::get('adm/centro/renovate_cartera_servicio/{id}',[
+	'as' => 'renovate-cartera-servicio',
+	'uses' => 'CarteraServicioController@renovate_cartera_servicio'
+]);
 
+Route::get('adm/centro/create_rol_turno/{id}',[
+	'as' => 'create-rol-turno',
+	'uses' => 'RolTurnoController@create_rol_turno'
+]);
 //////////////////////////////////////
 
 Route::resource('adm/centro','CentroMedicoController');
