@@ -10,8 +10,6 @@ use App\Models\TipoServicio;
 use App\Models\Zona;
 use App\Models\Nivel;
 use App\Models\Especialidad;
-use App\Models\CarteraServicio;
-use App\Models\Servicio;
 use DB;
 
 
@@ -73,30 +71,5 @@ class CentroMedicoController extends Controller
     public function getLugar($id)
     {
       return json_encode(array("lugar" => CentroMedico::_getOneCentroMedico($id)->get()));
-    }
-
-    public function create_cartera_servicio($id)
-    {
-
-        $detalle = CentroMedico::_obtenerDetalleCentro($id);
-        $detalle2 = json_encode($detalle, JSON_UNESCAPED_SLASHES );
-        return view('admCentros.centro.cartera_servicio',compact('detalle','detalle2'));
-    }
-
-    public function guardar_cartera_servicio()
-    {
-        $my_json = $_REQUEST['my_json'];
-        $titulo = $my_json['titulo'];
-        $mes = $my_json['mes'];
-        $anio = $my_json['anio'];
-
-        $id_cartera_servicio = CarteraServicio::_insertarCarteraServicio($titulo,$mes,$anio);
-
-        $datos = (array)$my_json['datos'];
-        for ($i=0; $i < count($datos) ; $i++) { 
-            Servicio::_insertarServicio($datos[$i][1],$datos[$i][2],$datos[$i][3],$datos[$i][4],$id_cartera_servicio,$datos[$i][0]);
-        }
-        
-        echo "Exito";
     }
 }
