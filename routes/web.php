@@ -49,6 +49,18 @@ Route::get('adm/centro/create_rol_turno/{id}',[
 	'as' => 'create-rol-turno',
 	'uses' => 'RolTurnoController@create_rol_turno'
 ]);
+Route::get('adm/centro/guardar_rol_turno',[
+	'as' => 'guardar-rol-turno',
+	'uses' => 'RolTurnoController@guardar_rol_turno'
+]);
+Route::get('adm/centro/index_rol_turno/{id}',[
+	'as' => 'index-rol-turno',
+	'uses' => 'RolTurnoController@index_rol_turno'
+]);
+Route::get('adm/centro/show_rol_turno/{id}',[
+	'as' => 'show-rol-turno',
+	'uses' => 'RolTurnoController@show_rol_turno'
+]);
 //////////////////////////////////////
 
 Route::resource('adm/centro','CentroMedicoController');
@@ -80,9 +92,13 @@ Route::get('/images/redNorte.png', function () {
 Route::get('/images/zona_rural.jpg', function () {
     return response()->file('../public/images/zona_rural.jpg');
 });
-Route::get('/images/zona_urbana.jpg', function () {
-    return response()->file('../public/images/zona_urbana.jpg');
-});
+// Route::get('imagen-por-id', function () {
+//     return response()->file('../public/images/zona_urbana.jpg');
+// });
+
+// Route::get('get-redes',[
+// 	'uses' => 'RedController@getRedes'
+// ]);
 
 // Route::get('get-sintomas',[
 // 	'uses' => 'SintomaController@getSintomas'
@@ -93,8 +109,8 @@ Route::get('/images/zona_urbana.jpg', function () {
 // Route::get('get-pre-diagnostico/',[
 // 	'uses' => 'SintomaController@preDiagnosticoNone'
 // ]);
-Route::get('get-redes',[
-	'uses' => 'RedController@getRedes'
+Route::get('imagen-red/{id}',[
+	'uses' => 'RedController@get_imagen'
 ]);
 Route::get('get-tiposervicios',[
 	'uses' => 'TipoServicioController@getTipoServicios'

@@ -43,4 +43,10 @@ class RedController extends Controller
   public function getRedes(){
     return json_encode(array("redes" => Red::_getAllRed()->get()));
   }
+
+  public function get_imagen($id)
+  {
+    $red = Red::findOrFail($id);
+    return response()->file('../public/images/' . $red->imagen);
+  }
 }

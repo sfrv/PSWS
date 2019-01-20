@@ -98,6 +98,21 @@ class CentroMedico extends Model
         return $detalle;
     }
 
+    public function scope_obtenerRolTurnos($query, $id)
+    {
+        $result = DB::table('centro_medico as a')
+                ->join('detalle_centro_especialidad as b','a.id', '=', 'b.id_centro_medico')
+                ->join('turno as c','b.id', '=', 'c.id_detalle_centro_especialidad')
+                ->join('etapa_servicio as d','c.id_etapa_servicio', '=', 'd.id')
+                ->join('rol_turno as e','d.id_rol_turno', '=', 'e.id')
+                ->select('e.*')
+                ->where('a.id','=', $id)
+                ->distinct()
+                ->get();
+
+        return $result;
+    }    
+
     public function scope_obtenerCarteraServicios($query, $id, $searchText)
     {
         $text = trim($searchText);

@@ -46,7 +46,7 @@
           							<thead style="background-color:#A9D0F5">
           								<tr>
           									<th style="background-color:#AAD0F5;" scope="col">Esp: {{$var -> nombre}} {{$var -> id}}</th>
-					          				<th style="background-color:#AAD0F5;" scope="col">Turno</th>
+					          				<th style="background-color:#AAD0F5;" scope="col">Hora</th>
 					          				<th style="background-color:#AAD0F5;" scope="col">Lunes</th>
 					          				<th style="background-color:#AAD0F5;" scope="col">Martes</th>
 					          				<th style="background-color:#AAD0F5;" scope="col">Miercoles</th>
@@ -100,14 +100,14 @@ var cont = 0;
 
 var datos = [];
 var filas = [];
-var datos_filas = [];
 
-function agregarFilaHora(id) {//id especialidad
+function agregarFilaHora(id) {
 	// console.log(id);
+	// var fila_hora ='<div id="fila_h'+conth+'"><input style="line-height: 20px;margin-bottom: 14px;margin-top: '+px_fila_hora+'px;" id="text_h'+conth+'" type="text"> <button type="button" class="btn btn-info" onclick="agregarFila('+id+');">+</button> <br></div>';
 	
 	var fila_hora ='<tr id="fila_h'+conth+'">'+
 		'<td>-</td>'+
-		'<td><input placeholder="Titulo..." style="line-height: 20px;margin-bottom: 14px;" id="text_t'+conth+'" type="text"> <br> <input placeholder="Hora Inicio..." style="line-height: 20px;margin-bottom: 14px;" id="text_hi'+conth+'" type="text"> <br> <input placeholder="Hora Fin..." style="line-height: 20px;margin-bottom: 14px;" id="text_hf'+conth+'" type="text"> </td>'+
+		'<td><input style="line-height: 20px;margin-bottom: 14px;" id="text_h'+conth+'" type="text"></td>'+
 		'<td id="lunes'+conth+'"></td>'+ //lunes
 		'<td id="martes'+conth+'"></td>'+ //martes
 		'<td id="miercoles'+conth+'"></td>'+ //miercoles
@@ -132,10 +132,7 @@ function agregarFila(id_l,conth_l) {
 	var fila_sabado = '<div id="fila_d_s'+cont+'"><select id="sel_d_s'+cont+'" style="width: 150px;" class="form-control selectpicker"><option value="-1">Ninguno</option>@foreach($medicos as $var) <option value="{{$var->id}}">{{$var->apellido}} {{$var->telefono}}</option> @endforeach</select> </br></div>';
 	var fila_domingo = '<div id="fila_d_d'+cont+'"><select id="sel_d_d'+cont+'" style="width: 150px;" class="form-control selectpicker"><option value="-1">Ninguno</option>@foreach($medicos as $var) <option value="{{$var->id}}">{{$var->apellido}} {{$var->telefono}}</option> @endforeach</select> </br></div>';
 
-	var fila_opcion = '<div style="margin-bottom: 20px;" id="fila_op'+cont+'"><button type="button" class="btn btn-danger" onclick="eliminarFila('+cont+');"><i class="fa fa-close"></i></button><br></div>';
-	var fila = [];//new
-	fila.push(cont,conth_l,id_l);//new
-	datos_filas.splice(cont, 0, fila);//new
+	var fila_opcion = '<div style="margin-bottom: 20px;" id="fila_op'+cont+'"><button type="button" class="btn btn-danger" onclick="eliminarFila('+cont+');"><i class="fa fa-close"></i></button> <button type="button" class="btn btn-info" onclick="editarFila('+cont+ ','+id_l+');"><i class="fa fa-edit"></i></button> <button  type="button" class="btn btn-primary" onclick="adicionarFila('+cont+ ','+id_l+','+conth_l+');"><i class="fa fa-save"></i></button><br></div>';
 	cont++;
 	// px_fila_hora = px_fila_hora + 34;
 	$('#lunes'+conth_l).append(fila_lunes);
@@ -146,185 +143,76 @@ function agregarFila(id_l,conth_l) {
 	$('#sabado'+conth_l).append(fila_sabado);
 	$('#domingo'+conth_l).append(fila_domingo);
 	$('#opcion'+conth_l).append(fila_opcion);
-	console.log(datos_filas);//new
 }
 
 function eliminarFila(cont_l) {
-	var n_i = getIndDato(cont_l,datos_filas,0);
-	if (n_i != -1) {
-		datos_filas.splice(n_i,1);
-		$('#fila_d_l'+cont_l).remove();
-		$('#fila_d_m'+cont_l).remove();
-		$('#fila_d_mi'+cont_l).remove();
-		$('#fila_d_j'+cont_l).remove();
-		$('#fila_d_v'+cont_l).remove();
-		$('#fila_d_s'+cont_l).remove();
-		$('#fila_d_d'+cont_l).remove();
-		$('#fila_op'+cont_l).remove();
-	}
-	console.log(datos_filas);
+	$('#fila_d_l'+cont_l).remove();
+	$('#fila_d_m'+cont_l).remove();
+	$('#fila_d_mi'+cont_l).remove();
+	$('#fila_d_j'+cont_l).remove();
+	$('#fila_d_v'+cont_l).remove();
+	$('#fila_d_s'+cont_l).remove();
+	$('#fila_d_d'+cont_l).remove();
+	$('#fila_op'+cont_l).remove();
 }
 
-function guardar() {
-	var datos_turnos = [];
-	var especialidades = {!! $detalle2 !!};
-	var ids_especialidades = [];
-	array_objeto_especialidades = [];
+function editarFila(cont_l, id_l) {
+	document.getElementById("sel_d_l"+cont_l).disabled = false;
+	document.getElementById("sel_d_m"+cont_l).disabled = false;
+	document.getElementById("sel_d_mi"+cont_l).disabled = false;
+	document.getElementById("sel_d_j"+cont_l).disabled = false;
+	document.getElementById("sel_d_v"+cont_l).disabled = false;
+	document.getElementById("sel_d_s"+cont_l).disabled = false;
+	document.getElementById("sel_d_d"+cont_l).disabled = false;
+}
 
-	
+function adicionarFila(cont_l, id_l, conth_l) {
+	// if (!filas.includes(cont_l)) {
+	// 	filas.splice(cont_l, 0, cont_l);
+	// }
 
-	for (var i = 0; i < especialidades.length; i++) {
-		var id_especialidad = especialidades[i]['id'];
-		var cont_array_turnos = [];
+	var Hora = document.getElementById("text_h"+conth_l).value;
+	var lunes = document.getElementById("sel_d_l"+cont_l).value;
+	var martes = document.getElementById("sel_d_m"+cont_l).value;
+	var miercoles = document.getElementById("sel_d_mi"+cont_l).value;
+	var jueves = document.getElementById("sel_d_j"+cont_l).value;
+	var viernes = document.getElementById("sel_d_v"+cont_l).value;
+	var sabado = document.getElementById("sel_d_s"+cont_l).value;
+	var domingo = document.getElementById("sel_d_d"+cont_l).value;
 
-		for (var j = 0; j < datos_filas.length; j++) {
-			if (id_especialidad == datos_filas[j][2]) {
-				if (!cont_array_turnos.includes(datos_filas[j][1])) {
-					cont_array_turnos.push(datos_filas[j][1]);
-				}
-			}
-		}
-		cont_array_turnos.sort(function(a, b){return a - b});
-		// console.log("---");
-		// console.log(cont_array_turnos);
+	console.log(Hora);
+	console.log(lunes);
 
-		var array_objetos_turnos = [];
-		for (var k = 0; k < cont_array_turnos.length; k++) {
-			var conth = cont_array_turnos[k];
-			var hora_inicio = document.getElementById("text_hi"+conth).value;
-			var hora_fin = document.getElementById("text_hf"+conth).value;
-			var titulo = document.getElementById("text_t"+conth).value;
-
-			var array_objetos_filas = [];
-			var cont_array_filas = [];
-			for (var m = 0; m < datos_filas.length; m++) {
-				if (conth == datos_filas[m][1]) {
-					cont_array_filas.push(datos_filas[m][0]);
-				}
-			}
-			// console.log(cont_array_filas);
-			for (var n = 0; n < cont_array_filas.length; n++) {
-				var cont = cont_array_filas[n];
-				var lunes = document.getElementById("sel_d_l"+cont).value;
-				var martes = document.getElementById("sel_d_m"+cont).value;
-				var miercoles = document.getElementById("sel_d_mi"+cont).value;
-				var jueves = document.getElementById("sel_d_j"+cont).value;
-				var viernes = document.getElementById("sel_d_v"+cont).value;
-				var sabado = document.getElementById("sel_d_s"+cont).value;
-				var domingo = document.getElementById("sel_d_d"+cont).value;
-				array_objetos_rol_dias = [];
-				objeto_lunes = {
-					"dia": 'lunes',
-					"id_doctor": lunes
-				};
-				objeto_martes = {
-					"dia": 'martes',
-					"id_doctor": martes
-				};
-				objeto_miercoles = {
-					"dia": 'miercoles',
-					"id_doctor": miercoles
-				};
-				objeto_jueves = {
-					"dia": 'jueves',
-					"id_doctor": jueves
-				};
-				objeto_viernes = {
-					"dia": 'viernes',
-					"id_doctor": viernes
-				};
-				objeto_sabado = {
-					"dia": 'sabado',
-					"id_doctor": sabado
-				};
-				objeto_domingo = {
-					"dia": 'domingo',
-					"id_doctor": domingo
-				};
-				array_objetos_rol_dias.push(objeto_lunes,objeto_martes,objeto_miercoles,objeto_jueves,objeto_viernes,objeto_sabado,objeto_domingo);
-				// objeto_rol_dia = {
-				// 	"lunes": lunes,
-				// 	"martes": martes,
-				// 	"miercoles": miercoles,
-				// 	"jueves": jueves,
-				// 	"viernes": viernes,
-				// 	"sabado": sabado,
-				// 	"domingo": domingo
-				// }
-				array_objetos_filas.push(array_objetos_rol_dias);
-			}
-
-			objeto_turno = {
-				"hora_inicio": hora_inicio,
-				"hora_fin": hora_fin,
-				"titulo": titulo,
-				"filas": array_objetos_filas
-			}
-			array_objetos_turnos.push(objeto_turno);
-		}
-		// console.log(cont_array_turnos);
-		objeto_especialidad = {
-			"id": id_especialidad,
-			"turnos": array_objetos_turnos
-		};
-		array_objeto_especialidades.push(objeto_especialidad);
-	}
-	
-	objeto_etapa_servicio = {
-		"nombre" : 'Etapa 1',
-		"especialidades": array_objeto_especialidades
-	};
-	var array_borrar = [];
-	var titulo = document.getElementById("titulo").value;
-	var mes = document.getElementById("mes").value;
-	var anio = document.getElementById("anio").value;
-
-	objeto = {
-		"borrar": array_borrar,
-		"titulo": titulo,
-		"mes": mes,
-		"anio": anio,
-		"etapa_servicio": objeto_etapa_servicio
-	};
-
-	console.log(objeto);
-	var parametros = {
-	    my_json: objeto
-	};
-
-	$.ajax({
-  		type: "GET", 
-  		url: "{{route('guardar-rol-turno')}}",
-  		data: parametros
-  	}).done(function(info){
-  		// window.location.href = "{{url('adm/centro')}}";
-  		// console.log(info);
-  		console.log("--")
-  	});
-
-	// console.log(ids_especialidades);
+	document.getElementById("sel_d_l"+cont_l).disabled = true;
+	document.getElementById("sel_d_m"+cont_l).disabled = true;
+	document.getElementById("sel_d_mi"+cont_l).disabled = true;
+	document.getElementById("sel_d_j"+cont_l).disabled = true;
+	document.getElementById("sel_d_v"+cont_l).disabled = true;
+	document.getElementById("sel_d_s"+cont_l).disabled = true;
+	document.getElementById("sel_d_d"+cont_l).disabled = true;
 }
 
 function eliminarFilaHora(conth_l)
 {
-	var n_i = getIndDato(conth_l,datos_filas,1);
-	while( n_i != -1 ){
-		datos_filas.splice(n_i,1);
-		n_i = getIndDato(conth_l,datos_filas,1);
-	}
-	$('#fila_h'+conth_l).remove();
-	console.log(datos_filas);
-}
 
-function getIndDato(ind, array_l, indr) {
-  var c = 0;
-  for (var i = 0; i < array_l.length; i++) {
-    if (array_l[i][indr] == ind) {
-      return c;
-    }
-    c++;
-  }
-  return -1;
+	// datos.splice(cont,1);
+	// filas.splice(cont,1);
+	// var n_i = obtenerIndDato(cont);
+	// if (n_i != -1) {
+	// 	datos.splice(n_i,1);
+	// }
+	// removeItemFromArr( filas, cont );
+	$('#fila_h'+conth_l).remove();
+	// $('#fila_d'+cont).remove();
+	// $('#fila_h'+cont).remove();
+	// $('#fila_ob'+cont).remove();
+	// $('#fila_op'+cont).remove();
+	// cont--;
+	// console.log(datos);
+	// console.log(filas);
+	// console.log(cont);
+	// console.log(cont);
+	// console.log(datos);
 }
 
 </script>
