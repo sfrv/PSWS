@@ -64,12 +64,19 @@ class CentroMedicoController extends Controller
         return Redirect::to('adm/centro');
     }
 
-    public function getCentrosMedicos(){
+ 
+    public function getCentrosMedicos()
+    {
         return json_encode(array("centros" => CentroMedico::_getAllCentroMedico()->get()));
     }
-  
-    public function getLugar($id)
+
+    public function getCentrosMedicos_por_red_tipo_nivel($id_red, $id_tipo_servicio, $id_nivel)
     {
-      return json_encode(array("lugar" => CentroMedico::_getOneCentroMedico($id)->get()));
+        return json_encode(array("centros" => CentroMedico::_getCentrosMedicos_por_red_tipo_nivel($id_red, $id_tipo_servicio, $id_nivel)->get()));
+    }
+
+    public function getCentroMedico($id)
+    {
+        return json_encode(array("centro" => CentroMedico::_getOneCentroMedico($id)->get()));
     }
 }

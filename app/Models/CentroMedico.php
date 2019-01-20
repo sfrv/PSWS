@@ -183,12 +183,36 @@ class CentroMedico extends Model
 
     public function scope_getAllCentroMedico($query)
     {
-        return $query;
+        $result = DB::table('centro_medico as c')
+            ->join('red as r', 'r.id', '=', 'c.id_red')
+            ->join('tipo_servicio as t', 't.id', '=', 'c.id_tipo_servicio')
+            ->join('zona as z', 'z.id', '=', 'c.id_zona')
+            ->join('nivel as n', 'n.id', '=', 'c.id_nivel')
+            ->select('c.id', 'c.nombre', 'c.latitud', 'c.longitud', 'c.direccion', 'c.descripcion', 'c.distrito', 'c.uv', 'c.manzano', 'c.horas_atencion', 'telefono', 'r.nombre as nombreRed', 't.nombre as nombreTipoServicio', 'z.nombre as nombreZona', 'n.nombre as nombreNivel', 'c.estado');
+
+        return $result;
     }
 
     public function scope_getOneCentroMendico($query, $id)
     {
         $result = $query->where('id', '=', $id);
         return $result;
+    }
+
+    public function scope_getCentrosMedicos_por_red_tipo_nivel($query, $id_red, $id_tipo_servicio, $id_nivel)
+    {
+        $result = DB::table('centro_medico as c')
+            ->join('red as r', 'r.id', '=', 'c.id_red')
+            ->join('tipo_servicio as t', 't.id', '=', 'c.id_tipo_servicio')
+            ->join('zona as z', 'z.id', '=', 'c.id_zona')
+            ->join('nivel as n', 'n.id', '=', 'c.id_nivel')
+            ->select('c.id', 'c.nombre', 'c.latitud', 'c.longitud', 'c.direccion', 'c.descripcion', 'c.distrito', 'c.uv', 'c.manzano', 'c.horas_atencion', 'telefono', 'r.nombre as nombreRed', 't.nombre as nombreTipoServicio', 'z.nombre as nombreZona', 'n.nombre as nombreNivel', 'c.estado')
+
+            ->where('c.id_red', '=', $id_red)
+            ->where('c.id_tipo_servicio', '=', $id_tipo_servicio)
+            ->where('c.id_nivel', '=', $id_nivel);
+
+        return $result;
+
     }
 }
