@@ -107,6 +107,16 @@ Route::get('/images/tipocentropublico.png', function () {
 Route::get('imagen-red/{id}',[
 	'uses' => 'RedController@get_imagen'
 ]);
+Route::get('imagen-tipoServicio/{id}',[
+	'uses' => 'TipoServicioController@get_imagen'
+]);
+Route::get('imagen-nivel/{id}',[
+	'uses' => 'NivelController@get_imagen'
+]);
+Route::get('imagen-centro/{id}',[
+	'uses' => 'CentroMedicoController@get_imagen'
+]);
+
 Route::get('get-redes', [
 	'uses' => 'RedController@getRedes'
 ]);

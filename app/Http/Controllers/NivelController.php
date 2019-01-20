@@ -45,4 +45,10 @@ class NivelController extends Controller
   public function getNiveles(){
     return json_encode(array("niveles" => Nivel::_getAllNivel()->get()));
   }
+
+  public function get_imagen($id)
+  {
+    $nivel = Nivel::findOrFail($id);
+    return response()->file('../public/images/' . $nivel->imagen);
+  }
 }

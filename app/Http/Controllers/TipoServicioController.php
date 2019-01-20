@@ -47,4 +47,10 @@ class TipoServicioController extends Controller
   {
       return json_encode(array("tiposervicios" => TipoServicio::_getAllTipoServicio()->get()));
   }
+
+  public function get_imagen($id)
+  {
+    $servicio = TipoServicio::findOrFail($id);
+    return response()->file('../public/images/' . $servicio->imagen);
+  }
 }
