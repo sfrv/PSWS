@@ -98,9 +98,12 @@ class CentroMedico extends Model
         return $detalle;
     }
 
-    public function scope_obtenerRolTurnos($query, $id)
+    public function scope_obtenerRolTurnos($query, $id, $searchText)
     {
-        $result = DB::table('centro_medico as a')
+
+        $text = trim($searchText);
+        if ($text == "") {
+            $result = DB::table('centro_medico as a')
                 ->join('detalle_centro_especialidad as b','a.id', '=', 'b.id_centro_medico')
                 ->join('turno as c','b.id', '=', 'c.id_detalle_centro_especialidad')
                 ->join('etapa_servicio as d','c.id_etapa_servicio', '=', 'd.id')
@@ -109,7 +112,22 @@ class CentroMedico extends Model
                 ->where('a.id','=', $id)
                 ->distinct()
                 ->get();
+        }else{
 
+            $result = DB::table('centro_medico as a')
+                ->join('detalle_centro_especialidad as b','a.id', '=', 'b.id_centro_medico')
+                ->join('turno as c','b.id', '=', 'c.id_detalle_centro_especialidad')
+                ->join('etapa_servicio as d','c.id_etapa_servicio', '=', 'd.id')
+                ->join('rol_turno as e','d.id_rol_turno', '=', 'e.id')
+                ->select('e.*')
+                ->where('a.id','=', $id)
+                ->where('e.mes','LIKE','%'.$text.'%')
+                ->orWhere('e.titulo','LIKE','%'.$text.'%')
+                ->distinct()
+                ->get();
+        }
+
+        
         return $result;
     }    
 

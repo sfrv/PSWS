@@ -13,14 +13,15 @@ use App\Models\Turno;
 
 class RolTurnoController extends Controller
 {
-	public function index_rol_turno($id)
+	public function index_rol_turno($id,Request $request)
 	{
 		$centro = CentroMedico::_obtenerCentro($id);
-        $rol_turnos = CentroMedico::_obtenerRolTurnos($id);
+        $rol_turnos = CentroMedico::_obtenerRolTurnos($id,$request['searchText']);
         // dd($rol_turnos);
         // dd($request['searchText']);
         // $searchText = $request->get('searchText');
-        return view('admCentros.centro.index_rol_turno',compact('centro','rol_turnos'));
+        $searchText = $request->get('searchText');
+        return view('admCentros.centro.index_rol_turno',compact('centro','rol_turnos','searchText'));
 	}
 
     public function create_rol_turno($id)
@@ -39,10 +40,13 @@ class RolTurnoController extends Controller
     	$especialidades = RolTurno::_getEspecialidadesPorIdEtapaServicio($etapa_servicio_uno->id);
     	$turnos = RolTurno::_getTurnosPorIdEtapaServicio($etapa_servicio_uno->id);
     	$rol_dias = RolTurno::_getRolDiasPorIdEtapaServicio($etapa_servicio_uno->id);
+    	$medicos = Medico::_getAllMedicos("")->get();
     	
-    	// $servicios_json = json_encode($servicios, JSON_UNESCAPED_SLASHES );
+    	$turnos_json = json_encode($turnos, JSON_UNESCAPED_SLASHES );
+    	$rol_dias_json = json_encode($rol_dias, JSON_UNESCAPED_SLASHES );
+    	$medicos_json = json_encode($medicos, JSON_UNESCAPED_SLASHES );
     	// dd($rol_dias);
-    	return view('admCentros.centro.show_rol_turno',compact('rol_turno','especialidades'));
+    	return view('admCentros.centro.show_rol_turno',compact('rol_turno','especialidades','turnos_json','rol_dias_json','medicos_json','medicos'));
     }
 
     public function guardar_rol_turno()
