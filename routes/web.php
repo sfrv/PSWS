@@ -92,63 +92,56 @@ Route::get('/images/redNorte.png', function () {
 Route::get('/images/zona_rural.jpg', function () {
     return response()->file('../public/images/zona_rural.jpg');
 });
-// Route::get('imagen-por-id', function () {
-//     return response()->file('../public/images/zona_urbana.jpg');
-// });
+Route::get('/images/tipocentroprivado.png', function () {
+	return response()->file('../public/images/tipocentroprivado.png');
+});
 
-// Route::get('get-redes',[
-// 	'uses' => 'RedController@getRedes'
-// ]);
+Route::get('/images/tipocentropublico.png', function () {
+	return response()->file('../public/images/tipocentropublico.png');
+});
 
-// Route::get('get-sintomas',[
-// 	'uses' => 'SintomaController@getSintomas'
-// ]);
-// Route::get('get-pre-diagnostico/{str}',[
-// 	'uses' => 'SintomaController@preDiagnostico'
-// ]);
-// Route::get('get-pre-diagnostico/',[
-// 	'uses' => 'SintomaController@preDiagnosticoNone'
-// ]);
+
+
+//RUTAS PARA WEB SERVICE
+
 Route::get('imagen-red/{id}',[
 	'uses' => 'RedController@get_imagen'
 ]);
-Route::get('get-tiposervicios',[
+Route::get('get-redes', [
+	'uses' => 'RedController@getRedes'
+]);
+Route::get('get-tiposervicios', [
 	'uses' => 'TipoServicioController@getTipoServicios'
 ]);
-Route::get('get-zonas',[
+Route::get('get-zonas', [
 	'uses' => 'ZonaController@getZonas'
 ]);
-Route::get('get-niveles',[
+Route::get('get-niveles', [
 	'uses' => 'NivelController@getNiveles'
+]);
+
+Route::get('get-centros', [
+	'uses' => 'CentroMedicoController@getCentrosMedicos'
+]);
+Route::get('get-centro/{id}', [
+	'uses' => 'CentroMedicoController@getCentroMedico'
+]);
+
+Route::get('get-centrosPorRTN/{id_red}/{id_tipo_servicio}/{id_nivel}', [
+	'uses' => 'CentroMedicoController@getCentrosMedicos_por_red_tipo_nivel'
 ]);
 
 
 //modificar
 
-// Route::get('get-lugares',[
-// 	'uses' => 'LugarController@getLugares'
-// ]);
-// Route::get('get-lugar/{id}',[
-// 	'uses' => 'LugarController@getLugar'
-// ]);
-// Route::get('get-lugar-mediante-enfermedad/{id}',[
-// 	'uses' => 'LugarController@getLugarPorEnfermedad'
-// ]);
 // Route::get('get-especialidades',[
 // 	'uses' => 'EspecialidadController@getEspecialidades'
 // ]);
 // Route::get('get-especialidades-mediante-lugar/{id}',[
 // 	'uses' => 'EspecialidadController@getEspecialidadPorLugar'
 // ]);
-
-
 //
-Route::get('get-detalleespecialidades',[
-	'uses' => 'RedController@getRedes'
-]);
-Route::get('get-enfermedades',[
-	'uses' => 'EnfermedadController@getEnfermedades'
-]);
-Route::get('get-enfermedades-mediante-especialidad/{id}',[
-	'uses' => 'EnfermedadController@getEnfermedadesPorEspecialidad'
-]);
+// Route::get('get-detalleespecialidades',[
+// 	'uses' => 'RedController@getRedes'
+// ]);
+
