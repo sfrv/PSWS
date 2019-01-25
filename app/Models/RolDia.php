@@ -28,4 +28,11 @@ class RolDia extends Model
 
 	  return $rol_dia->id;
 	}
+
+	public function scope_editarRolDia($query, $id_medico, $id)
+	{
+	  $rol_dia = RolDia::findOrFail($id);
+	  $rol_dia->id_medico = $id_medico;
+	  $rol_dia->save();
+	}
 }

@@ -32,4 +32,13 @@ class Turno extends Model
 
 	  return $turno->id;
 	}
+
+	public function scope_editarTurno($query, $nombre, $hora_inicio, $hora_fin, $id)
+	{
+	  $turno = Turno::findOrFail($id);
+	  $turno->nombre = $nombre;
+	  $turno->hora_inicio = $hora_inicio;
+	  $turno->hora_fin = $hora_fin;
+	  $turno->save();
+	}
 }

@@ -38,9 +38,9 @@
                     <td>{{ $var->estado }}</td>
                     <td>
                       <a href="" data-target="#modal-delete-{{$var->id}}" data-toggle="modal" class="btn btn-danger" data-placement="top" data-original-title="Remove"><i class="fa fa-times fa fa-white"></i></a>
-                      <a href="" class="btn btn-info" data-placement="top" data-original-title="Ver Detalle de Orden de Produccion"><i class="fa fa-edit"></i></a>
-                      <a href="{{ route('show-rol-turno', $var->id) }}" class="btn btn-success" data-placement="top" data-original-title="Ver Detalle de Orden de Produccion"><i class="fa fa-eye"></i></a>
-                      <a href="" class="btn btn-warning" data-placement="top" data-original-title="Ver Detalle de Orden de Produccion"><i class="fa fa-refresh"></i></a>
+                      <a href="{{ route('edit-rol-turno', $var->id) }}" class="btn btn-info" data-placement="top"><i class="fa fa-edit"></i></a>
+                      <a href="{{ route('show-rol-turno', $var->id) }}" class="btn btn-success" data-placement="top"><i class="fa fa-eye"></i></a>
+                      <a href="{{ route('renovate-rol-turno', $var->id) }}" class="btn btn-warning" data-placement="top"><i class="fa fa-refresh"></i></a>
                     </td>
                   </tr>
                   
@@ -48,7 +48,7 @@
            </tbody>
          </table>
        </div>
-
+       {{ $rol_turnos->links() }}
      </div>
      </div>
    </div>

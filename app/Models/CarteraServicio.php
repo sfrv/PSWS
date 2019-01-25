@@ -49,17 +49,30 @@ class CarteraServicio extends Model
         return $servicios;
     }
 
-    public function scope_getEspecialidadesPorId($query, $id)
-    {
-        $servicios = DB::table('servicio as a')
-        ->join('detalle_centro_especialidad as b', 'a.id_detalle_centro_especialidad', '=', 'b.id')
-        ->join('especialidad as c', 'b.id_especialidad', '=', 'c.id')
-        ->select('c.*')
-        ->where('a.id_cartera_servicio','=', $id)
-        ->orderBy('c.id', 'desc')
-        ->distinct()
-        ->get();
+    //no borrar
+    // public function scope_getEspecialidadesPorId($query, $id)
+    // {
+    //     $servicios = DB::table('servicio as a')
+    //     ->join('detalle_centro_especialidad as b', 'a.id_detalle_centro_especialidad', '=', 'b.id')
+    //     ->join('especialidad as c', 'b.id_especialidad', '=', 'c.id')
+    //     ->select('c.nombre','b.id')
+    //     ->where('a.id_cartera_servicio','=', $id)
+    //     ->orderBy('c.id', 'desc')
+    //     ->distinct()
+    //     ->get();
 
-        return $servicios;
-    }
+    //     return $servicios;
+    // }
+
+    // public function scope_getEspecialidadesPorId($query, $id_centro)
+    // {
+    //     $servicios = DB::table('detalle_centro_especialidad as a')
+    //     ->join('especialidad as b', 'a.id_especialidad', '=', 'b.id')
+    //     ->select('b.nombre','a.id')
+    //     ->where('a.id_centro_medico','=', $id_centro)
+    //     ->orderBy('b.id', 'desc')
+    //     ->get();
+
+    //     return $servicios;
+    // }
 }
