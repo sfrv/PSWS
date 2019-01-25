@@ -37,14 +37,14 @@ class CarteraServicioController extends Controller
         return view('admCentros.centro.create_cartera_servicio',compact('detalle','detalle2'));
     }
 
-    public function edit_cartera_servicio($id)
+    public function edit_cartera_servicio($id,$id_centro)
     {
     	$cartera_servicio = CarteraServicio::findOrFail($id);
     	$servicios = CarteraServicio::_getServiciosPorId($id);
-    	$especialidades = CarteraServicio::_getEspecialidadesPorId($id);
-
+        $especialidades = CentroMedico::_obtenerDetalleCentro($id_centro);
+        
     	$servicios_json = json_encode($servicios, JSON_UNESCAPED_SLASHES );
-    	// dd($cartera_servicio);
+        
     	return view('admCentros.centro.edit_cartera_servicio',compact('cartera_servicio','especialidades','servicios_json'));
     }
 

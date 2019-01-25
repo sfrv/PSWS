@@ -32,6 +32,15 @@ class RolTurno extends Model
 	  return $rol_turno->id;
 	}
 
+	public function scope_editarRolTurno($query, $titulo, $mes, $anio, $id)
+	{
+	  $rol_turno = RolTurno::findOrFail($id);
+	  $rol_turno->titulo = $titulo;
+	  $rol_turno->mes = $mes;
+	  $rol_turno->anio = $anio;
+	  $rol_turno->save();
+	}
+
 	public function scope_getEtapaServicio($query, $id, $nombre)
     {
         $result = DB::table('etapa_servicio as a')
@@ -58,9 +67,9 @@ class RolTurno extends Model
         $result = DB::table('turno as a')
         ->join('detalle_centro_especialidad as b', 'a.id_detalle_centro_especialidad', '=', 'b.id')
         ->join('especialidad as c', 'b.id_especialidad', '=', 'c.id')
-        ->select('c.*')
+        ->select('c.nombre','b.id')
         ->where('a.id_etapa_servicio','=', $id)
-        ->orderBy('c.id', 'desc')
+        ->orderBy('c.id', 'ASC')
         ->distinct()
         ->get();
 

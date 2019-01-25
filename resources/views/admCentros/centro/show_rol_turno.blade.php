@@ -3,7 +3,7 @@
 
 <section class="content-header">
   <h1 align="center">
-    * * * * * <b>Editar Rol de Turno</b> * * * * *
+    * * * * * <b>Ver Rol de Turno</b> * * * * *
   </h1>
   <br>
   <ol class="breadcrumb">

@@ -36,7 +36,7 @@ Route::get('adm/centro/show_cartera_servicio/{id}',[
 	'as' => 'show-cartera-servicio',
 	'uses' => 'CarteraServicioController@show_cartera_servicio'
 ]);
-Route::get('adm/centro/edit_cartera_servicio/{id}',[
+Route::get('adm/centro/edit_cartera_servicio/{id_cartera_servicio}/{id_centro}',[
 	'as' => 'edit-cartera-servicio',
 	'uses' => 'CarteraServicioController@edit_cartera_servicio'
 ]);
@@ -60,6 +60,18 @@ Route::get('adm/centro/index_rol_turno/{id}',[
 Route::get('adm/centro/show_rol_turno/{id}',[
 	'as' => 'show-rol-turno',
 	'uses' => 'RolTurnoController@show_rol_turno'
+]);
+Route::get('adm/centro/edit_rol_turno/{id}',[
+	'as' => 'edit-rol-turno',
+	'uses' => 'RolTurnoController@edit_rol_turno'
+]);
+Route::get('adm/centro/actualizar_rol_tuno',[
+	'as' => 'actualizar-rol-turno',
+	'uses' => 'RolTurnoController@actualizar_rol_tuno'
+]);
+Route::get('adm/centro/renovate_rol_turno/{id}',[
+	'as' => 'renovate-rol-turno',
+	'uses' => 'RolTurnoController@renovate_rol_turno'
 ]);
 //////////////////////////////////////
 
