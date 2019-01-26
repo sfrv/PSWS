@@ -40,7 +40,7 @@ Route::get('adm/centro/edit_cartera_servicio/{id_cartera_servicio}/{id_centro}',
 	'as' => 'edit-cartera-servicio',
 	'uses' => 'CarteraServicioController@edit_cartera_servicio'
 ]);
-Route::get('adm/centro/renovate_cartera_servicio/{id}',[
+Route::get('adm/centro/renovate_cartera_servicio/{id_cartera_servicio}/{id_centro}',[
 	'as' => 'renovate-cartera-servicio',
 	'uses' => 'CarteraServicioController@renovate_cartera_servicio'
 ]);

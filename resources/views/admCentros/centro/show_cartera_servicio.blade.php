@@ -6,9 +6,6 @@
     * * * * * <b>Informacion de la Cartera de Servicio: {{$cartera_servicio->id}}</b> * * * * *
   </h1>
   <br>
-  <ol class="breadcrumb">
-    <li><a href="{{url('/')}}"><i class="fa fa-dashboard"></i> Home</a></li>
-  </ol>
 </section>
 <section>
 <div class="row">
@@ -41,21 +38,21 @@
           			  <div class="table-responsive">
           			<table id="detalles" class="table table-striped table-bordered table-condensed table-hover">
           			<thead style="background-color:#A9D0F5">
-          				<th>Especialidad</th>
-          				<th>Servicios</th>
-          				<th>Dias</th>
-          				<th>Horas</th>
-          				<th>Observaciones</th>
+          				<th class="text-center">Especialidad</th>
+          				<th class="text-center">Servicios</th>
+          				<th class="text-center">Dias</th>
+          				<th class="text-center">Horas</th>
+          				<th class="text-center">Observaciones</th>
           			</thead>
           			<tbody>
 	                <div id="especialidades">
 	                	@foreach($especialidades as $var)
 	                      	<tr id="fila_datos{{$var -> id}}">
-	                          <td class="center">{{$var -> nombre}} </td>
-	                          <td class="center" id="especialidad_servicio{{$var -> id}}"></td>
-	                          <td class="center" id="especialidad_dia{{$var -> id}}"></td>
-	                          <td class="center" id="especialidad_hora{{$var -> id}}"></td>
-	                          <td class="center" id="especialidad_observacion{{$var -> id}}"></td>
+	                          <td class="text-center">{{$var -> nombre}} </td>
+	                          <td class="text-center" id="especialidad_servicio{{$var -> id}}"></td>
+	                          <td class="text-center" id="especialidad_dia{{$var -> id}}"></td>
+	                          <td class="text-center" id="especialidad_hora{{$var -> id}}"></td>
+	                          <td class="text-center" id="especialidad_observacion{{$var -> id}}"></td>
 	                      </tr>
 	                  	@endforeach
 	                </div>
@@ -69,7 +66,7 @@
                <div class="form-group">
                	<a href="javascript:history.back(1)">
                		<button class="btn btn-primary btn-block" type="submit">
-                   <i class="fa fa-arrow-circle-right"> Guardar Cartera de Servicio </i>
+                   <i class="fa fa-arrow-circle-left"> Atras </i>
                 </button>
                	</a>
                </div>
@@ -82,15 +79,17 @@
 </section>
 @push ('scripts')
 <script>
+var x = document.getElementById("mynav");
+x.className += " sidebar-collapse";
 var servicios = {!! $servicios_json !!};
 
 console.log(servicios);
 
 for(i=0;i<servicios.length;i++){
-	var fila_servicio = '<div><input style="margin-bottom: 14px;" disabled="true" type="text" value="'+servicios[i]['nombre']+'"></br></div>';
-	var fila_dia = '<div><input style="margin-bottom: 14px;" disabled="true" type="text" value="'+servicios[i]['dias']+'"></br></div>';
-	var fila_hora = '<div><input style="margin-bottom: 14px;" disabled="true" type="text" value="'+servicios[i]['hora']+'"></br></div>';
-	var fila_observacion = '<div><input style="margin-bottom: 14px;" disabled="true" type="text" value="'+servicios[i]['observacion']+'"></br></div>';
+	var fila_servicio = '<div><input class="autosize form-control" disabled="true" type="text" value="'+servicios[i]['nombre']+'"></br></div>';
+	var fila_dia = '<div><input class="autosize form-control" disabled="true" type="text" value="'+servicios[i]['dias']+'"></br></div>';
+	var fila_hora = '<div><input class="autosize form-control" disabled="true" type="text" value="'+servicios[i]['hora']+'"></br></div>';
+	var fila_observacion = '<div><input class="autosize form-control" disabled="true" type="text" value="'+servicios[i]['observacion']+'"></br></div>';
 	$('#especialidad_servicio'+servicios[i]['id_detalle_centro_especialidad']).append(fila_servicio);
 	$('#especialidad_dia'+servicios[i]['id_detalle_centro_especialidad']).append(fila_dia);
 	$('#especialidad_hora'+servicios[i]['id_detalle_centro_especialidad']).append(fila_hora);

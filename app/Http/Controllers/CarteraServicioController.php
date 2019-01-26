@@ -32,20 +32,31 @@ class CarteraServicioController extends Controller
 
     public function create_cartera_servicio($id)
     {
+        $meses = array("Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre");
+        $anios = array("2018","2019","2020","2021","2022","2023","2024","2025","2026","2027","2028","2029","2030");
+        $nombres_servicios = array("Emergencia","Consulta Externa","Internacion","Quirofano");
+        $anio_actual = date("Y");
+        $mes_actual = $meses[date('n')-1];
+
         $detalle = CentroMedico::_obtenerDetalleCentro($id);
         $detalle2 = json_encode($detalle, JSON_UNESCAPED_SLASHES );
-        return view('admCentros.centro.create_cartera_servicio',compact('detalle','detalle2'));
+        return view('admCentros.centro.create_cartera_servicio',compact('detalle','detalle2','meses','mes_actual','anios','anio_actual','nombres_servicios'));
     }
 
     public function edit_cartera_servicio($id,$id_centro)
     {
+        $nombres_servicios = array("Emergencia","Consulta Externa","Internacion","Quirofano");
+        $meses = array("Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre");
+        $anios = array("2018","2019","2020","2021","2022","2023","2024","2025","2026","2027","2028","2029","2030");
+
     	$cartera_servicio = CarteraServicio::findOrFail($id);
     	$servicios = CarteraServicio::_getServiciosPorId($id);
         $especialidades = CentroMedico::_obtenerDetalleCentro($id_centro);
         
     	$servicios_json = json_encode($servicios, JSON_UNESCAPED_SLASHES );
+        $nombres_servicios_json = json_encode($nombres_servicios, JSON_UNESCAPED_SLASHES );
         
-    	return view('admCentros.centro.edit_cartera_servicio',compact('cartera_servicio','especialidades','servicios_json'));
+    	return view('admCentros.centro.edit_cartera_servicio',compact('cartera_servicio','especialidades','servicios_json','meses','anios','nombres_servicios_json','nombres_servicios'));
     }
 
     public function guardar_cartera_servicio()
@@ -94,14 +105,20 @@ class CarteraServicioController extends Controller
         }
     }
 
-    public function renovate_cartera_servicio($id)
+    public function renovate_cartera_servicio($id,$id_centro)
     {
+        $nombres_servicios = array("Emergencia","Consulta Externa","Internacion","Quirofano");
+        $meses = array("Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre");
+        $anios = array("2018","2019","2020","2021","2022","2023","2024","2025","2026","2027","2028","2029","2030");
+
         $cartera_servicio = CarteraServicio::findOrFail($id);
         $servicios = CarteraServicio::_getServiciosPorId($id);
-        $especialidades = CarteraServicio::_getEspecialidadesPorId($id);
+        // $especialidades = CarteraServicio::_getEspecialidadesPorId($id);
+        $especialidades = CentroMedico::_obtenerDetalleCentro($id_centro);
 
         $servicios_json = json_encode($servicios, JSON_UNESCAPED_SLASHES );
+        $nombres_servicios_json = json_encode($nombres_servicios, JSON_UNESCAPED_SLASHES );
         // dd($cartera_servicio);
-        return view('admCentros.centro.renovate_cartera_servicio',compact('cartera_servicio','especialidades','servicios_json'));
+        return view('admCentros.centro.renovate_cartera_servicio',compact('cartera_servicio','especialidades','servicios_json','anios','meses','nombres_servicios_json','nombres_servicios'));
     }
 }

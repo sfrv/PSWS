@@ -6,9 +6,6 @@
     * * * * * <b>Editar Cartera de Servicio: {{$cartera_servicio->id}}</b> * * * * *
   </h1>
   <br>
-  <ol class="breadcrumb">
-    <li><a href="{{url('/')}}"><i class="fa fa-dashboard"></i> Home</a></li>
-  </ol>
 </section>
 <section>
 <div class="row">
@@ -24,42 +21,58 @@
 
             <div class="col-lg-4 col-md-4 col-dm-4 col-xs-12">
               <label for="form-field-24">Mes:</label>
-              <input name="mes" id="mes" class="autosize form-control" value="{{$cartera_servicio->mes}}" type="text" step="any">
+              <select name="mes" id="mes" class="form-control selectpicker">
+              @foreach($meses as $var)
+                @if($var == $cartera_servicio->mes)
+                  <option value="{{$var}}" selected>{{$var}}</option>
+                @else
+                  <option value="{{$var}}">{{$var}}</option>
+                @endif
+              @endforeach
+            </select>
             </div>
 
             <div class="col-lg-4 col-md-4 col-dm-4 col-xs-12">
               <label for="form-field-24">Anio:</label>
-              <input name="anio" id="anio" class="autosize form-control" value="{{$cartera_servicio->anio}}" type="text" step="any">
+              <select name="anio" id="anio" class="form-control selectpicker">
+              @foreach($anios as $var)
+                @if($var == $cartera_servicio->anio)
+                  <option value="{{$var}}" selected>{{$var}}</option>
+                @else
+                  <option value="{{$var}}">{{$var}}</option>
+                @endif
+              @endforeach
+            </select>
             </div>
       	</div>
         <br>
         <div class="panel-body">
             <div class="panel panel-info">
-              <div class="panel-heading">Cartera de Servicio</div>
+              <div class="panel-heading">Edicion de la Cartera de Servicio</div>
               <div class="panel-body">
           		<div class="col-lg-12 col-md-12 col-dm-12 col-xs-12">
           			  <div class="table-responsive">
           			<table id="detalles" class="table table-striped table-bordered table-condensed table-hover">
           			<thead style="background-color:#A9D0F5">
-          				<th>Especialidad</th>
-          				<th>Servicios</th>
-          				<th>Dias</th>
-          				<th>Horas</th>
-          				<th>Observaciones</th>
-                  <th>Op1</th>
-                  <th>Op2</th>
+          				<th class="text-center">Especialidad</th>
+          				<th class="text-center">Servicios</th>
+          				<th class="text-center">Dias</th>
+          				<th class="text-center">Horas</th>
+          				<th class="text-center">Observaciones</th>
+                  <th class="text-center">Op1</th>
+                  <th class="text-center">Op2</th>
           			</thead>
           			<tbody>
 	                <div id="especialidades">
 	                	@foreach($especialidades as $var)
 	                      	<tr id="fila_datos{{$var -> id}}">
-	                          <td class="center">{{$var -> nombre}} </td>
-	                          <td class="center" id="especialidad_servicio{{$var -> id}}"></td>
-	                          <td class="center" id="especialidad_dia{{$var -> id}}"></td>
-	                          <td class="center" id="especialidad_hora{{$var -> id}}"></td>
-	                          <td class="center" id="especialidad_observacion{{$var -> id}}"></td>
-                            <td class="center" id="especialidad_opcion{{$var -> id}}"></td>
-                            <td class="center"><button type="button" class="btn btn-info" onclick="agregar({{$var -> id}});">+</button></td>
+	                          <td class="text-center">{{$var -> nombre}} </td>
+	                          <td class="text-center" id="especialidad_servicio{{$var -> id}}"></td>
+	                          <td class="text-center" id="especialidad_dia{{$var -> id}}"></td>
+	                          <td class="text-center" id="especialidad_hora{{$var -> id}}"></td>
+	                          <td class="text-center" id="especialidad_observacion{{$var -> id}}"></td>
+                            <td class="text-center" id="especialidad_opcion{{$var -> id}}"></td>
+                            <td class="text-center"><button type="button" class="btn btn-info" onclick="agregar({{$var -> id}});"><i class="fa fa-plus"></i></button></td>
 	                      </tr>
 	                  	@endforeach
 	                </div>
@@ -88,6 +101,7 @@ var x = document.getElementById("mynav");
 x.className += " sidebar-collapse";
 
 var servicios = {!! $servicios_json !!};
+var nombres_servicios = {!! $nombres_servicios_json !!};
 var cont = 0;
 var filas = [];
 var datos_filas = [];
@@ -95,11 +109,25 @@ var datos_filas_delete = [];
 var datos_filas_new = [];
 
 for(i=0;i<servicios.length;i++){
-  	var fila_servicio = '<div id="fila_s'+cont+'"><input style="margin-bottom: 14px;" id="text_s'+cont+'" type="text" value="'+servicios[i]['nombre']+'"></br></div>';
-  	var fila_dia = '<div id="fila_d'+cont+'"><input style="margin-bottom: 14px;" id="text_d'+cont+'" type="text" value="'+servicios[i]['dias']+'"></br></div>';
-  	var fila_hora = '<div id="fila_h'+cont+'"><input style="margin-bottom: 14px;" id="text_h'+cont+'" type="text" value="'+servicios[i]['hora']+'"></br></div>';
-  	var fila_observacion = '<div id="fila_ob'+cont+'"><input style="margin-bottom: 14px;" id="text_o'+cont+'" type="text" value="'+servicios[i]['observacion']+'"></br></div>';
-    var fila_opcion = '<div id="fila_op'+cont+'"><button style="margin-bottom: 5px;" type="button" class="btn btn-warning" onclick="eliminar('+cont+','+servicios[i]['id']+');"><i class="fa fa-close"></i></button> <br></div>';
+  	// var fila_servicio = '<div id="fila_s'+cont+'"><input style="margin-bottom: 14px;" id="text_s'+cont+'" type="text" value="'+servicios[i]['nombre']+'"></br></div>';
+    // var fila_servicio = '<div id="fila_s'+cont+'"><input style="margin-bottom: 14px;" id="text_s'+cont+'" type="text" value="'+servicios[i]['nombre']+'"></br></div>';
+
+    var fila_servicio = '<div id="fila_s'+cont+'">'+
+          '<select id="text_s'+cont+'" class="form-control selectpicker">';
+          for (var j = 0; j < nombres_servicios.length; j++) {
+            if (nombres_servicios[j] === servicios[i]['nombre']) {
+              fila_servicio = fila_servicio + '<option value="'+nombres_servicios[j]+'" selected>'+nombres_servicios[j]+'</option>';
+            }else{
+              fila_servicio = fila_servicio + '<option value="'+nombres_servicios[j]+'">'+nombres_servicios[j]+'</option>';
+            }
+          }
+      // array_dias_id_anterior.push();
+      fila_servicio = fila_servicio + '</select></br></div>';
+
+  	var fila_dia = '<div id="fila_d'+cont+'"><input class="autosize form-control" id="text_d'+cont+'" type="text" value="'+servicios[i]['dias']+'"></br></div>';
+  	var fila_hora = '<div id="fila_h'+cont+'"><input class="autosize form-control" id="text_h'+cont+'" type="text" value="'+servicios[i]['hora']+'"></br></div>';
+  	var fila_observacion = '<div id="fila_ob'+cont+'"><input class="autosize form-control" id="text_o'+cont+'" type="text" value="'+servicios[i]['observacion']+'"></br></div>';
+    var fila_opcion = '<div id="fila_op'+cont+'"><button style="margin-bottom: 20px;" type="button" class="btn btn-warning" onclick="eliminar('+cont+','+servicios[i]['id']+');"><i class="fa fa-close"></i></button> <br></div>';
 
   	$('#especialidad_servicio'+servicios[i]['id_detalle_centro_especialidad']).append(fila_servicio);
   	$('#especialidad_dia'+servicios[i]['id_detalle_centro_especialidad']).append(fila_dia);
@@ -115,11 +143,18 @@ for(i=0;i<servicios.length;i++){
 
 function agregar(id)
 {
-  var fila_servicio = '<div id="fila_s'+cont+'"><input style="margin-bottom: 14px;" id="text_s'+cont+'" type="text" step="any"> </br></div>';
-  var fila_dia = '<div id="fila_d'+cont+'"><input style="margin-bottom: 14px;" id="text_d'+cont+'" type="text" step="any"> </br></div>';
-  var fila_hora ='<div id="fila_h'+cont+'"><input style="margin-bottom: 14px;" id="text_h'+cont+'" type="text" step="any"> <br></div>';
-  var fila_observacion = '<div id="fila_ob'+cont+'"><input style="margin-bottom: 14px;" id="text_o'+cont+'" type="text" step="any"><br></div>';
-  var fila_opcion = '<div id="fila_op'+cont+'"><button style="margin-bottom: 5px;" type="button" class="btn btn-danger" onclick="eliminarFilaNueva('+cont+');"><i class="fa fa-close"></i></button><br></div>';
+  var fila_servicio = '<div id="fila_s'+cont+'">'+
+    '<select id="text_s'+cont+'" class="form-control selectpicker">'+
+      '@foreach($nombres_servicios as $var)'+
+      ' <option value="{{$var}}">{{$var}}</option> '+
+      '@endforeach'+
+    '</select> '+
+  '</br></div>';
+
+  var fila_dia = '<div id="fila_d'+cont+'"><input class="autosize form-control" id="text_d'+cont+'" type="text" step="any"> </br></div>';
+  var fila_hora ='<div id="fila_h'+cont+'"><input class="autosize form-control" id="text_h'+cont+'" type="text" step="any"> <br></div>';
+  var fila_observacion = '<div id="fila_ob'+cont+'"><input class="autosize form-control" id="text_o'+cont+'" type="text" step="any"><br></div>';
+  var fila_opcion = '<div id="fila_op'+cont+'"><button style="margin-bottom: 20px;" type="button" class="btn btn-warning" onclick="eliminar('+cont+');"><i class="fa fa-close"></i></button><br></div>';
   var fila_new = [];//new
   fila_new.push(cont,id);//new
   datos_filas_new.splice(cont, 0, fila_new);//new

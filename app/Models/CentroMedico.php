@@ -143,7 +143,8 @@ class CentroMedico extends Model
                 ->select('d.*')
                 ->where('a.id','=', $id)
                 ->distinct()
-                ->get();
+                ->orderBy("d.id","DES")
+                ->paginate(10);
         }else{
             $result = DB::table('centro_medico as a')
                 ->join('detalle_centro_especialidad as b','a.id', '=', 'b.id_centro_medico')
