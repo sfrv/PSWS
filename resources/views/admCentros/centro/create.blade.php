@@ -11,6 +11,7 @@
   </ol>
 </section>
 <section>
+
 <div class="row">
   <div class="col-sm-12 col-xs-12">
     <div class="box box-primary">
@@ -18,10 +19,26 @@
           <h3 align="center">Panel de control de <span class="text-bold">Centro de Salud</span></h3>
 
           <div class="panel-body">
-            {!!Form::open(array('url'=>'adm/centro','method'=>'POST','autocomplete'=>'off'))!!}
-  			    {{Form::token()}}
+            {!!Form::open(array('url'=>'adm/centro','method'=>'POST','autocomplete'=>'off','files' => true))!!}
+  			    {{Form::token()}} 
 
             <div class="row">
+              <div class="col-lg-6 col-md-6 col-dm-6 col-xs-12">
+                <div class="form-group">               
+                  <label for="form-field-24">
+                    Nombre del Centro:
+                  </label>
+                  <textarea required="required" class="autosize form-control" id="form-field-24" name="nombre"></textarea>
+                </div>
+              </div>
+              <div class="col-lg-6 col-md-6 col-dm-6 col-xs-12">
+                <div class="form-group">             
+                  <label for="form-field-24">
+                    Direccion del Centro:
+                  </label>
+                  <textarea required="required" class="autosize form-control" id="form-field-24" name="direccion"></textarea>
+                </div>
+              </div>
               <div class="col-lg-6 col-md-6 col-dm-6 col-xs-12">
               	<div class="form-group">
               	   <label for="id_red">Red:</label>
@@ -62,90 +79,84 @@
               		</select>
               	</div>
               </div>
-              <div class="form-group">
+              <!-- <div class="form-group">
                 <div class="col-lg-12 col-md-6 col-dm-6 col-xs-12">
                   <label for="form-field-24">
                     Escriba una breve Descripcion:
                   </label>
                   <textarea required="required" class="autosize form-control" id="form-field-24" name="descripcion"></textarea>
                 </div>
-              </div>
-              <div class="form-group">
-                <div class="col-lg-6 col-md-6 col-dm-6 col-xs-12">
-                  <label for="form-field-24">
-                    Direccion del Centro:
-                  </label>
-                  <textarea required="required" class="autosize form-control" id="form-field-24" name="direccion"></textarea>
-                </div>
-              </div>
-              <div class="form-group">
-                <div class="col-lg-6 col-md-6 col-dm-6 col-xs-12">
-                  <label for="form-field-24">
-                    Nombre del Centro:
-                  </label>
-                  <textarea required="required" class="autosize form-control" id="form-field-24" name="nombre"></textarea>
-                </div>
-              </div>
-              <div class="form-group">
-                <div class="col-lg-6 col-md-6 col-dm-6 col-xs-12">
+              </div> -->
+              
+              <div class="col-lg-6 col-md-6 col-dm-6 col-xs-12">
+                <div class="form-group">                
                   <label for="form-field-24">
                     Latitud:
                   </label>
                   <input required="required" name="latitud" id="latitud" class="autosize form-control" type="number" step="any">
                 </div>
               </div>
-              <div class="form-group">
-                <div class="col-lg-6 col-md-6 col-dm-6 col-xs-12">
+              <div class="col-lg-6 col-md-6 col-dm-6 col-xs-12">
+                <div class="form-group">
                   <label for="form-field-24">
                     Longitud:
                   </label>
                   <input required="required" name="longitud" id="longitud" class="autosize form-control" type="number" step="any">
                 </div>
               </div>
-              <div class="form-group">
-                <div class="col-lg-6 col-md-6 col-dm-6 col-xs-12">
+              <div class="col-lg-6 col-md-6 col-dm-6 col-xs-12">
+                <div class="form-group">               
                   <label for="form-field-24">
                     Distrito:
                   </label>
                   <input required="required" name="distrito" id="distrito" class="autosize form-control" type="text" step="any">
                 </div>
               </div>
-              <div class="form-group">
-                <div class="col-lg-6 col-md-6 col-dm-6 col-xs-12">
+              <div class="col-lg-6 col-md-6 col-dm-6 col-xs-12">
+                <div class="form-group">                
                   <label for="form-field-24">
                     Uv:
                   </label>
                   <input required="required" name="uv" id="uv" class="autosize form-control" type="text" step="any">
                 </div>
               </div>
-              <div class="form-group">
-                <div class="col-lg-4 col-md-4 col-dm-4 col-xs-12">
+              <div class="col-lg-4 col-md-4 col-dm-4 col-xs-12">
+               <div class="form-group">          
                   <label for="form-field-24">
                     Manzano:
                   </label>
                   <input required="required" name="manzano" id="manzano" class="autosize form-control" type="text" step="any">
                 </div>
               </div>
-              <div class="form-group">
-                <div class="col-lg-4 col-md-4 col-dm-4 col-xs-12">
+              <div class="col-lg-4 col-md-4 col-dm-4 col-xs-12">
+                <div class="form-group">   
                   <label for="form-field-24">
                     Horas de Atencion:
                   </label>
                   <input required="required" name="horas_atencion" id="horas_atencion" class="autosize form-control" type="text" step="any">
                 </div>
               </div>
-              <div class="form-group">
-                <div class="col-lg-4 col-md-4 col-dm-4 col-xs-12">
+              <div class="col-lg-4 col-md-4 col-dm-4 col-xs-12">
+                <div class="form-group">               
                   <label for="form-field-24">
                     Telefono:
                   </label>
-                  <input required="required" name="telefono" id="telefono" class="autosize form-control" type="text" step="any">
+                  <input required="required" name="telefono" id="telefono" class="autosize form-control" type="number" step="any">
                 </div>
               </div>
+              <div class="col-lg-4 col-md-4 col-dm-4 col-xs-12">
+                <div class="form-group">               
+                  <label for="form-field-24">
+                    Imagen:
+                  </label>
+                  <input required="required" name="imagen" id="imagen" class="autosize form-control" type="file" step="any">
+                </div>
+              </div>
+
             </div>
             <br>
             <div class="panel panel-info">
-              <div class="panel-heading">Detalle</div>
+              <div class="panel-heading">Asignación de Especialidades</div>
               <div class="panel-body">
               <div class="col-lg-12 col-md-6 col-dm-12 col-xs-12">
               	<div class="form-group">
@@ -195,6 +206,7 @@
     </div>
   </div>
 </div>
+
 </section>
 @push ('scripts')
    <script>

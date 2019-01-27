@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Input;
 use DB;
 
 class CentroMedico extends Model
@@ -35,7 +36,9 @@ class CentroMedico extends Model
     {
         $text = trim($searchText);
         $result = $query->where('nombre', 'LIKE', '%' . $text . '%')
+            ->where('estado', '=' , '1')
             ->orderBy('id', 'desc');
+            // ->paginate(7);
         return $result;
     }
 
@@ -44,7 +47,6 @@ class CentroMedico extends Model
         $centro = new CentroMedico;
         $centro->nombre = $request->get('nombre');
         $centro->direccion = $request->get('direccion');
-        $centro->descripcion = $request->get('descripcion');
         $centro->distrito = $request->get('distrito');
         $centro->uv = $request->get('uv');
         $centro->imagen = $request->get('imagen');
@@ -58,6 +60,13 @@ class CentroMedico extends Model
         $centro->id_zona = $request->get('id_zona');
         $centro->id_nivel = $request->get('id_nivel');
         $centro->estado = 1;
+
+        if (Input::hasFile('imagen')) {
+            $file = $request->file('imagen');
+            $file->move(public_path() . '/images/Centros/', $file->getClientOriginalName());
+            $centro->imagen = $file->getClientOriginalName();
+        }
+
         $centro->save();
 
         $idespecialidad = $request->get('idespecialidad');
@@ -76,13 +85,13 @@ class CentroMedico extends Model
     public function scope_obtenerCentro($query, $id)
     {
         $centro = DB::table('centro_medico as c')
-        ->join('red as r', 'r.id', '=', 'c.id_red')
-        ->join('tipo_servicio as t', 't.id', '=', 'c.id_tipo_servicio')
-        ->join('zona as z', 'z.id', '=', 'c.id_zona')
-        ->join('nivel as n', 'n.id', '=', 'c.id_nivel')
-        ->select('c.id','c.nombre','c.latitud','c.longitud','c.direccion','c.descripcion','c.distrito','c.uv','c.manzano','c.horas_atencion','telefono','r.nombre as nombreRed','t.nombre as nombreServicio','z.nombre as nombreZona','n.nombre as nombreNivel')
-        ->where('c.id','=', $id)
-        ->first();
+            ->join('red as r', 'r.id', '=', 'c.id_red')
+            ->join('tipo_servicio as t', 't.id', '=', 'c.id_tipo_servicio')
+            ->join('zona as z', 'z.id', '=', 'c.id_zona')
+            ->join('nivel as n', 'n.id', '=', 'c.id_nivel')
+            ->select('c.id', 'c.nombre', 'c.latitud', 'c.longitud', 'c.direccion', 'c.descripcion', 'c.distrito', 'c.uv', 'c.manzano', 'c.horas_atencion', 'c.imagen', 'telefono', 'r.nombre as nombreRed', 't.nombre as nombreServicio', 'z.nombre as nombreZona', 'n.nombre as nombreNivel')
+            ->where('c.id', '=', $id)
+            ->first();
 
         return $centro;
     }
@@ -90,10 +99,10 @@ class CentroMedico extends Model
     public function scope_obtenerDetalleCentro($query, $id)
     {
         $detalle = DB::table('detalle_centro_especialidad as de')
-        ->join('especialidad as e','e.id', '=', 'de.id_especialidad')
-        ->select('e.nombre','de.id')
-        ->where('de.id_centro_medico','=', $id)
-        ->get();
+            ->join('especialidad as e', 'e.id', '=', 'de.id_especialidad')
+            ->select('e.nombre', 'de.id')
+            ->where('de.id_centro_medico', '=', $id)
+            ->get();
 
         return $detalle;
     }
@@ -104,56 +113,56 @@ class CentroMedico extends Model
         $text = trim($searchText);
         if ($text == "") {
             $result = DB::table('centro_medico as a')
-                ->join('detalle_centro_especialidad as b','a.id', '=', 'b.id_centro_medico')
-                ->join('turno as c','b.id', '=', 'c.id_detalle_centro_especialidad')
-                ->join('etapa_servicio as d','c.id_etapa_servicio', '=', 'd.id')
-                ->join('rol_turno as e','d.id_rol_turno', '=', 'e.id')
+                ->join('detalle_centro_especialidad as b', 'a.id', '=', 'b.id_centro_medico')
+                ->join('turno as c', 'b.id', '=', 'c.id_detalle_centro_especialidad')
+                ->join('etapa_servicio as d', 'c.id_etapa_servicio', '=', 'd.id')
+                ->join('rol_turno as e', 'd.id_rol_turno', '=', 'e.id')
                 ->select('e.*')
-                ->where('a.id','=', $id)
+                ->where('a.id', '=', $id)
                 ->distinct()
-                ->orderBy("e.id","DES")
+                ->orderBy("e.id", "DES")
                 ->paginate(10);
-        }else{
+        } else {
 
             $result = DB::table('centro_medico as a')
-                ->join('detalle_centro_especialidad as b','a.id', '=', 'b.id_centro_medico')
-                ->join('turno as c','b.id', '=', 'c.id_detalle_centro_especialidad')
-                ->join('etapa_servicio as d','c.id_etapa_servicio', '=', 'd.id')
-                ->join('rol_turno as e','d.id_rol_turno', '=', 'e.id')
+                ->join('detalle_centro_especialidad as b', 'a.id', '=', 'b.id_centro_medico')
+                ->join('turno as c', 'b.id', '=', 'c.id_detalle_centro_especialidad')
+                ->join('etapa_servicio as d', 'c.id_etapa_servicio', '=', 'd.id')
+                ->join('rol_turno as e', 'd.id_rol_turno', '=', 'e.id')
                 ->select('e.*')
-                ->where('a.id','=', $id)
-                ->where('e.mes','LIKE','%'.$text.'%')
-                ->orWhere('e.titulo','LIKE','%'.$text.'%')
+                ->where('a.id', '=', $id)
+                ->where('e.mes', 'LIKE', '%' . $text . '%')
+                ->orWhere('e.titulo', 'LIKE', '%' . $text . '%')
                 ->distinct()
                 ->get();
         }
 
-        
+
         return $result;
-    }    
+    }
 
     public function scope_obtenerCarteraServicios($query, $id, $searchText)
     {
         $text = trim($searchText);
         if ($text == "") {
             $result = DB::table('centro_medico as a')
-                ->join('detalle_centro_especialidad as b','a.id', '=', 'b.id_centro_medico')
-                ->join('servicio as c','b.id', '=', 'c.id_detalle_centro_especialidad')
-                ->join('cartera_servicio as d','c.id_cartera_servicio', '=', 'd.id')
+                ->join('detalle_centro_especialidad as b', 'a.id', '=', 'b.id_centro_medico')
+                ->join('servicio as c', 'b.id', '=', 'c.id_detalle_centro_especialidad')
+                ->join('cartera_servicio as d', 'c.id_cartera_servicio', '=', 'd.id')
                 ->select('d.*')
-                ->where('a.id','=', $id)
+                ->where('a.id', '=', $id)
                 ->distinct()
-                ->orderBy("d.id","DES")
+                ->orderBy("d.id", "DES")
                 ->paginate(10);
-        }else{
+        } else {
             $result = DB::table('centro_medico as a')
-                ->join('detalle_centro_especialidad as b','a.id', '=', 'b.id_centro_medico')
-                ->join('servicio as c','b.id', '=', 'c.id_detalle_centro_especialidad')
-                ->join('cartera_servicio as d','c.id_cartera_servicio', '=', 'd.id')
+                ->join('detalle_centro_especialidad as b', 'a.id', '=', 'b.id_centro_medico')
+                ->join('servicio as c', 'b.id', '=', 'c.id_detalle_centro_especialidad')
+                ->join('cartera_servicio as d', 'c.id_cartera_servicio', '=', 'd.id')
                 ->select('d.*')
-                ->where('a.id','=', $id)
-                ->where('d.mes','LIKE','%'.$text.'%')
-                ->orWhere('d.titulo','LIKE','%'.$text.'%')
+                ->where('a.id', '=', $id)
+                ->where('d.mes', 'LIKE', '%' . $text . '%')
+                ->orWhere('d.titulo', 'LIKE', '%' . $text . '%')
                 ->distinct()
                 ->get();
           // $result=$query->where('estado','=',1)
@@ -162,7 +171,7 @@ class CentroMedico extends Model
           //               ->orderBy('id','desc');
         }
 
-        
+
         return $result;
         // $cartera_servicios = DB::table('centro_medico as a')
         // ->join('detalle_centro_especialidad as b','a.id', '=', 'b.id_centro_medico')
@@ -180,7 +189,7 @@ class CentroMedico extends Model
     {
         $centro = CentroMedico::findOrFail($id);
         $centro->estado = 0;
-        $centro->update(); 
+        $centro->update();
     }
 
     public function scope_getAllCentroMedico($query)

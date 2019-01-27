@@ -15,7 +15,7 @@
   <div class="col-sm-12 col-xs-12">
     <div class="box box-primary">
       <div class="box-header with-border">
-          <h3 align="center">Detalle del<span class="text-bold">Centro de Salud</span></h3>
+          <h3 align="center">Detalle del&nbsp <span class="text-bold">Centro de Salud</span></h3>
           <br>
           <div class="panel-body">
             <div class="row">
@@ -43,14 +43,7 @@
                    <p>{{$centro->nombreNivel}}</p>
               	</div>
               </div>
-              <div class="form-group">
-                <div class="col-lg-12 col-md-6 col-dm-6 col-xs-12">
-                  <label for="form-field-24">
-                    Descripcion:
-                  </label>
-                  <p>{{$centro->descripcion}}</p>
-                </div>
-              </div>
+             
               <div class="form-group">
                 <div class="col-lg-6 col-md-6 col-dm-6 col-xs-12">
                   <label for="form-field-24">
@@ -121,6 +114,18 @@
                     Telefono:
                   </label>
                   <p>{{$centro->telefono}}</p>
+                </div>
+              </div>
+            
+
+              <div class="form-group">
+                <div class="col-lg-12 col-md-12 col-dm-12 col-xs-12">
+                  <label for="form-field-24">
+                    Imagen:
+                  </label>
+                  <br>
+                  <img src="{{asset('images/Centros/'.$centro->imagen)}}" height="500px" width="500px" class="img-thumbnail">
+        
                 </div>
               </div>
             </div>
