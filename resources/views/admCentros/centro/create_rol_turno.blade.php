@@ -6,9 +6,6 @@
     * * * * * <b>Crear Rol de Turno</b> * * * * *
   </h1>
   <br>
-  <ol class="breadcrumb">
-    <li><a href="{{url('/')}}"><i class="fa fa-dashboard"></i> Home</a></li>
-  </ol>
 </section>
 <section>
 <div class="row">
@@ -19,23 +16,37 @@
       	<div class="row">
         	<div class="col-lg-4 col-md-4 col-dm-4 col-xs-12">
 	            <label for="form-field-24">Titulo:</label>
-                <input required="required" name="titulo" id="titulo" class="autosize form-control" type="text" step="any">
+                <input placeholder="Titulo del Rol de Turno..." required="required" name="titulo" id="titulo" class="autosize form-control" type="text" step="any">
             </div>
-
             <div class="col-lg-4 col-md-4 col-dm-4 col-xs-12">
-              <label for="form-field-24">Mes:</label>
-              <input required="required" name="mes" id="mes" class="autosize form-control" type="text" step="any">
-            </div>
-
-            <div class="col-lg-4 col-md-4 col-dm-4 col-xs-12">
-              <label for="form-field-24">Anio:</label>
-              <input required="required" name="anio" id="anio" class="autosize form-control" type="text" step="any">
-            </div>
+	            <label for="form-field-24">Mes:</label>
+	            <select name="mes" id="mes" class="form-control selectpicker">
+	              @foreach($meses as $var)
+	                @if($var == $mes_actual)
+	                  <option value="{{$var}}" selected>{{$var}}</option>
+	                @else
+	                  <option value="{{$var}}">{{$var}}</option>
+	                @endif
+	              @endforeach
+	            </select>
+	        </div>
+	        <div class="col-lg-4 col-md-4 col-dm-4 col-xs-12">
+	            <label for="form-field-24">Anio:</label>
+	            <select name="anio" id="anio" class="form-control selectpicker">
+	              @foreach($anios as $var)
+	                @if($var == $anio_actual)
+	                  <option value="{{$var}}" selected>{{$var}}</option>
+	                @else
+	                  <option value="{{$var}}">{{$var}}</option>
+	                @endif
+	              @endforeach
+	            </select>
+	        </div>
       	</div>
         <br>
         <div>
             <div class="panel panel-info">
-              <div class="panel-heading">Rol de Turno</div>
+              <div class="panel-heading">Crear Rol de Turno</div>
               <div class="panel-body">
           		<div class="col-lg-12 col-md-12 col-dm-12 col-xs-12">
           			<div class="table-responsive">
@@ -45,17 +56,17 @@
           							@foreach($detalle as $var)
           							<thead style="background-color:#A9D0F5">
           								<tr>
-          									<th style="background-color:#AAD0F5;" scope="col">Esp: {{$var -> nombre}} {{$var -> id}}</th>
-					          				<th style="background-color:#AAD0F5;" scope="col">Turno</th>
-					          				<th style="background-color:#AAD0F5;" scope="col">Lunes</th>
-					          				<th style="background-color:#AAD0F5;" scope="col">Martes</th>
-					          				<th style="background-color:#AAD0F5;" scope="col">Miercoles</th>
-					          				<th style="background-color:#AAD0F5;" scope="col">Jueves</th>
-					          				<th style="background-color:#AAD0F5;" scope="col">Viernes</th>
-					          				<th style="background-color:#AAD0F5;" scope="col">Sabado</th>
-					          				<th style="background-color:#AAD0F5;" scope="col">Domingo</th>
-					          				<th style="background-color:#AAD0F5;" scope="col">Op1</th>
-					          				<th style="background-color:#AAD0F5;" scope="col"><button type="button" class="btn btn-info" onclick="agregarFilaHora({{$var -> id}});">+</button></th>
+          									<th class="text-center" style="background-color:#AAD0F5;" scope="col">Esp: {{$var -> nombre}} {{$var -> id}}</th>
+					          				<th class="text-center" style="background-color:#AAD0F5;" scope="col">Turno</th>
+					          				<th class="text-center" style="background-color:#AAD0F5;" scope="col">Lunes</th>
+					          				<th class="text-center" style="background-color:#AAD0F5;" scope="col">Martes</th>
+					          				<th class="text-center" style="background-color:#AAD0F5;" scope="col">Miercoles</th>
+					          				<th class="text-center" style="background-color:#AAD0F5;" scope="col">Jueves</th>
+					          				<th class="text-center" style="background-color:#AAD0F5;" scope="col">Viernes</th>
+					          				<th class="text-center" style="background-color:#AAD0F5;" scope="col">Sabado</th>
+					          				<th class="text-center" style="background-color:#AAD0F5;" scope="col">Domingo</th>
+					          				<th class="text-center" style="background-color:#AAD0F5;" scope="col">Op1</th>
+					          				<th class="text-center" style="background-color:#AAD0F5;" scope="col"><button type="button" class="btn btn-info" onclick="agregarFilaHora({{$var -> id}});">+</button></th>
           								</tr>
           							</thead>
           							
@@ -103,20 +114,18 @@ var filas = [];
 var datos_filas = [];
 
 function agregarFilaHora(id) {//id especialidad
-	// console.log(id);
-	
 	var fila_hora ='<tr id="fila_h'+conth+'">'+
-		'<td>-</td>'+
-		'<td><input placeholder="Titulo..." style="line-height: 20px;margin-bottom: 14px;" id="text_t'+conth+'" type="text"> <br> <input placeholder="Hora Inicio..." style="line-height: 20px;margin-bottom: 14px;" id="text_hi'+conth+'" type="text"> <br> <input placeholder="Hora Fin..." style="line-height: 20px;margin-bottom: 14px;" id="text_hf'+conth+'" type="text"> </td>'+
-		'<td id="lunes'+conth+'"></td>'+ //lunes
-		'<td id="martes'+conth+'"></td>'+ //martes
-		'<td id="miercoles'+conth+'"></td>'+ //miercoles
-		'<td id="jueves'+conth+'"></td>'+ //jueves
-		'<td id="viernes'+conth+'"></td>'+ //viernes
-		'<td id="sabado'+conth+'"></td>'+ //sabado
-		'<td id="domingo'+conth+'"></td>'+ //domingo
-		'<td id="opcion'+conth+'"></td>'+
-		'<td> <button type="button" class="btn btn-success" onclick="agregarFila('+id+','+conth+');">+</button> <button type="button" class="btn btn-warning" onclick="eliminarFilaHora('+conth+');">x</button> </td>'+
+		'<td class="text-center">-</td>'+
+		'<td class="text-center"><input placeholder="Titulo..." class="autosize form-control" id="text_t'+conth+'" type="text"> <input placeholder="Hora Inicio..." class="autosize form-control" id="text_hi'+conth+'" type="text"> <input placeholder="Hora Fin..." class="autosize form-control" id="text_hf'+conth+'" type="text"> </td>'+
+		'<td class="text-center" id="lunes'+conth+'"></td>'+ //lunes
+		'<td class="text-center" id="martes'+conth+'"></td>'+ //martes
+		'<td class="text-center" id="miercoles'+conth+'"></td>'+ //miercoles
+		'<td class="text-center" id="jueves'+conth+'"></td>'+ //jueves
+		'<td class="text-center" id="viernes'+conth+'"></td>'+ //viernes
+		'<td class="text-center" id="sabado'+conth+'"></td>'+ //sabado
+		'<td class="text-center" id="domingo'+conth+'"></td>'+ //domingo
+		'<td class="text-center" id="opcion'+conth+'"></td>'+
+		'<td class="text-center"> <button type="button" class="btn btn-success" onclick="agregarFila('+id+','+conth+');">+</button> <button type="button" class="btn btn-warning" onclick="eliminarFilaHora('+conth+');">x</button> </td>'+
 		'</tr>';
 	conth++;
 	$('#fila_datos'+id).append(fila_hora);
@@ -124,13 +133,13 @@ function agregarFilaHora(id) {//id especialidad
 
 function agregarFila(id_l,conth_l) {
 	// console.log(conth_l);
-	var fila_lunes = '<div id="fila_d_l'+cont+'"><select id="sel_d_l'+cont+'" style="width: 150px;" class="form-control selectpicker"><option value="-1">Ninguno</option>@foreach($medicos as $var) <option value="{{$var->id}}">{{$var->apellido}} {{$var->telefono}}</option> @endforeach</select> </br></div>';
-	var fila_martes = '<div id="fila_d_m'+cont+'"><select id="sel_d_m'+cont+'" style="width: 150px;" class="form-control selectpicker"><option value="-1">Ninguno</option>@foreach($medicos as $var) <option value="{{$var->id}}">{{$var->apellido}} {{$var->telefono}}</option> @endforeach</select> </br></div>';
-	var fila_miercoles = '<div id="fila_d_mi'+cont+'"><select id="sel_d_mi'+cont+'" style="width: 150px;" class="form-control selectpicker"><option value="-1">Ninguno</option>@foreach($medicos as $var) <option value="{{$var->id}}">{{$var->apellido}} {{$var->telefono}}</option> @endforeach</select> </br></div>';
-	var fila_jueves = '<div id="fila_d_j'+cont+'"><select id="sel_d_j'+cont+'" style="width: 150px;" class="form-control selectpicker"><option value="-1">Ninguno</option>@foreach($medicos as $var) <option value="{{$var->id}}">{{$var->apellido}} {{$var->telefono}}</option> @endforeach</select> </br></div>';
-	var fila_viernes = '<div id="fila_d_v'+cont+'"><select id="sel_d_v'+cont+'" style="width: 150px;" class="form-control selectpicker"><option value="-1">Ninguno</option>@foreach($medicos as $var) <option value="{{$var->id}}">{{$var->apellido}} {{$var->telefono}}</option> @endforeach</select> </br></div>';
-	var fila_sabado = '<div id="fila_d_s'+cont+'"><select id="sel_d_s'+cont+'" style="width: 150px;" class="form-control selectpicker"><option value="-1">Ninguno</option>@foreach($medicos as $var) <option value="{{$var->id}}">{{$var->apellido}} {{$var->telefono}}</option> @endforeach</select> </br></div>';
-	var fila_domingo = '<div id="fila_d_d'+cont+'"><select id="sel_d_d'+cont+'" style="width: 150px;" class="form-control selectpicker"><option value="-1">Ninguno</option>@foreach($medicos as $var) <option value="{{$var->id}}">{{$var->apellido}} {{$var->telefono}}</option> @endforeach</select> </br></div>';
+	var fila_lunes = '<div id="fila_d_l'+cont+'"><select id="sel_d_l'+cont+'" class="form-control selectpicker"><option value="-1">Ninguno</option>@foreach($medicos as $var) <option value="{{$var->id}}">{{$var->apellido}} {{$var->telefono}}</option> @endforeach</select> </br></div>';
+	var fila_martes = '<div id="fila_d_m'+cont+'"><select id="sel_d_m'+cont+'" class="form-control selectpicker"><option value="-1">Ninguno</option>@foreach($medicos as $var) <option value="{{$var->id}}">{{$var->apellido}} {{$var->telefono}}</option> @endforeach</select> </br></div>';
+	var fila_miercoles = '<div id="fila_d_mi'+cont+'"><select id="sel_d_mi'+cont+'" class="form-control selectpicker"><option value="-1">Ninguno</option>@foreach($medicos as $var) <option value="{{$var->id}}">{{$var->apellido}} {{$var->telefono}}</option> @endforeach</select> </br></div>';
+	var fila_jueves = '<div id="fila_d_j'+cont+'"><select id="sel_d_j'+cont+'" class="form-control selectpicker"><option value="-1">Ninguno</option>@foreach($medicos as $var) <option value="{{$var->id}}">{{$var->apellido}} {{$var->telefono}}</option> @endforeach</select> </br></div>';
+	var fila_viernes = '<div id="fila_d_v'+cont+'"><select id="sel_d_v'+cont+'" class="form-control selectpicker"><option value="-1">Ninguno</option>@foreach($medicos as $var) <option value="{{$var->id}}">{{$var->apellido}} {{$var->telefono}}</option> @endforeach</select> </br></div>';
+	var fila_sabado = '<div id="fila_d_s'+cont+'"><select id="sel_d_s'+cont+'" class="form-control selectpicker"><option value="-1">Ninguno</option>@foreach($medicos as $var) <option value="{{$var->id}}">{{$var->apellido}} {{$var->telefono}}</option> @endforeach</select> </br></div>';
+	var fila_domingo = '<div id="fila_d_d'+cont+'"><select id="sel_d_d'+cont+'" class="form-control selectpicker"><option value="-1">Ninguno</option>@foreach($medicos as $var) <option value="{{$var->id}}">{{$var->apellido}} {{$var->telefono}}</option> @endforeach</select> </br></div>';
 
 	var fila_opcion = '<div style="margin-bottom: 20px;" id="fila_op'+cont+'"><button type="button" class="btn btn-danger" onclick="eliminarFila('+cont+');"><i class="fa fa-close"></i></button><br></div>';
 	var fila = [];//new

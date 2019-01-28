@@ -26,11 +26,16 @@ class RolTurnoController extends Controller
 
     public function create_rol_turno($id)
     {
+        $meses = array("Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre");
+        $anios = array("2018","2019","2020","2021","2022","2023","2024","2025","2026","2027","2028","2029","2030");
+        $anio_actual = date("Y");
+        $mes_actual = $meses[date('n')-1];
+
         $detalle = CentroMedico::_obtenerDetalleCentro($id);
         $medicos = Medico::_getAllMedicos("")->get();
         // dd($medicos);
         $detalle2 = json_encode($detalle, JSON_UNESCAPED_SLASHES );
-        return view('admCentros.centro.create_rol_turno',compact('detalle','medicos','detalle2'));
+        return view('admCentros.centro.create_rol_turno',compact('detalle','medicos','detalle2','meses','mes_actual','anios','anio_actual'));
     }
 
     public function edit_rol_turno($id)

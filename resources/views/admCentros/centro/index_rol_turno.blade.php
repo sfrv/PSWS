@@ -20,23 +20,23 @@
          <table class="table table-bordered" style="border-top-color: #00AEFF">
            <thead>
            <tr>
-             <th class="center">ID</th>
-             <th class="center">Titulo</th>
-             <th class="center">Mes</th>
-             <th class="center">Anio</th>
-             <th class="center">Estado</th>
-             <th class="center">Opciones</th>
+             <th class="text-center">ID</th>
+             <th class="text-center">Titulo</th>
+             <th class="text-center">Mes</th>
+             <th class="text-center">Anio</th>
+             <th class="text-center">Estado</th>
+             <th class="text-center">Opciones</th>
            </tr>
            </thead>
            <tbody>
              @foreach($rol_turnos as $var)
                   <tr>
-                    <td>{{ $var->id }}</td>
-                    <td>{{ $var->titulo }}</td>
-                    <td>{{ $var->mes }}</td>
-                    <td>{{ $var->anio}}</td>
-                    <td>{{ $var->estado }}</td>
-                    <td>
+                    <td class="text-center">{{ $var->id }}</td>
+                    <td class="text-center">{{ $var->titulo }}</td>
+                    <td class="text-center">{{ $var->mes }}</td>
+                    <td class="text-center">{{ $var->anio}}</td>
+                    <td class="text-center">{{ $var->estado }}</td>
+                    <td class="text-center">
                       <a href="" data-target="#modal-delete-{{$var->id}}" data-toggle="modal" class="btn btn-danger" data-placement="top" data-original-title="Remove"><i class="fa fa-times fa fa-white"></i></a>
                       <a href="{{ route('edit-rol-turno', $var->id) }}" class="btn btn-info" data-placement="top"><i class="fa fa-edit"></i></a>
                       <a href="{{ route('show-rol-turno', $var->id) }}" class="btn btn-success" data-placement="top"><i class="fa fa-eye"></i></a>
