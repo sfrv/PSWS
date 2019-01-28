@@ -16,7 +16,7 @@
       	<div class="row">
         	<div class="col-lg-4 col-md-4 col-dm-4 col-xs-12">
 	          <label for="form-field-24">Titulo:</label>
-            <input required="required" name="titulo" id="titulo" class="autosize form-control" type="text" step="any">
+            <input placeholder="Titulo de la Cartera de Servicio..." required="required" name="titulo" id="titulo" class="autosize form-control" type="text" step="any">
           </div>
           <div class="col-lg-4 col-md-4 col-dm-4 col-xs-12">
             <label for="form-field-24">Mes:</label>
