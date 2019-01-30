@@ -154,6 +154,19 @@ Route::get('get-centrosPorRTN/{id_red}/{id_tipo_servicio}/{id_nivel}', [
 ]);
 
 
+Route::get('get-last_CS/{id}', [
+	'uses' => 'CentroMedicoController@get_lastCarteraServicio'
+]);
+// obtiene las especilidades de una cartera por el id de la cartera 
+Route::get('get-especialidadesPorID/{id}', [
+	'uses' => 'CarteraServicioController@get_especialidadesPorId'
+]);
+
+Route::get('get-serviciosPorIDCarteraIDEspecialidad/{idCartera}/{idEspecilidad}', [
+	'uses' => 'CarteraServicioController@get_ServiciosPorIDCarteraIDEspecialidad'
+]);
+
+
 //modificar
 
 // Route::get('get-especialidades',[

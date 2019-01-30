@@ -121,4 +121,18 @@ class CarteraServicioController extends Controller
         // dd($cartera_servicio);
         return view('admCentros.centro.renovate_cartera_servicio',compact('cartera_servicio','especialidades','servicios_json','anios','meses','nombres_servicios_json','nombres_servicios'));
     }
+
+    //================================================
+
+    public function get_especialidadesPorId($id){
+        return json_encode(array("especialidades" => CarteraServicio::_getEspecialidadesPorId($id)));
+    }
+
+    public function get_ServiciosPorIDCarteraIDEspecialidad($idCartera,$idEspecialidad){
+        return json_encode(array("servicios" => CarteraServicio::_getServiciosPorIDCarteraIDEspecialidad($idCartera,$idEspecialidad)->get()));
+    }
+
+    public function get_ServiciosPorIDCartera($id){
+        return json_encode(array("servicios" => CarteraServicio::_getServiciosPorIDCartera($id)->get()));
+    }
 }

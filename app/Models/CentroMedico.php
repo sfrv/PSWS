@@ -204,7 +204,7 @@ class CentroMedico extends Model
         return $result;
     }
 
-    public function scope_getOneCentroMendico($query, $id)
+    public function scope_getOneCentroMedico($query, $id)
     {
         $result = $query->where('id', '=', $id);
         return $result;
@@ -225,5 +225,21 @@ class CentroMedico extends Model
 
         return $result;
 
+    }
+
+    //================================================
+   
+    public function scope_getLastCarteraServicio($query, $id){
+            $result = DB::table('centro_medico as a')
+            ->join('detalle_centro_especialidad as b', 'a.id', '=', 'b.id_centro_medico')
+            ->join('servicio as c', 'b.id', '=', 'c.id_detalle_centro_especialidad')
+            ->join('cartera_servicio as d', 'c.id_cartera_servicio', '=', 'd.id')
+            ->select('d.*')
+            ->where('a.id', '=', $id)
+            ->distinct()
+            ->orderby('d.id','desc');
+            // ->take(1);
+            
+            return $result;
     }
 }

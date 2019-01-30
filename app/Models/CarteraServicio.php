@@ -75,4 +75,29 @@ class CarteraServicio extends Model
 
     //     return $servicios;
     // }
+
+    //================================================
+    public function scope_getServiciosPorIDCartera($query, $id)
+	{
+		$servicios = DB::table('servicio as s')
+			->join('detalle_centro_especialidad as d', 's.id_detalle_centro_especialidad', '=', 'd.id')
+			->select('s.*','d.id_especialidad')
+			->where('s.id_cartera_servicio', '=', $id)
+			->orderBy('s.id_detalle_centro_especialidad', 'desc');
+
+		return $servicios;
+	}
+  //===obtener servicios meddiante el id de la cartera de servicio
+	public function scope_getServiciosPorIDCarteraIDEspecialidad($query, $idCartera,$idEspecialidad)
+	{
+		$servicios = DB::table('servicio as s')
+			->join('detalle_centro_especialidad as d', 's.id_detalle_centro_especialidad', '=', 'd.id')
+			->select('s.*','d.id_especialidad')
+			->where('s.id_cartera_servicio', '=', $idCartera)
+			->where('d.id_especialidad','=',$idEspecialidad)
+			->orderBy('s.id_detalle_centro_especialidad', 'desc');
+
+		return $servicios;
+	}
+	
 }

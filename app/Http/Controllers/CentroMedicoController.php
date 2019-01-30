@@ -79,4 +79,16 @@ class CentroMedicoController extends Controller
     {
         return json_encode(array("centro" => CentroMedico::_getOneCentroMedico($id)->get()));
     }
+
+    //================================================
+
+    public function get_imagen($id)
+    {
+        $centro = CentroMedico::findOrFail($id);
+        return response()->file('../public/images/Centros/' . $centro->imagen);
+    }
+
+    public function get_lastCarteraServicio($id){
+        return json_encode(array("carteras" => CentroMedico::_getLastCarteraServicio($id)->get()));
+    }
 }
