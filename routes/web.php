@@ -44,6 +44,10 @@ Route::get('adm/centro/renovate_cartera_servicio/{id_cartera_servicio}/{id_centr
 	'as' => 'renovate-cartera-servicio',
 	'uses' => 'CarteraServicioController@renovate_cartera_servicio'
 ]);
+Route::get('adm/centro/generar_excel_cartera_servicio/{id_cartera_servicio}/{id_centro}',[
+	'as' => 'generar-excel-cartera-servicio',
+	'uses' => 'CarteraServicioController@generar_excel_cartera_servicio'
+]);
 
 Route::get('adm/centro/create_rol_turno/{id}',[
 	'as' => 'create-rol-turno',
