@@ -7,6 +7,10 @@ use Illuminate\Support\Facades\Redirect;
 use App\Models\CarteraServicio;
 use App\Models\CentroMedico;
 use App\Models\Servicio;
+use Maatwebsite\Excel\Facades\Excel;
+
+// use App\Exports\CarteraServicioExport;
+// use Maatwebsite\Excel\Facades\Excel;
 
 class CarteraServicioController extends Controller
 {
@@ -17,6 +21,107 @@ class CarteraServicioController extends Controller
         // dd($request['searchText']);
         $searchText = $request->get('searchText');
         return view('admCentros.centro.index_cartera_servicio',compact('cartera_servicios','centro','searchText'));
+    }
+
+    public function generar_excel_cartera_servicio($id_cart,$id_centro)
+    {
+        Excel::create('CarteraDeServicio', function($excel) use ($id_cart,$id_centro) {
+
+            $excel->sheet('Sheetname', function($sheet) use ($id_cart,$id_centro) {
+                
+                $sheet->mergeCells('A1:E1');
+                $sheet->mergeCells('A2:E2');
+                $sheet->setWidth(array(
+                    'A'     =>  33,
+                    'B'     =>  33,
+                    'C'     =>  33,
+                    'D'     =>  33,
+                    'E'     =>  45
+                ));
+                $sheet->setHeight(array(
+                    1     =>  45,
+                    2     =>  45,
+                    3     =>  60
+                ));
+
+                $sheet->cells('A1:E1', function($cells) {
+                    $cells->setFontSize(26);
+                    $cells->setFontFamily('Calibri');
+                    $cells->setAlignment('center');
+                    $cells->setFontWeight('bold');
+                    $cells->setValignment('center');
+                    // $cells->setFontColor('#AAD0F5');
+                });
+                $sheet->cells('A2:E2', function($cells) {
+                    $cells->setFontSize(26);
+                    $cells->setFontFamily('Calibri');
+                    $cells->setAlignment('center');
+                    $cells->setFontWeight('bold');
+                    $cells->setValignment('center');
+                });
+                $sheet->cells('A3:E3', function($cells) {
+                    $cells->setFontSize(26);
+                    $cells->setFontFamily('Calibri');
+                    $cells->setAlignment('center');
+                    $cells->setFontWeight('bold');
+                    $cells->setValignment('center');
+                });
+
+                $cartera_servicio = CarteraServicio::findOrFail($id_cart);
+                $centro = CentroMedico::findOrFail($id_centro);
+                $sheet->row(1, ['FORMATO DE CARTERA DE SERVICIO DE ' . $cartera_servicio->mes . " " . $cartera_servicio->anio]);
+                $sheet->row(2, ['CENTRO DE SALUD ' . $centro->nombre ]);
+                $sheet->row(3, ['ESPECIALIDAD','SERVICIOS','DIAS','HORA','OBSERVACION']);
+
+                $especialidades = CarteraServicio::_getEspecialidadesPorId($id_cart);
+                // dd($especialidades);
+                $data = [];
+                $cont_filas = 4;
+                foreach ($especialidades as $especialidad) {
+                    $servicios_especialidad = CarteraServicio::_getServiciosPorIdCarteraAndEspecialidad($id_cart,$especialidad->id);
+                    $celdas_ini = $cont_filas;
+                    $sheet->setCellValue('A'.$celdas_ini, $especialidad->nombre);
+                    $sheet->cells('A'.$celdas_ini.':A'.$celdas_ini, function($cells) {
+                            $cells->setFontSize(15);
+                            $cells->setFontFamily('Arial');
+                            $cells->setAlignment('center');
+                            $cells->setValignment('center');
+                            $cells->setFontWeight('bold');
+                    });
+
+                    foreach ($servicios_especialidad as $servicio) {
+                        $sheet->setCellValue('B'.$cont_filas, $servicio->nombre);
+                        $sheet->setCellValue('C'.$cont_filas, $servicio->dias);
+                        $sheet->setCellValue('D'.$cont_filas, $servicio->hora);
+                        $sheet->setCellValue('E'.$cont_filas, $servicio->observacion);
+
+                        $sheet->setHeight($cont_filas, 40);
+                        $sheet->cells('B'.$cont_filas.':E'.$cont_filas, function($cells) {
+                            $cells->setFontSize(15);
+                            $cells->setFontFamily('Arial');
+                            $cells->setAlignment('center');
+                            $cells->setValignment('center');
+                        });
+                        // $row = [];
+                        // // $row[0] = $especialidad->id;
+                        // $row[1] = $servicio->nombre;
+                        // $row[2] = $servicio->dias;
+                        // $row[3] = $servicio->hora;
+                        // $row[4] = $servicio->observacion;
+                        // $data[] = $row;
+                        // $sheet->appendRow($row);
+                        $cont_filas++;
+                    }
+                    $celdas_fin = $cont_filas -1;
+                    $sheet->mergeCells('A'.$celdas_ini.':A'.$celdas_fin);
+                    // $sheet->mergeCells('A4:A4');
+                }
+                // $sheet->fromArray($data);
+                $sheet->setCellValue('A25', 'some value');
+
+            });
+
+        })->export('xlsx');
     }
 
     public function show_cartera_servicio($id)
