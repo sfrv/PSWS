@@ -49,15 +49,30 @@ class CarteraServicio extends Model
         return $servicios;
     }
 
+    // //no borrar
+    // public function scope_getEspecialidadesPorId($query, $id)
+    // {
+    //     $servicios = DB::table('servicio as a')
+    //     ->join('detalle_centro_especialidad as b', 'a.id_detalle_centro_especialidad', '=', 'b.id')
+    //     ->join('especialidad as c', 'b.id_especialidad', '=', 'c.id')
+    //     ->select('c.nombre','b.id')
+    //     ->where('a.id_cartera_servicio','=', $id)
+    //     ->orderBy('c.id', 'ASC')
+    //     ->distinct()
+    //     ->get();
+
+    //     return $servicios;
+    // }
+
     //no borrar
     public function scope_getEspecialidadesPorId($query, $id)
     {
         $servicios = DB::table('servicio as a')
         ->join('detalle_centro_especialidad as b', 'a.id_detalle_centro_especialidad', '=', 'b.id')
         ->join('especialidad as c', 'b.id_especialidad', '=', 'c.id')
-        ->select('c.nombre','b.id')
+        ->select('c.nombre','b.id','c.id as idEspecialidad')
         ->where('a.id_cartera_servicio','=', $id)
-        ->orderBy('c.id', 'ASC')
+        ->orderBy('c.id', 'desc')
         ->distinct()
         ->get();
 

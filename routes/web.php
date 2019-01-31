@@ -170,6 +170,9 @@ Route::get('get-serviciosPorIDCarteraIDEspecialidad/{idCartera}/{idEspecilidad}'
 	'uses' => 'CarteraServicioController@get_ServiciosPorIDCarteraIDEspecialidad'
 ]);
 
+Route::get('get-serviciosPorIDCartera/{idCartera}', [
+	'uses' => 'CarteraServicioController@get_ServiciosPorIDCartera'
+]);
 
 //modificar
 
