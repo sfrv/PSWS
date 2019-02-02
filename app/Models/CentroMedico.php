@@ -69,17 +69,129 @@ class CentroMedico extends Model
 
         $centro->save();
 
-        $idespecialidad = $request->get('idespecialidad');
+        $idespecialidad = $request->get('idespecialidad_e');
 
         $cont = 0;
         while ($cont < count($idespecialidad)) {
             $detalleEspecialidad = new DetalleCentroEspecialidad();
             $detalleEspecialidad->id_centro_medico = $centro->id;
             $detalleEspecialidad->id_especialidad = $idespecialidad[$cont];
+            if($request->get($idespecialidad[$cont].'_e') != null ){
+                $detalleEspecialidad->etapa_emergencia = 1;
+            }
+            if($request->get($idespecialidad[$cont].'_c') != null ){
+                $detalleEspecialidad->etapa_consulta = 1;
+            }
+            if($request->get($idespecialidad[$cont].'_h') != null ){
+                $detalleEspecialidad->etapa_hospitalizacion = 1;
+            }
             $detalleEspecialidad->estado = 1;
             $detalleEspecialidad->save();
             $cont = $cont + 1;
         }
+    }
+
+    public function scope_editarCentroMedico($query, $request, $id)
+    {
+        $centro = CentroMedico::findOrFail($id);
+        $centro->nombre = $request->get('nombre');
+        $centro->direccion = $request->get('direccion');
+        $centro->distrito = $request->get('distrito');
+        $centro->uv = $request->get('uv');
+        // $centro->imagen = $request->get('imagen');
+        $centro->manzano = $request->get('manzano');
+        $centro->horas_atencion = $request->get('horas_atencion');
+        $centro->telefono = $request->get('telefono');
+        $centro->latitud = $request->get('latitud');
+        $centro->longitud = $request->get('longitud');
+        $centro->id_red = $request->get('id_red');
+        $centro->id_tipo_servicio = $request->get('id_tipo_servicio');
+        $centro->id_zona = $request->get('id_zona');
+        $centro->id_nivel = $request->get('id_nivel');
+
+        if (Input::hasFile('imagen')) {
+            $file = $request->file('imagen');
+            $file->move(public_path() . '/images/Centros/', $file->getClientOriginalName());
+            $centro->imagen = $file->getClientOriginalName();
+        }
+
+        $centro->update();
+
+        if ($request->get('idespecialidad_edit') != null) {
+            $idespecialidad = $request->get('idespecialidad_edit');
+            $cont = 0;
+            $cant_aux = 0;
+            while ($cont < count($idespecialidad)) {
+                $detalleEspecialidad = DetalleCentroEspecialidad::findOrFail($idespecialidad[$cont]);
+                if($request->get($idespecialidad[$cont].'_ef') != null ){
+                    $detalleEspecialidad->etapa_emergencia = 1;
+                }else{
+                    $detalleEspecialidad->etapa_emergencia = 0;
+                    $cant_aux++;
+                }
+                if($request->get($idespecialidad[$cont].'_cf') != null ){
+                    $detalleEspecialidad->etapa_consulta = 1;
+                }else{
+                    $detalleEspecialidad->etapa_consulta = 0;
+                    $cant_aux++;
+                }
+                if($request->get($idespecialidad[$cont].'_hf') != null ){
+                    $detalleEspecialidad->etapa_hospitalizacion = 1;
+                }else{
+                    $detalleEspecialidad->etapa_hospitalizacion = 0;
+                    $cant_aux++;
+                }
+                if ($cant_aux == 3) {
+                    // $detalleEspecialidad2 = DetalleCentroEspecialidad::findOrFail($idespecialidad[$cont]);
+                    $detalleEspecialidad->estado = 0;
+                    // $detalleEspecialidad2->update();
+                }else{
+                    // $detalleEspecialidad2 = DetalleCentroEspecialidad::findOrFail($idespecialidad[$cont]);
+                    $detalleEspecialidad->estado = 1;
+                    // $detalleEspecialidad2->update();
+                }
+                $cant_aux = 0;
+                $detalleEspecialidad->update();
+                $cont = $cont + 1;
+            }
+        }
+
+        if ($request->get('idespecialidad_e') != null) {
+            $idespecialidad = $request->get('idespecialidad_e');
+            $cont = 0;
+            while ($cont < count($idespecialidad)) {
+                $detalleEspecialidad = new DetalleCentroEspecialidad();
+                $detalleEspecialidad->id_centro_medico = $centro->id;
+                $detalleEspecialidad->id_especialidad = $idespecialidad[$cont];
+                if($request->get($idespecialidad[$cont].'_e') != null ){
+                    $detalleEspecialidad->etapa_emergencia = 1;
+                }
+                if($request->get($idespecialidad[$cont].'_c') != null ){
+                    $detalleEspecialidad->etapa_consulta = 1;
+                }
+                if($request->get($idespecialidad[$cont].'_h') != null ){
+                    $detalleEspecialidad->etapa_hospitalizacion = 1;
+                }
+                $detalleEspecialidad->estado = 1;
+                $detalleEspecialidad->save();
+                $cont = $cont + 1;
+            }
+        }
+
+        if ($request->get('idespecialidad_delete') != null) {
+            $idespecialidad = $request->get('idespecialidad_delete');
+            $cont = 0;
+            while ($cont < count($idespecialidad)) {
+                // DetalleCentroEspecialidad::destroy($idespecialidad[$cont]);
+                $detalleEspecialidad = DetalleCentroEspecialidad::findOrFail($idespecialidad[$cont]);
+                $detalleEspecialidad->estado = 0;
+                $detalleEspecialidad->update();
+                $cont = $cont + 1;
+            }
+        }
+        // dd($idespecialidad);
+        // dd("ss");
+
     }
 
     public function scope_obtenerCentro($query, $id)
@@ -100,8 +212,9 @@ class CentroMedico extends Model
     {
         $detalle = DB::table('detalle_centro_especialidad as de')
             ->join('especialidad as e', 'e.id', '=', 'de.id_especialidad')
-            ->select('e.nombre', 'de.id')
+            ->select('e.nombre', 'de.id' , 'de.etapa_emergencia' , 'de.etapa_consulta', 'de.etapa_hospitalizacion','de.id_especialidad','de.estado')
             ->where('de.id_centro_medico', '=', $id)
+            ->orderBy("de.id", "asc")
             ->get();
 
         return $detalle;

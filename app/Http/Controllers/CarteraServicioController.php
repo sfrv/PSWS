@@ -166,19 +166,19 @@ class CarteraServicioController extends Controller
 
     public function guardar_cartera_servicio()
     {
-        $my_json = $_REQUEST['my_json'];
-        $titulo = $my_json['titulo'];
-        $mes = $my_json['mes'];
-        $anio = $my_json['anio'];
+        // $my_json = $_REQUEST['my_json'];
+        // $titulo = $my_json['titulo'];
+        // $mes = $my_json['mes'];
+        // $anio = $my_json['anio'];
 
-        $id_cartera_servicio = CarteraServicio::_insertarCarteraServicio($titulo,$mes,$anio);
+        // $id_cartera_servicio = CarteraServicio::_insertarCarteraServicio($titulo,$mes,$anio);
 
-        $datos = (array)$my_json['datos'];
-        for ($i=0; $i < count($datos) ; $i++) { 
-            Servicio::_insertarServicio($datos[$i][1],$datos[$i][2],$datos[$i][3],$datos[$i][4],$id_cartera_servicio,$datos[$i][0]);
-        }
+        // $datos = (array)$my_json['datos'];
+        // for ($i=0; $i < count($datos) ; $i++) { 
+        //     Servicio::_insertarServicio($datos[$i][1],$datos[$i][2],$datos[$i][3],$datos[$i][4],$id_cartera_servicio,$datos[$i][0]);
+        // }
         
-        echo "Exito";
+        // echo "Exito";
     }
 
     public function actualizar_cartera_servicio()

@@ -2,7 +2,7 @@
 @section('contenido')
  <section class="content-header">
    <h1 align="center">
-       * * * * * <b>Centros Médicos</b> * * * * *
+       <b>CENTRO MEDICOS</b>
    </h1>
 
  </section>
@@ -13,38 +13,39 @@
      <div class="col-sm-12 col-xs-12">
        <div class="box box-primary">
        <div class="box-header with-border">
-           <h3 align="center">Panel de Control <span class="text-bold">de los Centros Médicos Registrados</span></h3>
+           <h3 align="center">PANEL DE <span class="text-bold">CENTROS MEDICOS REGISTRADOS</span></h3>
        </div>
        <div class="box-body">
          @include('admCentros.centro.search')
          <table class="table table-bordered" style="border-top-color: #00AEFF">
            <thead>
            <tr>
-             <th class="center">Nombre</th>
-             <th class="center">Direccion</th>
-             <th class="center">Lat|Long</th>
-             <th class="center">Red</th>
-             <th class="center">Servicio</th>
-             <th class="center">Zona</th>
-             <th class="center">Nivel</th>
-             <th class="center">Opciones</th>
+             <th class="text-center">NOMBRE</th>
+             <th class="text-center">DIRECCION</th>
+             <th class="text-center">LAT|LONG</th>
+             <th class="text-center">RED</th>
+             <th class="text-center">SERVICIO</th>
+             <th class="text-center">ZONA</th>
+             <th class="text-center">NIVEL</th>
+             <th class="text-center">OPCIONES</th>
            </tr>
            </thead>
            <tbody>
              @foreach($centros as $var)
                   <tr>
-                    <td>{{ $var->nombre }}</td>
-                    <td>{{ $var->direccion }}</td>
-                    <td>{{ $var->latitud}}|{{ $var->longitud}}</td>
-                    <td>{{ $var->id_red }}</td>
-                    <td>{{ $var->id_tipo_servicio }}</td>
-                    <td>{{ $var->id_zona }}</td>
-                    <td>{{ $var->id_nivel }}</td>
-                    <td>
+                    <td class="text-center">{{ $var->nombre }}</td>
+                    <td class="text-center">{{ $var->direccion }}</td>
+                    <td class="text-center">{{ $var->latitud}}|{{ $var->longitud}}</td>
+                    <td class="text-center">{{ $var->id_red }}</td>
+                    <td class="text-center">{{ $var->id_tipo_servicio }}</td>
+                    <td class="text-center">{{ $var->id_zona }}</td>
+                    <td class="text-center">{{ $var->id_nivel }}</td>
+                    <td class="text-center">
                       <a href="" data-target="#modal-delete-{{$var->id}}" data-toggle="modal" class="btn btn-danger" data-placement="top" data-original-title="Remove"><i class="fa fa-times fa fa-white"></i></a>
                       <a href="{{URL::action('CentroMedicoController@show',$var->id)}}" class="btn btn-info" data-placement="top"><i class="fa fa-eye"></i></a>
-                      <a href="{{ route('index-cartera-servicio', $var->id) }}" class="btn btn-success" data-placement="top"><i class="fa fa-bars"></i></a>
-                      <a href="{{ route('index-rol-turno', $var->id) }}" class="btn btn-primary" data-placement="top"><i class="fa fa-bars"></i></a>
+                      <a href="{{URL::action('CentroMedicoController@edit',$var->id)}}" class="btn btn-success" data-placement="top"><i class="fa fa-edit"></i></a>
+                      <a href="{{ route('index-cartera-servicio', $var->id) }}" class="btn btn-primary" data-placement="top"><i class="fa fa-bars"></i></a>
+                      <a href="{{ route('index-rol-turno', $var->id) }}" class="btn btn-warning" data-placement="top"><i class="fa fa-bars"></i></a>
                     </td>
                   </tr>
                   @include('admCentros.centro.modal')

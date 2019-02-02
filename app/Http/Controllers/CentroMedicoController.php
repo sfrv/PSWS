@@ -49,13 +49,26 @@ class CentroMedicoController extends Controller
 
     public function edit($id)
     {
-        //
+        $centro = CentroMedico::_obtenerCentro($id);
+        $detalle = CentroMedico::_obtenerDetalleCentro($id);
+        $redes = Red::_getAllRedes("")->get();
+        $tiposervicios = TipoServicio::_getAllTipoServicios("")->get();
+        $zonas = Zona::_getAllZonas("")->get();
+        $niveles = Nivel::_getAllNiveles("")->get();
+        $especialidades = Especialidad::_getAllEspecialidades("")->get();
+
+        $detalle_json = json_encode($detalle, JSON_UNESCAPED_SLASHES );
+  
+        return view('admCentros.centro.edit',compact('centro','detalle','redes','tiposervicios','zonas','niveles','especialidades','detalle_json'));
     }
 
 
     public function update(Request $request, $id)
     {
-        //
+        // dd($request);
+        // return $request->all();
+        CentroMedico::_editarCentroMedico($request, $id);
+        return Redirect::to('adm/centro');
     }
 
     public function destroy($id)

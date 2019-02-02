@@ -12,6 +12,10 @@ class DetalleCentroEspecialidad extends Model
 
 	protected $fillable = [
 	  'id_especialidad',
-	  'id_lugar', 'estado'
+	  'id_lugar',
+	  'etapa_emergencia',
+	  'etapa_consulta',
+	  'etapa_hospitalizacion',
+	  'estado'
 	];
 }
