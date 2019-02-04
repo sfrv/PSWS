@@ -35,7 +35,6 @@ class CentroMedicoController extends Controller
 
     public function store(Request $request)
     {
-        return $request->all();
         CentroMedico::_insertarCentroMedico($request);
         return Redirect::to('adm/centro');
     }
