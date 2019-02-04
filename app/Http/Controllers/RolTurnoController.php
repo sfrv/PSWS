@@ -41,7 +41,7 @@ class RolTurnoController extends Controller
     public function edit_rol_turno($id)
     {
     	$rol_turno = RolTurno::findOrFail($id);
-    	$etapa_servicio_uno = RolTurno::_getEtapaServicio($id,'Etapa 1');
+    	$etapa_servicio_uno = RolTurno::_getEtapaServicio($id,'ETAPA DE EMERGENCIA');
     	$especialidades = RolTurno::_getEspecialidadesPorIdEtapaServicio($etapa_servicio_uno->id);
     	$turnos = RolTurno::_getTurnosPorIdEtapaServicio($etapa_servicio_uno->id);
     	$rol_dias = RolTurno::_getRolDiasPorIdEtapaServicio($etapa_servicio_uno->id);
@@ -58,7 +58,7 @@ class RolTurnoController extends Controller
     public function show_rol_turno($id)
     {
     	$rol_turno = RolTurno::findOrFail($id);
-    	$etapa_servicio_uno = RolTurno::_getEtapaServicio($id,'Etapa 1');
+    	$etapa_servicio_uno = RolTurno::_getEtapaServicio($id,'ETAPA DE EMERGENCIA');
     	$especialidades = RolTurno::_getEspecialidadesPorIdEtapaServicio($etapa_servicio_uno->id);
     	$turnos = RolTurno::_getTurnosPorIdEtapaServicio($etapa_servicio_uno->id);
     	$rol_dias = RolTurno::_getRolDiasPorIdEtapaServicio($etapa_servicio_uno->id);
@@ -167,50 +167,122 @@ class RolTurnoController extends Controller
         }
     }
 
-    public function guardar_rol_turno()
+    public function guardar_rol_turno(Request $request)
     {
-    	$aux_borrar = "";
-    	$my_json = $_REQUEST['my_json'];
-
-        $titulo = $my_json['titulo'];
-        $mes = $my_json['mes'];
-        $anio = $my_json['anio'];
-
+        // dd($request->all());
+        // echo $request->get('titulo');
+        // return $request->all();
+        $titulo = $request->get('titulo');
+        $mes = $request->get('mes');
+        $anio = $request->get('anio');
         $id_rol_turno = RolTurno::_insertarRolTurno($titulo,$mes,$anio);
+        $id_etapa_servicio = EtapaServicio::_insertarEtapaServicio('ETAPA DE EMERGENCIA',$id_rol_turno);
 
-        $etapa_servicio = $my_json['etapa_servicio'];
-        $nombre_etapa_servicio = $etapa_servicio['nombre'];
-        $id_etapa_servicio = EtapaServicio::_insertarEtapaServicio($nombre_etapa_servicio,$id_rol_turno);
-
-        $especialidades = $etapa_servicio['especialidades'];
-        for ($i=0; $i < count($especialidades) ; $i++) { 
-        	$id_especialidad = $especialidades[$i]['id'];
-        	if (!empty($especialidades[$i]['turnos'])) {
-	        	$turnos = $especialidades[$i]['turnos'];
-	        	for ($j=0; $j < count($turnos) ; $j++) { 
-	        		$titulo_turno = $turnos[$j]['titulo'];
-	        		$hora_inicio_turno = $turnos[$j]['hora_inicio'];
-	        		$hora_fin_turno = $turnos[$j]['hora_fin'];
-	        		// $aux_borrar = $aux_borrar . " | " . $titulo_turno . " | " . $hora_inicio_turno . " | " . $hora_fin_turno . " | " . $id_especialidad . " | " . $id_etapa_servicio . "---";
-	        		$id_turno = Turno::_insertarTurno($titulo_turno,$hora_inicio_turno,$hora_fin_turno,$id_especialidad,$id_etapa_servicio);
-	        		$filas = (array)$turnos[$j]['filas'];
-	        		for ($k=0; $k < count($filas) ; $k++) { 
-	        		 	for ($m=0; $m < count($filas[$k]) ; $m++) { 
-		        		 	$dia_rol_dia = $filas[$k][$m]['dia'];
-		        		 	$id_doctor_rol_dia = $filas[$k][$m]['id_doctor'];
-		        		 	if ($id_doctor_rol_dia == -1) {//no existe doctor
-		        		 		$id_doctor_rol_dia = null;
-		        		 	}else{//si existe doctor
-
-		        		 	}
-		        		 	$id_rol_dia = RolDia::_insertarRolDia($dia_rol_dia,$id_turno,$id_doctor_rol_dia);
-	        		 	}
-	        		} 
-	        	}
-	        }else{//no existe turnos
-	        	// $aux_borrar = $aux_borrar . "0";
-	        }
+        if ($request->get('idturnos') != null) {
+            $idturnos = $request->get('idturnos');
+            $idespecialidades = $request->get('idespecialidad');
+            $a = 0;
+            while ($a < count($idturnos)) {
+                $titulo_turno = $request->get('text_turno'.$idturnos[$a]);
+                $hora_inicio_turno = $request->get('text_hora_inicio'.$idturnos[$a]);
+                $hora_fin_turno = $request->get('text_hora_fin'.$idturnos[$a]);
+                $id_especialidad = $idespecialidades[$a];
+                $id_turno = Turno::_insertarTurno($titulo_turno,$hora_inicio_turno,$hora_fin_turno,$id_especialidad,$id_etapa_servicio);
+                if ($request->get('id_filas_turno'.$idturnos[$a]) != null) {
+                    $idfilas = $request->get('id_filas_turno'.$idturnos[$a]);
+                    $b = 0; 
+                    while ($b < count($idfilas)) {
+                        $id_doctor_rol_dia = $request->get('selec_dia_lunes'.$idfilas[$b]);
+                        if ($id_doctor_rol_dia == -1) {//no existe doctor
+                            $id_doctor_rol_dia = null;
+                        }
+                        $id_rol_dia = RolDia::_insertarRolDia('LUNES',$id_turno,$id_doctor_rol_dia);
+                        //
+                        $id_doctor_rol_dia = $request->get('selec_dia_martes'.$idfilas[$b]);
+                        if ($id_doctor_rol_dia == -1) {//no existe doctor
+                            $id_doctor_rol_dia = null;
+                        }
+                        $id_rol_dia = RolDia::_insertarRolDia('MARTES',$id_turno,$id_doctor_rol_dia);
+                        //
+                        $id_doctor_rol_dia = $request->get('selec_dia_miercoles'.$idfilas[$b]);
+                        if ($id_doctor_rol_dia == -1) {//no existe doctor
+                            $id_doctor_rol_dia = null;
+                        }
+                        $id_rol_dia = RolDia::_insertarRolDia('MIERCOLES',$id_turno,$id_doctor_rol_dia);
+                        //
+                        $id_doctor_rol_dia = $request->get('selec_dia_jueves'.$idfilas[$b]);
+                        if ($id_doctor_rol_dia == -1) {//no existe doctor
+                            $id_doctor_rol_dia = null;
+                        }
+                        $id_rol_dia = RolDia::_insertarRolDia('JUEVES',$id_turno,$id_doctor_rol_dia);
+                        //
+                        $id_doctor_rol_dia = $request->get('selec_dia_viernes'.$idfilas[$b]);
+                        if ($id_doctor_rol_dia == -1) {//no existe doctor
+                            $id_doctor_rol_dia = null;
+                        }
+                        $id_rol_dia = RolDia::_insertarRolDia('VIERNES',$id_turno,$id_doctor_rol_dia);
+                        //
+                        $id_doctor_rol_dia = $request->get('selec_dia_sabado'.$idfilas[$b]);
+                        if ($id_doctor_rol_dia == -1) {//no existe doctor
+                            $id_doctor_rol_dia = null;
+                        }
+                        $id_rol_dia = RolDia::_insertarRolDia('SABADO',$id_turno,$id_doctor_rol_dia);
+                        //
+                        $id_doctor_rol_dia = $request->get('selec_dia_domingo'.$idfilas[$b]);
+                        if ($id_doctor_rol_dia == -1) {//no existe doctor
+                            $id_doctor_rol_dia = null;
+                        }
+                        $id_rol_dia = RolDia::_insertarRolDia('DOMINGO',$id_turno,$id_doctor_rol_dia);
+                        $b++;
+                    }
+                }
+                $a++;
+            }
+            // return $request->all();
         }
+        
+    	// $aux_borrar = "";
+    	// $my_json = $_REQUEST['my_json'];
+
+     //    $titulo = $my_json['titulo'];
+     //    $mes = $my_json['mes'];
+     //    $anio = $my_json['anio'];
+
+     //    $id_rol_turno = RolTurno::_insertarRolTurno($titulo,$mes,$anio);
+
+     //    $etapa_servicio = $my_json['etapa_servicio'];
+     //    $nombre_etapa_servicio = $etapa_servicio['nombre'];
+     //    $id_etapa_servicio = EtapaServicio::_insertarEtapaServicio($nombre_etapa_servicio,$id_rol_turno);
+
+     //    $especialidades = $etapa_servicio['especialidades'];
+     //    for ($i=0; $i < count($especialidades) ; $i++) { 
+     //    	$id_especialidad = $especialidades[$i]['id'];
+     //    	if (!empty($especialidades[$i]['turnos'])) {
+	    //     	$turnos = $especialidades[$i]['turnos'];
+	    //     	for ($j=0; $j < count($turnos) ; $j++) { 
+	    //     		$titulo_turno = $turnos[$j]['titulo'];
+	    //     		$hora_inicio_turno = $turnos[$j]['hora_inicio'];
+	    //     		$hora_fin_turno = $turnos[$j]['hora_fin'];
+	    //     		// $aux_borrar = $aux_borrar . " | " . $titulo_turno . " | " . $hora_inicio_turno . " | " . $hora_fin_turno . " | " . $id_especialidad . " | " . $id_etapa_servicio . "---";
+	    //     		$id_turno = Turno::_insertarTurno($titulo_turno,$hora_inicio_turno,$hora_fin_turno,$id_especialidad,$id_etapa_servicio);
+	    //     		$filas = (array)$turnos[$j]['filas'];
+	    //     		for ($k=0; $k < count($filas) ; $k++) { 
+	    //     		 	for ($m=0; $m < count($filas[$k]) ; $m++) { 
+		   //      		 	$dia_rol_dia = $filas[$k][$m]['dia'];
+		   //      		 	$id_doctor_rol_dia = $filas[$k][$m]['id_doctor'];
+		   //      		 	if ($id_doctor_rol_dia == -1) {//no existe doctor
+		   //      		 		$id_doctor_rol_dia = null;
+		   //      		 	}else{//si existe doctor
+
+		   //      		 	}
+		   //      		 	$id_rol_dia = RolDia::_insertarRolDia($dia_rol_dia,$id_turno,$id_doctor_rol_dia);
+	    //     		 	}
+	    //     		} 
+	    //     	}
+	    //     }else{//no existe turnos
+	    //     	// $aux_borrar = $aux_borrar . "0";
+	    //     }
+     //    }
         // echo $aux_borrar;
         // echo $my_json['etapa_servicio']['especialidades'][1]['id'];
     }

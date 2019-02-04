@@ -53,7 +53,7 @@ Route::get('adm/centro/create_rol_turno/{id}',[
 	'as' => 'create-rol-turno',
 	'uses' => 'RolTurnoController@create_rol_turno'
 ]);
-Route::get('adm/centro/guardar_rol_turno',[
+Route::post('adm/centro/guardar_rol_turno',[
 	'as' => 'guardar-rol-turno',
 	'uses' => 'RolTurnoController@guardar_rol_turno'
 ]);

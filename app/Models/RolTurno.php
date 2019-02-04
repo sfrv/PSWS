@@ -69,7 +69,7 @@ class RolTurno extends Model
         ->join('especialidad as c', 'b.id_especialidad', '=', 'c.id')
         ->select('c.nombre','b.id')
         ->where('a.id_etapa_servicio','=', $id)
-        ->orderBy('c.id', 'ASC')
+        ->orderBy('b.id', 'ASC')
         ->distinct()
         ->get();
 
