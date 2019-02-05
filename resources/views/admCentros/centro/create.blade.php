@@ -199,7 +199,7 @@
             <div class="col-sm-8 col-sm-offset-2" id="guardar">
              <div class="form-group">
                <button class="btn btn-primary btn-block" type="submit">
-                 Registrar Centro de Salud <i class="fa fa-arrow-circle-right"></i>
+                 REGISTRAR CENTRO DE SALUD <i class="fa fa-arrow-circle-right"></i>
                </button>
              </div>
             </div>

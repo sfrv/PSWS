@@ -53,25 +53,25 @@ Route::get('adm/centro/create_rol_turno/{id}',[
 	'as' => 'create-rol-turno',
 	'uses' => 'RolTurnoController@create_rol_turno'
 ]);
-Route::post('adm/centro/guardar_rol_turno',[
-	'as' => 'guardar-rol-turno',
-	'uses' => 'RolTurnoController@guardar_rol_turno'
+Route::post('adm/centro/store_rol_turno/{id}',[
+	'as' => 'store-rol-turno',
+	'uses' => 'RolTurnoController@store_rol_turno'
 ]);
 Route::get('adm/centro/index_rol_turno/{id}',[
 	'as' => 'index-rol-turno',
 	'uses' => 'RolTurnoController@index_rol_turno'
 ]);
-Route::get('adm/centro/show_rol_turno/{id}',[
+Route::get('adm/centro/show_rol_turno/{id}/{id_centro}',[
 	'as' => 'show-rol-turno',
 	'uses' => 'RolTurnoController@show_rol_turno'
 ]);
-Route::get('adm/centro/edit_rol_turno/{id}',[
+Route::get('adm/centro/edit_rol_turno/{id_rol_turno}/{id_centro}',[
 	'as' => 'edit-rol-turno',
 	'uses' => 'RolTurnoController@edit_rol_turno'
 ]);
-Route::get('adm/centro/actualizar_rol_tuno',[
-	'as' => 'actualizar-rol-turno',
-	'uses' => 'RolTurnoController@actualizar_rol_tuno'
+Route::patch('adm/centro/update_rol_tuno/{id}',[
+	'as' => 'update-rol-turno',
+	'uses' => 'RolTurnoController@update_rol_tuno'
 ]);
 Route::get('adm/centro/renovate_rol_turno/{id}',[
 	'as' => 'renovate-rol-turno',

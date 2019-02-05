@@ -3,7 +3,7 @@
 
 <section class="content-header">
   <h1 align="center">
-    * * * * * <b>Crear Rol de Turno</b> * * * * *
+    <b>ROL DE TURNO - ETAPA DE EMERGENCIA</b>
   </h1>
   <br>
 </section>
@@ -12,17 +12,18 @@
   <div class="col-sm-12 col-xs-12">
     <div class="box box-primary">
       <div class="box-header with-border">
+      	<h3 align="center">PANEL DE REGISTRO DE <span class="text-bold">ROL DE TURNO - ETAPA DE EMERGENCIA</span></h3>
       	<br>
       	
-      		 {!! Form::open(array('route'=>['guardar-rol-turno'],'method'=>'POST','autocomplete'=>'off'))!!}
-        	{{Form::token()}}
+      	{!! Form::open(array('route'=>['store-rol-turno',$id],'method'=>'POST','autocomplete'=>'off'))!!}
+        {{Form::token()}}
         <div class="row">
         	<div class="col-lg-4 col-md-4 col-dm-4 col-xs-12">
-	            <label for="form-field-24">Titulo:</label>
-                <input placeholder="Titulo del Rol de Turno..." name="titulo" id="titulo" class="autosize form-control" type="text" step="any">
+	            <label for="form-field-24">TITULO:</label>
+                <input required placeholder="Titulo del Rol de Turno..." name="titulo" id="titulo" class="autosize form-control" type="text" step="any">
             </div>
             <div class="col-lg-4 col-md-4 col-dm-4 col-xs-12">
-	            <label for="form-field-24">Mes:</label>
+	            <label for="form-field-24">MES:</label>
 	            <select name="mes" id="mes" class="form-control selectpicker">
 	              @foreach($meses as $var)
 	                @if($var == $mes_actual)
@@ -34,7 +35,7 @@
 	            </select>
 	        </div>
 	        <div class="col-lg-4 col-md-4 col-dm-4 col-xs-12">
-	            <label for="form-field-24">Anio:</label>
+	            <label for="form-field-24">ANIO:</label>
 	            <select name="anio" id="anio" class="form-control selectpicker">
 	              @foreach($anios as $var)
 	                @if($var == $anio_actual)
@@ -49,14 +50,14 @@
         <br>
         <div>
             <div class="panel panel-info">
-              <div class="panel-heading">Crear Rol de Turno</div>
+              <div class="panel-heading">CREACION DE ROL DE TURNO - ETAPA DE EMERGENCIA</div>
               <div class="panel-body">
           		<div class="col-lg-12 col-md-12 col-dm-12 col-xs-12">
           			<div class="table-responsive">
           				<div id="table-scroll" class="table-scroll">
           					<div class="table-wrap">
           						<table class="main-table">
-          							@foreach($detalle as $var)
+          							@foreach($especialidades_etapa_emergencia as $var)
           							<thead style="background-color:#A9D0F5">
           								<tr>
           									<th class="text-center" style="background-color:#AAD0F5;" scope="col">Esp: {{$var -> nombre}} {{$var -> id}}</th>
@@ -69,7 +70,7 @@
 					          				<th class="text-center" style="background-color:#AAD0F5;" scope="col">Sabado</th>
 					          				<th class="text-center" style="background-color:#AAD0F5;" scope="col">Domingo</th>
 					          				<th class="text-center" style="background-color:#AAD0F5;" scope="col">Op1</th>
-					          				<th class="text-center" style="background-color:#AAD0F5;" scope="col"><button type="button" class="btn btn-info" onclick="agregarFilaHora({{$var -> id}});">+</button></th>
+					          				<th class="text-center" style="background-color:#AAD0F5;" scope="col"><button type="button" class="btn btn-info" onclick="agregarFilaHora({{$var -> id}});"><i class="fa fa-plus"></i></button></th>
           								</tr>
           							</thead>
           							
@@ -87,7 +88,7 @@
              <div class="col-sm-8 col-sm-offset-2">
                <div class="form-group">
                	<button class="btn btn-primary btn-block" type="submit">
-                   <i class="fa fa-arrow-circle-right"> Guardar Rol de Turno </i>
+                   <i class="fa fa-arrow-circle-right"> REGISTRAR ROL DE TURNO - ETAPA EMERGENCIA </i>
                 </button>
                </div>
              </div>
@@ -124,9 +125,9 @@ function agregarFilaHora(id) {//id especialidad
 			'<input type="hidden" name="idespecialidad[]" value="'+id+'">'+
 		'-</td>'+
 		'<td class="text-center">'+
-			'<input placeholder="Titulo..." class="autosize form-control" name="text_turno'+conth+'" type="text">'+
-			'<input placeholder="Hora Inicio..." class="autosize form-control" name="text_hora_inicio'+conth+'" type="text">'+
-			'<input placeholder="Hora Fin..." class="autosize form-control" name="text_hora_fin'+conth+'" type="text">'+
+			'<input required placeholder="TITULO..." class="autosize form-control" name="text_turno'+conth+'" type="text">'+
+			'<input required placeholder="HORA INICIO..." class="autosize form-control" name="text_hora_inicio'+conth+'" type="text">'+
+			'<input required placeholder="HORA FIN..." class="autosize form-control" name="text_hora_fin'+conth+'" type="text">'+
 		'</td>'+
 		'<td class="text-center" id="lunes'+conth+'"></td>'+ //lunes
 		'<td class="text-center" id="martes'+conth+'"></td>'+ //martes
@@ -136,7 +137,7 @@ function agregarFilaHora(id) {//id especialidad
 		'<td class="text-center" id="sabado'+conth+'"></td>'+ //sabado
 		'<td class="text-center" id="domingo'+conth+'"></td>'+ //domingo
 		'<td class="text-center" id="opcion'+conth+'"></td>'+
-		'<td class="text-center"> <button type="button" class="btn btn-success" onclick="agregarFila('+id+','+conth+');">+</button> <button type="button" class="btn btn-warning" onclick="eliminarFilaHora('+conth+');">x</button> </td>'+
+		'<td class="text-center"> <button type="button" class="btn btn-success" onclick="agregarFila('+id+','+conth+');"><i class="fa fa-plus"></i></button> <button type="button" class="btn btn-warning" onclick="eliminarFilaHora('+conth+');"><i class="fa fa-close"></i></button> </td>'+
 		'</tr>';
 	conth++;
 	$('#fila_datos'+id).append(fila_hora);

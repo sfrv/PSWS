@@ -44,7 +44,7 @@
            </tbody>
          </table>
        </div>
-
+       {{ $especialidades->links() }}
      </div>
      </div>
    </div>

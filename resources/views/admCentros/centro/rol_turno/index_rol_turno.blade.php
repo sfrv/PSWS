@@ -2,7 +2,7 @@
 @section('contenido')
  <section class="content-header">
    <h1 align="center">
-       * * * * * <b>Rol de Turno del Centro: {{ $centro->nombre }}</b> * * * * *
+       <b>ROL DE TURNO DEL CENTRO: {{ $centro->nombre }}</b>
    </h1>
 
  </section>
@@ -13,19 +13,19 @@
      <div class="col-sm-12 col-xs-12">
        <div class="box box-primary">
        <div class="box-header with-border">
-           <h3 align="center">Panel de Control <span class="text-bold">de Rol de Turno Registrados</span></h3>
+           <h3 align="center">PANEL DE <span class="text-bold">ROL DE TURNO REGISTRADOS</span></h3>
        </div>
        <div class="box-body">
-         @include('admCentros.centro.search_rol_turno')
+         @include('admCentros.centro.rol_turno.search_rol_turno')
          <table class="table table-bordered" style="border-top-color: #00AEFF">
            <thead>
            <tr>
              <th class="text-center">ID</th>
-             <th class="text-center">Titulo</th>
-             <th class="text-center">Mes</th>
-             <th class="text-center">Anio</th>
-             <th class="text-center">Estado</th>
-             <th class="text-center">Opciones</th>
+             <th class="text-center">TITULO</th>
+             <th class="text-center">MES</th>
+             <th class="text-center">ANIO</th>
+             <th class="text-center">ESTADO</th>
+             <th class="text-center">OPCIONES</th>
            </tr>
            </thead>
            <tbody>
@@ -38,8 +38,8 @@
                     <td class="text-center">{{ $var->estado }}</td>
                     <td class="text-center">
                       <a href="" data-target="#modal-delete-{{$var->id}}" data-toggle="modal" class="btn btn-danger" data-placement="top" data-original-title="Remove"><i class="fa fa-times fa fa-white"></i></a>
-                      <a href="{{ route('edit-rol-turno', $var->id) }}" class="btn btn-info" data-placement="top"><i class="fa fa-edit"></i></a>
-                      <a href="{{ route('show-rol-turno', $var->id) }}" class="btn btn-success" data-placement="top"><i class="fa fa-eye"></i></a>
+                      <a href="{{ route('edit-rol-turno', [$var->id,$centro->id]) }}" class="btn btn-info" data-placement="top"><i class="fa fa-edit"></i></a>
+                      <a href="{{ route('show-rol-turno', [$var->id,$centro->id]) }}" class="btn btn-success" data-placement="top"><i class="fa fa-eye"></i></a>
                       <a href="{{ route('renovate-rol-turno', $var->id) }}" class="btn btn-warning" data-placement="top"><i class="fa fa-refresh"></i></a>
                     </td>
                   </tr>

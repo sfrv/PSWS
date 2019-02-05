@@ -220,6 +220,20 @@ class CentroMedico extends Model
         return $detalle;
     }
 
+    public function scope_obtenerEspecialidadesEtapaEmergencia($query, $id)
+    {
+        $result = DB::table('detalle_centro_especialidad as de')
+            ->join('especialidad as e', 'e.id', '=', 'de.id_especialidad')
+            ->select('e.nombre', 'de.id')
+            ->where('de.id_centro_medico', '=', $id)
+            ->where('de.estado', '=', 1)
+            ->where('de.etapa_emergencia', '=', 1)
+            ->orderBy("de.id", "asc")
+            ->get();
+
+        return $result;
+    }
+
     public function scope_obtenerRolTurnos($query, $id, $searchText)
     {
 

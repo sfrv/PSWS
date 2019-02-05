@@ -42,7 +42,7 @@
           				<div id="table-scroll" class="table-scroll">
           					<div class="table-wrap">
           						<table class="main-table">
-          							@foreach($especialidades as $var)
+          							@foreach($especialidades_etapa_emergencia as $var)
           							<thead style="background-color:#A9D0F5">
           								<tr>
           									<th style="background-color:#AAD0F5;" scope="col">Esp: {{$var -> nombre}} {{$var -> id}}</th>
@@ -659,7 +659,7 @@ function actualizar_() {
 
 	$.ajax({
   		type: "GET", 
-  		url: "{{route('actualizar-rol-turno')}}",
+  		url: "{{route('update-rol-turno')}}",
   		data: parametros
   	}).done(function(info){
   		window.location.href = "{{url('adm/centro')}}";
@@ -814,16 +814,6 @@ function actualizar_() {
 // 	    my_json: objeto
 // 	};
 
-// 	$.ajax({
-//   		type: "GET", 
-//   		url: "{{route('actualizar-rol-turno')}}",
-//   		data: parametros
-//   	}).done(function(info){
-//   		// window.location.href = "{{url('adm/centro')}}";
-//   		// console.log(info);
-//   		console.log("--ss");
-//   		console.log("--");
-//   	});
 
 // 	// console.log(ids_especialidades);
 // }
