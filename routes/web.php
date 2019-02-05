@@ -174,6 +174,36 @@ Route::get('get-serviciosPorIDCartera/{idCartera}', [
 	'uses' => 'CarteraServicioController@get_ServiciosPorIDCartera'
 ]);
 
+//para el excel
+Route::get('get-excel/{idCartera}/{idCentro}', [
+	'uses' => 'CarteraServicioController@generar_excel_cartera_servicio'
+]);
+
+//para rol de turnos
+Route::get('get-AllRolTurnos/{id}', [
+	'uses' => 'CentroMedicoController@get_AllRolTurnos'
+]);
+
+Route::get('get-Etapas/{id}', [
+	'uses' => 'RolTurnoController@get_EtapasServicios'
+]);
+
+Route::get('get-especialidadesPorEtapa/{id}', [
+	'uses' => 'RolTurnoController@get_EspecialidadesPorIdEtapa'
+]);
+
+Route::get('get-turnosPorEtapa/{id}', [
+	'uses' => 'RolTurnoController@get_TurnosPorIdEtapaServicio'
+]);
+
+Route::get('get-rolDiaPorEtapa/{id}', [
+	'uses' => 'RolTurnoController@get_RolDiasPorIdEtapaServicio'
+]);
+
+Route::get('get-medicos', [
+	'uses' => 'MedicoController@get_AllMedicos'
+]);
+
 //modificar
 
 // Route::get('get-especialidades',[

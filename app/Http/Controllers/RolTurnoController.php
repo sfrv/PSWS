@@ -457,4 +457,21 @@ class RolTurnoController extends Controller
     	
     	return view('admCentros.centro.rol_turno.renovate_rol_turno',compact('rol_turno','especialidades','turnos_json','rol_dias_json','medicos_json','medicos','detalle2','etapa_servicio_uno'));
     }
+
+    //PARA LA APLICACION MOVIL
+    public function get_EtapasServicios($id){
+        return json_encode(array("etapas" => RolTurno::_getEtapasServicios($id)->get()));
+    }
+    
+    public function get_EspecialidadesPorIdEtapa($id){
+        return json_encode(array("especialidades" => RolTurno::_getEspecialidadesPorIdEtapaServicio($id)));
+    }
+    
+    public function get_TurnosPorIdEtapaServicio($id){
+        return json_encode(array("turnos" => RolTurno::_getTurnosPorIdEtapaServicio($id)));
+    }
+
+    public function get_RolDiasPorIdEtapaServicio($id){
+        return json_encode(array("rolesDia" => RolTurno::_getRolDiasPorIdEtapaServicio($id)));
+    }
 }

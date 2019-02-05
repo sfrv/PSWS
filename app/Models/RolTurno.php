@@ -86,4 +86,16 @@ class RolTurno extends Model
 
         return $result;
     }
+
+    
+    //PARA LA APLICACION MOVIL
+
+    public function scope_getEtapasServicios($query, $id)
+    {
+        $result = DB::table('etapa_servicio as a')
+        ->select('a.*')
+        ->where('a.id_rol_turno','=', $id)
+        ->orderBy('a.id', 'desc');
+        return $result;
+    }
 }

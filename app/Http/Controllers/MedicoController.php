@@ -48,4 +48,10 @@ class MedicoController extends Controller
     {
         return json_encode(array("medicos" => Zona::_getAllMedico()->get()));
     }
+
+    //para la aplicacion movil
+    
+    public function get_AllMedicos(){
+        return json_encode(array("medicos" => Medico::_getAllMedicos("")->get()));
+    }
 }

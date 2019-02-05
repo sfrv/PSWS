@@ -104,4 +104,8 @@ class CentroMedicoController extends Controller
     public function get_lastCarteraServicio($id){
         return json_encode(array("carteras" => CentroMedico::_getLastCarteraServicio($id)->get()));
     }
+
+    public function get_AllRolTurnos($id){
+        return json_encode(array("roles" => CentroMedico::_getAllRolTurnos($id)->get()));
+    }
 }
