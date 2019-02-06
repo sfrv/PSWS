@@ -2,7 +2,7 @@
 @section('contenido')
  <section class="content-header">
    <h1 align="center">
-       * * * * * <b>Niveles de Centros</b> * * * * *
+       <b>NIVELES DE CENTROS</b>
    </h1>
    <ol class="breadcrumb">
      <li><a href="{{url('/')}}"><i class="fa fa-dashboard"></i> Home</a></li>
@@ -17,21 +17,21 @@
        <div class="box box-primary">
        <!-- TITULO DE PANEL -->
        <div class="box-header with-border">
-           <h3 align="center">Panel de Control <span class="text-bold">de Niveles de Centros</span></h3>
+           <h3 align="center">PANEL DE  <span class="text-bold">NIVELES DE CENTROS REGISTRADOS</span></h3>
        </div>
        <div class="box-body">
          @include('admCentros.nivel.search')
          <table class="table table-bordered" style="border-top-color: #00AEFF">
            <thead>
            <tr>
-             <th class="center">Nombre</th>
-             <th class="center">Descripcion</th>
-             <th class="center">Opciones</th>
+             <th class="text-center">NOMBRE</th>
+             <th class="text-center">DESCRIPCION</th>
+             <th class="text-center">OPCIONES</th>
            </tr>
            </thead>
            <tbody>
              @foreach($niveles as $var)
-                  <tr>
+                  <tr class="text-center">
                     <td>{{ $var->nombre }}</td>
                     <td>{{ $var->descripcion }}</td>
                     <td>

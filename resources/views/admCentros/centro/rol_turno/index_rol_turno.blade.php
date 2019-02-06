@@ -2,7 +2,7 @@
 @section('contenido')
  <section class="content-header">
    <h1 align="center">
-       <b>ROL DE TURNO DEL CENTRO: {{ $centro->nombre }}</b>
+       <b>ROL DE TURNOS DEL CENTRO: {{ $centro->nombre }}</b>
    </h1>
 
  </section>
@@ -40,7 +40,7 @@
                       <a href="" data-target="#modal-delete-{{$var->id}}" data-toggle="modal" class="btn btn-danger" data-placement="top" data-original-title="Remove"><i class="fa fa-times fa fa-white"></i></a>
                       <a href="{{ route('edit-rol-turno', [$var->id,$centro->id]) }}" class="btn btn-info" data-placement="top"><i class="fa fa-edit"></i></a>
                       <a href="{{ route('show-rol-turno', [$var->id,$centro->id]) }}" class="btn btn-success" data-placement="top"><i class="fa fa-eye"></i></a>
-                      <a href="{{ route('renovate-rol-turno', $var->id) }}" class="btn btn-warning" data-placement="top"><i class="fa fa-refresh"></i></a>
+                      <a href="{{ route('renovate-rol-turno', [$var->id,$centro->id]) }}" class="btn btn-warning" data-placement="top"><i class="fa fa-refresh"></i></a>
                     </td>
                   </tr>
                   

@@ -20,7 +20,7 @@
         <div class="row">
         	<div class="col-lg-4 col-md-4 col-dm-4 col-xs-12">
 	            <label for="form-field-24">TITULO:</label>
-                <input required placeholder="Titulo del Rol de Turno..." name="titulo" id="titulo" class="autosize form-control" type="text" step="any">
+                <input required placeholder="TITULO DEL ROL DE TURNO..." name="titulo" id="titulo" class="autosize form-control" type="text" step="any">
             </div>
             <div class="col-lg-4 col-md-4 col-dm-4 col-xs-12">
 	            <label for="form-field-24">MES:</label>

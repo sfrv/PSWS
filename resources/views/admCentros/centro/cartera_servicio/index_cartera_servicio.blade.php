@@ -2,7 +2,7 @@
 @section('contenido')
  <section class="content-header">
    <h1 align="center">
-       * * * * * <b>Cartera de Servicios del Centro: {{ $centro->nombre }}</b> * * * * *
+       <b>CARTERA DE SERVICIOS DEL CENTRO: {{ $centro->nombre }}</b>
    </h1>
 
  </section>
@@ -13,19 +13,19 @@
      <div class="col-sm-12 col-xs-12">
        <div class="box box-primary">
        <div class="box-header with-border">
-           <h3 align="center">Panel de Control <span class="text-bold">de Cartera de Servicios Registrados</span></h3>
+           <h3 align="center">PANEL DE <span class="text-bold">CARTERA DE SERVICIOS REGISTRADOS</span></h3>
        </div>
        <div class="box-body">
-         @include('admCentros.centro.search_cartera_servicio')
+         @include('admCentros.centro.cartera_servicio.search_cartera_servicio')
          <table class="table table-bordered" style="border-top-color: #00AEFF">
            <thead>
            <tr>
              <th class="text-center">ID</th>
-             <th class="text-center">Titulo</th>
-             <th class="text-center">Mes</th>
-             <th class="text-center">Anio</th>
-             <th class="text-center">Estado</th>
-             <th class="text-center">Opciones</th>
+             <th class="text-center">TITULO</th>
+             <th class="text-center">MES</th>
+             <th class="text-center">ANIO</th>
+             <th class="text-center">ESTADO</th>
+             <th class="text-center">OPCIONES</th>
            </tr>
            </thead>
            <tbody>

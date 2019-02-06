@@ -121,13 +121,13 @@
                   <input disabled="" name="telefono" id="telefono" class="autosize form-control" type="number" value="{{$centro->telefono}}">
                 </div>
               </div>
-              <div class="col-lg-12 col-md-12 col-dm-12 col-xs-12 col-sm-offset-3">
+              <div class="col-lg-12 col-md-12 col-dm-12 col-xs-12 col-sm-offset-4">
                 <div class="form-group">               
                   <label for="form-field-24">
                     IMAGEN DEL CENTRO:
                   </label>
                   <br>
-                  <img src="{{asset('images/Centros/'.$centro->imagen)}}" height="500px" width="500px" class="img-thumbnail">
+                  <img src="{{asset('images/Centros/'.$centro->imagen)}}" height="100%" width="32%" class="img-thumbnail">
                 </div>
               </div>
             </div>
@@ -143,30 +143,38 @@
                   <th class="text-center">EMERGENCIA</th>
                   <th class="text-center">CONSULTA EXT.</th>
                   <th class="text-center">HOSPITALIZACION</th>
+                  <th class="text-center">ESTADO</th>
           			</thead>
           			<tbody>
                   @foreach($detalle as $var)
-                      <tr>
-                          <td class="text-center">{{$var -> nombre}}</td>
-                          <td class="text-center">
+                      <tr class="text-center">
+                          <td>{{$var -> nombre}}</td>
+                          <td>
                             @if($var -> etapa_emergencia == 1)
                               <input type="checkbox" style="height: 18px;width: 18px;" checked>
                             @else
                               <input type="checkbox" style="height: 18px;width: 18px;">
                             @endif
                           </td>
-                          <td class="text-center">
+                          <td>
                             @if($var -> etapa_consulta == 1)
                               <input type="checkbox" style="height: 18px;width: 18px;" checked>
                             @else
                               <input type="checkbox" style="height: 18px;width: 18px;">
                             @endif
                           </td>
-                          <td class="text-center">
+                          <td>
                             @if($var -> etapa_hospitalizacion == 1)
                               <input type="checkbox" style="height: 18px;width: 18px;" checked>
                             @else
                               <input type="checkbox" style="height: 18px;width: 18px;">
+                            @endif
+                          </td>
+                          <td>
+                            @if($var -> estado == 1)
+                              <span id="{{$var -> id}}text" style="background-color: #3B8DBD;color: white;"> &ensp;ACTIVO&ensp; </span>
+                            @else
+                              <span id="{{$var -> id}}text" style="background-color: #DC4D3D;color: white;"> &ensp;INACTIVO&ensp; </span>
                             @endif
                           </td>
                       </tr>

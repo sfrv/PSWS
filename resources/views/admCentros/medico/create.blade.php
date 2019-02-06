@@ -3,7 +3,7 @@
 
 <section class="content-header">
   <h1 align="center">
-    * * * * * <b>Médicos</b> * * * * *
+    <b>MEDIDO</b>
   </h1>
   <br>
 </section>
@@ -12,8 +12,8 @@
   <div class="col-sm-12 col-xs-12">
     <div class="box box-primary">
       <div class="box-header with-border">
-          <h3 align="center">Panel de control de <span class="text-bold">Médicos</span></h3>
-
+          <h3 align="center">PANEL DE REGISTRO DE <span class="text-bold">MEDICOS</span></h3>
+          <br>
           <div class="panel-body">
             @include('alertas.request')
             {!!Form::open(array('url'=>'adm/medico','method'=>'POST','autocomplete'=>'off'))!!}
@@ -22,14 +22,14 @@
             <div class="row">
               <div class="col-lg-6 col-md-6 col-dm-6 col-xs-12">
               	<div class="form-group">
-              	   <label for="id_nivel">Nombre: </label>
-                   <input required="required" name="nombre" id="nombre" class="autosize form-control" type="text">
+              	   <label for="id_nivel">NOMBRE: </label>
+                   <input placeholder="NOMBRE..." required="required" name="nombre" id="nombre" class="autosize form-control" type="text">
                   </div> 
               </div>
               <div class="col-lg-6 col-md-6 col-dm-6 col-xs-12">
               	<div class="form-group">
-              	   <label for="id_nivel">Apellido: </label>
-                   <input required="required" name="apellido" id="apellido" class="autosize form-control" type="text">
+              	   <label for="id_nivel">APELLIDO: </label>
+                   <input placeholder="APELLIDO..." required="required" name="apellido" id="apellido" class="autosize form-control" type="text">
               	</div>
               </div>
             </div>
@@ -38,14 +38,14 @@
             <div class="row">
               <div class="col-lg-6 col-md-6 col-dm-6 col-xs-12">
               	<div class="form-group">
-              	   <label for="id_nivel">Telefono: </label>
-                   <input required="required" name="telefono" id="telefono" class="autosize form-control" type="number">
+              	   <label for="id_nivel">TELEFONO: </label>
+                   <input placeholder="TELEFONO..." required="required" name="telefono" id="telefono" class="autosize form-control" type="number">
                   </div> 
               </div>
               <div class="col-lg-6 col-md-6 col-dm-6 col-xs-12">
               	<div class="form-group">
-              	   <label for="id_nivel">Correo: </label>
-                   <input required="required" name="correo" id="correo" class="autosize form-control" type="mail">
+              	   <label for="id_nivel">CORREO: </label>
+                   <input placeholder="CORREO..." required="required" name="correo" id="correo" class="autosize form-control" type="mail">
               	</div>
               </div>
             </div>
@@ -55,8 +55,8 @@
             <div class="row">
               <div class="col-lg-6 col-md-6 col-dm-6 col-xs-12">
               	<div class="form-group">
-              	   <label for="id_nivel">Direccion: </label>
-                   <textarea required="required" class="autosize form-control" id="form-field-24" name="direccion"></textarea>
+              	   <label for="id_nivel">DIRECCION: </label>
+                   <textarea placeholder="DIRECCION..." required="required" class="autosize form-control" id="form-field-24" name="direccion"></textarea>
                   </div> 
               </div>
             </div>
@@ -65,7 +65,7 @@
             <div class="col-sm-6 col-sm-offset-3" id="guardar">
              <div class="form-group">
                <button class="btn btn-primary btn-block" type="submit">
-                 Registrar
+                 REGISTRAR MEDICO <i class="fa fa-arrow-circle-right"></i>
                </button>
              </div>
             </div>

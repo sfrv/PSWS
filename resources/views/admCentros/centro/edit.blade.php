@@ -147,13 +147,13 @@
                   <input name="telefono" id="telefono" class="autosize form-control" type="number" value="{{$centro->telefono}}">
                 </div>
               </div>
-              <div class="col-lg-6 col-md-12 col-dm-12 col-xs-12 col-sm-offset-3">
+              <div class="col-lg-6 col-md-12 col-dm-12 col-xs-12 col-sm-offset-4">
                 <div class="form-group">               
                   <label for="form-field-24">
                     IMAGEN DEL CENTRO:
                   </label>
                   <br>
-                  <img src="{{asset('images/Centros/'.$centro->imagen)}}" height="450px" width="575px" class="img-thumbnail">
+                  <img src="{{asset('images/Centros/'.$centro->imagen)}}" height="100%" width="65%" class="img-thumbnail">
                 </div>
               </div>
               <div class="col-lg-6 col-md-12 col-dm-12 col-xs-12 col-sm-offset-3">
@@ -255,9 +255,9 @@
                         </td>
                         <td>
                           @if($var -> estado == 1)
-                            <span id="{{$var -> id}}text" style="background-color: #3B8DBD;color: white;"> ACTIVO </span>
+                            <span id="{{$var -> id}}text" style="background-color: #3B8DBD;color: white;">| ACTIVO | </span>
                           @else
-                            <span id="{{$var -> id}}text" style="background-color: #DC4D3D;color: white;"> INACTIVO </span>
+                            <span id="{{$var -> id}}text" style="background-color: #DC4D3D;color: white;">| INACTIVO |</span>
                           @endif
                         </td>
 
@@ -366,7 +366,7 @@ function eliminar_esp(idesp,id) {
 
   var span = document.getElementById(id+"text");
   document.getElementById(id+"text").style.backgroundColor = "#DC4D3D";
-  span.textContent = "INACTIVO";
+  span.textContent = "| INACTIVO |";
 }
 
 function hab_esp(idesp,id) {

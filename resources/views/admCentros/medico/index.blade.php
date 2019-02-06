@@ -2,7 +2,7 @@
 @section('contenido')
  <section class="content-header">
    <h1 align="center">
-       * * * * * <b>Médicos</b> * * * * *
+       <b>MEDICOS</b>
    </h1>
  </section>
  <br>
@@ -13,7 +13,7 @@
        <div class="box box-primary">
        <!-- TITULO DE PANEL -->
        <div class="box-header with-border">
-           <h3 align="center">Panel de Control <span class="text-bold">de los Centros de Salud Registrados</span></h3>
+           <h3 align="center">PANEL DE  <span class="text-bold">MEDICOS REGISTRADOS</span></h3>
            @include('alertas.logrado')
        </div>
        <div class="box-body">
@@ -21,17 +21,17 @@
          <table class="table table-bordered" style="border-top-color: #00AEFF">
            <thead>
            <tr>
-             <th class="center">Nombre</th>
-             <th class="center">Apellido</th>
-             <th class="center">Telefono</th>
-             <th class="center">Direccion</th>
-             <th class="center">Correo</th>
-             <th class="center">Opciones</th>
+             <th class="text-center">NOMBRE</th>
+             <th class="text-center">APELLIDO</th>
+             <th class="text-center">TELEFONO</th>
+             <th class="text-center">DIRECCION</th>
+             <th class="text-center">CORREO</th>
+             <th class="text-center">OPCIONES</th>
            </tr>
            </thead>
            <tbody>
              @foreach($medicos as $var)
-                  <tr>
+                  <tr class="text-center">
                     <td>{{ $var->nombre }}</td>
                     <td>{{ $var->apellido }}</td>
                     <td>{{ $var->telefono }}</td>

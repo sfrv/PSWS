@@ -73,7 +73,7 @@ Route::patch('adm/centro/update_rol_tuno/{id}',[
 	'as' => 'update-rol-turno',
 	'uses' => 'RolTurnoController@update_rol_tuno'
 ]);
-Route::get('adm/centro/renovate_rol_turno/{id}',[
+Route::get('adm/centro/renovate_rol_turno/{id_rol_turno}/{id_centro}',[
 	'as' => 'renovate-rol-turno',
 	'uses' => 'RolTurnoController@renovate_rol_turno'
 ]);

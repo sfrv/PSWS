@@ -3,7 +3,7 @@
 
 <section class="content-header">
   <h1 align="center">
-    * * * * * <b>Renovar Cartera de Servicio: {{$cartera_servicio->id}} | {{$cartera_servicio->mes}} | {{$cartera_servicio->anio}}</b> * * * * *
+    <b>CARTERA DE SERVICIO: {{$cartera_servicio->mes}} {{$cartera_servicio->anio}}</b>
   </h1>
   <br>
 </section>
@@ -12,15 +12,16 @@
   <div class="col-sm-12 col-xs-12">
     <div class="box box-primary">
       <div class="box-header with-border">
+        <h3 align="center">PANEL DE RENOVACION DE <span class="text-bold">CARTERA DE SERVICIO</span></h3>
       	<br>
       	<div class="row">
         	<div class="col-lg-4 col-md-4 col-dm-4 col-xs-12">
-	            <label for="form-field-24">Titulo:</label>
+	            <label for="form-field-24">TITULO:</label>
                 <input name="titulo" id="titulo" class="autosize form-control" value="{{$cartera_servicio->titulo}}" type="text" step="any">
             </div>
 
             <div class="col-lg-4 col-md-4 col-dm-4 col-xs-12">
-              <label for="form-field-24">Mes:</label>
+              <label for="form-field-24">MES:</label>
               <select name="mes" id="mes" class="form-control selectpicker">
               @foreach($meses as $var)
                 @if($var == $cartera_servicio->mes)
@@ -33,7 +34,7 @@
             </div>
 
             <div class="col-lg-4 col-md-4 col-dm-4 col-xs-12">
-              <label for="form-field-24">Anio:</label>
+              <label for="form-field-24">ANIO:</label>
               <select name="anio" id="anio" class="form-control selectpicker">
               @foreach($anios as $var)
                 @if($var == $cartera_servicio->anio)
@@ -48,19 +49,19 @@
         <br>
         <div class="panel-body">
             <div class="panel panel-info">
-              <div class="panel-heading">Cartera de Servicio</div>
+              <div class="panel-heading">CREACION DE LA CARTERA DE SERVICIO</div>
               <div class="panel-body">
           		<div class="col-lg-12 col-md-12 col-dm-12 col-xs-12">
           			  <div class="table-responsive">
           			<table id="detalles" class="table table-striped table-bordered table-condensed table-hover">
           			<thead style="background-color:#A9D0F5">
-          				<th class="text-center">Especialidad</th>
-          				<th class="text-center">Servicios</th>
-          				<th class="text-center">Dias</th>
-          				<th class="text-center">Horas</th>
-          				<th class="text-center">Observaciones</th>
-                  <th class="text-center">Op1</th>
-                  <th class="text-center">Op2</th>
+          				<th class="text-center">ESPECIALIDAD</th>
+                  <th class="text-center">SERVICIOS</th>
+                  <th class="text-center">DIAS</th>
+                  <th class="text-center">HORAS</th>
+                  <th class="text-center">OBSERVACIONES</th>
+                  <th class="text-center">OPCION 1</th>
+                  <th class="text-center">OPCION 2</th>
           			</thead>
           			<tbody>
 	                <div id="especialidades">
@@ -85,7 +86,7 @@
              <div class="col-sm-8 col-sm-offset-2">
                <div class="form-group">
                 <button onclick="guardar()" class="btn btn-primary btn-block" type="submit">
-                   <i class="fa fa-arrow-circle-right"> Renovar Cartera de Servicio </i>
+                   <i class="fa fa-arrow-circle-right"> REGISTRAR CARTERA DE SERVICIO </i>
                 </button>
                </div>
              </div>
