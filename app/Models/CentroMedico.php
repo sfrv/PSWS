@@ -247,8 +247,7 @@ class CentroMedico extends Model
                 ->select('e.*')
                 ->where('a.id', '=', $id)
                 ->distinct()
-                ->orderBy("e.id", "DES")
-                ->paginate(10);
+                ->orderBy("e.id", "DES");
         } else {
 
             $result = DB::table('centro_medico as a')
@@ -261,7 +260,7 @@ class CentroMedico extends Model
                 ->where('e.mes', 'LIKE', '%' . $text . '%')
                 ->orWhere('e.titulo', 'LIKE', '%' . $text . '%')
                 ->distinct()
-                ->get();
+                ->orderBy("e.id", "DES");
         }
 
 

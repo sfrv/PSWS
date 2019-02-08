@@ -10,7 +10,7 @@
  <section class="content">
    <div class="row">
      <div class="col-sm-12 col-xs-12">
-       <div class="box box-primary">
+       <div class="box box-success">
        <!-- TITULO DE PANEL -->
        <div class="box-header with-border">
            <h3 align="center">PANEL DE  <span class="text-bold">MEDICOS REGISTRADOS</span></h3>
@@ -18,9 +18,10 @@
        </div>
        <div class="box-body">
          @include('admCentros.medico.search')
-         <table class="table table-bordered" style="border-top-color: #00AEFF">
+         <table class="table table-striped" style="border-top-color: #00AEFF">
            <thead>
            <tr>
+              <th class="text-center">ESTADO</th>
              <th class="text-center">NOMBRE</th>
              <th class="text-center">APELLIDO</th>
              <th class="text-center">TELEFONO</th>
@@ -32,6 +33,11 @@
            <tbody>
              @foreach($medicos as $var)
                   <tr class="text-center">
+                    @if($var->estado == 1)
+                      <td class="text-center"><span class="badge bg-green">ACTIVO</span></td>
+                    @else
+                      <td class="text-center"><span class="badge bg-red">INACTIVO</span></td>
+                    @endif
                     <td>{{ $var->nombre }}</td>
                     <td>{{ $var->apellido }}</td>
                     <td>{{ $var->telefono }}</td>
@@ -50,7 +56,7 @@
            </tbody>
          </table>
        </div>
-
+       {{ $medicos->links() }}
      </div>
      </div>
    </div>

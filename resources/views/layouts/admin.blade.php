@@ -91,7 +91,7 @@
           <ul class="sidebar-menu">
             <li class="header"></li>
 
-              <li class="treeview">
+              <!-- <li class="treeview">
                 <a href="#">
                   <i class="fa fa-list-alt"></i>
                   <span>Adm. Centros Medicos</span>
@@ -106,6 +106,55 @@
                   <li><a href="{{url('adm/servicio')}}"><i class="fa fa-circle-o"></i>Gestionar Tipo de Servicio</a></li>
                   <li><a href="{{url('adm/medico')}}"><i class="fa fa-circle-o"></i>Gestionar Medicos</a></li>
                 </ul>
+              </li> -->
+
+              <li>
+                <a href="{{url('adm/centro')}}">
+                  <i class="fa fa-hospital-o"></i> <span>CENTROS MEDICOS</span>
+                  <i class="fa fa-angle-right pull-right"></i>
+                </a>
+              </li>
+
+              <li>
+                <a href="{{url('adm/nivel')}}">
+                  <i class="fa fa-list-ul"></i> <span>NIVELES</span>
+                  <i class="fa fa-angle-right pull-right"></i>
+                </a>
+              </li>
+
+              <li>
+                <a href="{{url('adm/zona')}}">
+                  <i class="fa fa-dot-circle-o"></i> <span>ZONAS</span>
+                  <i class="fa fa-angle-right pull-right"></i>
+                </a>
+              </li>
+
+              <li>
+                <a href="{{url('adm/especialidad')}}">
+                  <i class="fa fa-heartbeat"></i> <span>ESPECIALIDADES</span>
+                  <i class="fa fa-angle-right pull-right"></i>
+                </a>
+              </li>
+
+              <li>
+                <a href="{{url('adm/red')}}">
+                  <i class="fa fa-university"></i> <span>REDES</span>
+                  <i class="fa fa-angle-right pull-right"></i>
+                </a>
+              </li>
+
+              <li>
+                <a href="{{url('adm/servicio')}}">
+                  <i class="fa fa-plus-square"></i> <span>SERVICIOS</span>
+                  <i class="fa fa-angle-right pull-right"></i>
+                </a>
+              </li>
+
+              <li>
+                <a href="{{url('adm/medico')}}">
+                  <i class="fa fa-user-plus"></i> <span>MEDICOS</span>
+                  <i class="fa fa-angle-right pull-right"></i>
+                </a>
               </li>
               <!-- <li class="treeview">
                 <a href="#">
@@ -122,7 +171,7 @@
             <li>
               <a href="#">
                 <i class="fa fa-info-circle"></i> <span>Acerca De...</span>
-                <small class="label pull-right bg-yellow">S.E.</small>
+                <small class="label pull-right bg-green">S.E.</small>
               </a>
             </li>
 

@@ -3,7 +3,9 @@
   		  <div class="panel panel-blue">
               <div class="panel-body">
                 <div class="input-group margin">
-                  <input type="text" class="form-control" name="searchText" placeholder="Buscar Por Nombre de Servicio..." values="{{$searchText}}">
+                  <div class="form-group has-success">
+                    <input type="text" class="form-control" name="searchText" placeholder="Buscar Por Nombre de Servicio..." values="{{$searchText}}">
+                  </div>
                   <span class="input-group-btn">
                     <button type="submit" class="btn btn-info btn-flat" id="mos" value="mos">
                       <i class="fa fa-search"></i>

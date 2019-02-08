@@ -16,12 +16,13 @@ class RolTurnoController extends Controller
 	public function index_rol_turno($id,Request $request)
 	{
 		$centro = CentroMedico::_obtenerCentro($id);
-        $rol_turnos = CentroMedico::_obtenerRolTurnos($id,$request['searchText']);
+        $rol_turnos = CentroMedico::_obtenerRolTurnos($id,$request['searchText'])->paginate(7);
+        // dd($rol_turnos);
         // dd($rol_turnos);
         // dd($request['searchText']);
         // $searchText = $request->get('searchText');
         $searchText = $request->get('searchText');
-        return view('admCentros.centro.rol_turno.index_rol_turno',compact('centro','rol_turnos','searchText'));
+        return view('admCentros.centro.rol_turno.index',compact('centro','rol_turnos','searchText'));
 	}
 
     public function create_rol_turno($id)//id centro
@@ -36,7 +37,7 @@ class RolTurnoController extends Controller
         $medicos = Medico::_getAllMedicos("")->get();
         // dd($medicos);
         // $detalle2 = json_encode($detalle, JSON_UNESCAPED_SLASHES );
-        return view('admCentros.centro.rol_turno.create_rol_turno',compact('id','especialidades_etapa_emergencia','medicos','meses','mes_actual','anios','anio_actual'));
+        return view('admCentros.centro.rol_turno.create',compact('id','especialidades_etapa_emergencia','medicos','meses','mes_actual','anios','anio_actual'));
     }
 
     public function edit_rol_turno($id,$id_centro)
@@ -54,7 +55,7 @@ class RolTurnoController extends Controller
     	$medicos_json = json_encode($medicos, JSON_UNESCAPED_SLASHES );
     	$detalle2 = json_encode($especialidades_etapa_emergencia, JSON_UNESCAPED_SLASHES );
     	// dd($rol_dias);
-    	return view('admCentros.centro.rol_turno.edit_rol_turno',compact('rol_turno','especialidades_etapa_emergencia','turnos_json','rol_dias_json','medicos_json','medicos','detalle2','etapa_servicio_uno'));
+    	return view('admCentros.centro.rol_turno.edit',compact('rol_turno','especialidades_etapa_emergencia','turnos_json','rol_dias_json','medicos_json','medicos','detalle2','etapa_servicio_uno'));
     }
 
     public function show_rol_turno($id,$id_centro)
@@ -71,7 +72,7 @@ class RolTurnoController extends Controller
     	$rol_dias_json = json_encode($rol_dias, JSON_UNESCAPED_SLASHES );
     	$medicos_json = json_encode($medicos, JSON_UNESCAPED_SLASHES );
     	// dd($especialidades);
-    	return view('admCentros.centro.rol_turno.show_rol_turno',compact('rol_turno','especialidades_etapa_emergencia','turnos_json','rol_dias_json','medicos_json'));
+    	return view('admCentros.centro.rol_turno.show',compact('rol_turno','especialidades_etapa_emergencia','turnos_json','rol_dias_json','medicos_json'));
     }
 
     public function update_rol_tuno(Request $request,$id_rol_turno)
@@ -294,7 +295,7 @@ class RolTurnoController extends Controller
     	$medicos_json = json_encode($medicos, JSON_UNESCAPED_SLASHES );
     	$detalle2 = json_encode($especialidades, JSON_UNESCAPED_SLASHES );
     	
-    	return view('admCentros.centro.rol_turno.renovate_rol_turno',compact('id_centro','rol_turno','especialidades','turnos_json','rol_dias_json','medicos_json','medicos','detalle2','etapa_servicio_uno'));
+    	return view('admCentros.centro.rol_turno.renovate',compact('id_centro','rol_turno','especialidades','turnos_json','rol_dias_json','medicos_json','medicos','detalle2','etapa_servicio_uno'));
     }
 
     //PARA LA APLICACION MOVIL
