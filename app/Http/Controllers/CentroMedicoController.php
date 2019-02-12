@@ -10,6 +10,7 @@ use App\Models\TipoServicio;
 use App\Models\Zona;
 use App\Models\Nivel;
 use App\Models\Especialidad;
+use App\Models\Medico;
 use DB;
 
 
@@ -43,32 +44,66 @@ class CentroMedicoController extends Controller
     {
         $centro = CentroMedico::_obtenerCentro($id);
         $detalle = CentroMedico::_obtenerDetalleCentro($id);
+        $detalle_medicos = CentroMedico::_obtenerDetalleCentroMedicos($id);
   
-        return view('admCentros.centro.show',compact('centro','detalle'));
+        return view('admCentros.centro.show',compact('centro','detalle','detalle_medicos'));
     }
 
     public function edit($id)
     {
         $centro = CentroMedico::_obtenerCentro($id);
         $detalle = CentroMedico::_obtenerDetalleCentro($id);
+        $detalle_medicos = CentroMedico::_obtenerDetalleCentroMedicos($id);
         $redes = Red::_getAllRedes("")->get();
         $tiposervicios = TipoServicio::_getAllTipoServicios("")->get();
         $zonas = Zona::_getAllZonas("")->get();
         $niveles = Nivel::_getAllNiveles("")->get();
-        $especialidades = Especialidad::_getAllEspecialidades("")->get();
+        // $especialidades = Especialidad::_getAllEspecialidades("")->get();
 
-        $detalle_json = json_encode($detalle, JSON_UNESCAPED_SLASHES );
+        // $detalle_json = json_encode($detalle, JSON_UNESCAPED_SLASHES );
   
-        return view('admCentros.centro.edit',compact('centro','detalle','redes','tiposervicios','zonas','niveles','especialidades','detalle_json'));
+        return view('admCentros.centro.edit',compact('centro','redes','tiposervicios','zonas','niveles','detalle','detalle_medicos'));
     }
-
 
     public function update(Request $request, $id)
     {
-        // dd($request);
-        // return $request->all();
         CentroMedico::_editarCentroMedico($request, $id);
         return Redirect::to('adm/centro');
+    }
+
+    public function edit_especialidades($id)
+    {
+        $centro = CentroMedico::_obtenerCentro($id);
+        $detalle = CentroMedico::_obtenerDetalleCentro($id);
+        $especialidades = Especialidad::_getAllEspecialidades("")->get();
+        $detalle_json = json_encode($detalle, JSON_UNESCAPED_SLASHES );
+
+        return view('admCentros.centro.edit_especialidades',compact('centro','detalle','especialidades','detalle_json'));   
+    }
+
+    public function update_especialidades(Request $request, $id)
+    {
+        CentroMedico::_editarCentroMedicoEspecialidades($request, $id);
+        return Redirect::to('adm/centro/'.$id.'/edit');
+    }
+
+    public function edit_medicos($id)
+    {
+        $centro = CentroMedico::_obtenerCentro($id);
+        $medicos = Medico::_getAllMedicos("")->get();
+        $detalle_medicos = CentroMedico::_obtenerDetalleCentroMedicos($id);
+        $detalle_medicos_json = json_encode($detalle_medicos, JSON_UNESCAPED_SLASHES );
+        // $especialidades = Especialidad::_getAllEspecialidades("")->get();
+        // $detalle_json = json_encode($detalle, JSON_UNESCAPED_SLASHES );
+
+        return view('admCentros.centro.edit_medicos',compact('centro','medicos','detalle_medicos','detalle_medicos_json'));   
+    }
+
+    public function update_medicos(Request $request, $id)
+    {
+        // return $request->all();
+        CentroMedico::_editarCentroMedicoMedicos($request, $id);
+        return Redirect::to('adm/centro/'.$id.'/edit');
     }
 
     public function destroy($id)

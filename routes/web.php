@@ -80,6 +80,23 @@ Route::get('adm/centro/renovate_rol_turno/{id_rol_turno}/{id_centro}',[
 //////////////////////////////////////
 
 Route::resource('adm/centro','CentroMedicoController');
+Route::get('adm/centro/{id_centro}/edit_especialidades',[
+	'as' => 'edit-especialidades',
+	'uses' => 'CentroMedicoController@edit_especialidades'
+]);
+Route::patch('adm/centro/update_especialidades/{id_centro}',[
+	'as' => 'update-especialidades',
+	'uses' => 'CentroMedicoController@update_especialidades'
+]);
+Route::get('adm/centro/{id_centro}/edit_medicos',[
+	'as' => 'edit-medicos',
+	'uses' => 'CentroMedicoController@edit_medicos'
+]);
+Route::patch('adm/centro/update_medicos/{id_centro}',[
+	'as' => 'update-medicos',
+	'uses' => 'CentroMedicoController@update_medicos'
+]);
+
 Route::resource('adm/nivel','NivelController');
 Route::resource('adm/zona','ZonaController');
 Route::resource('adm/especialidad','EspecialidadController');

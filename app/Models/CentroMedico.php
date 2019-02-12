@@ -22,6 +22,9 @@ class CentroMedico extends Model
         'manzano',
         'horas_atencion',
         'telefono',
+        'camas_total',
+        'camas_ocupadas',
+        'telefono',
         'latitud',
         'longitud',
         'id_red',
@@ -36,6 +39,7 @@ class CentroMedico extends Model
     {
         $text = trim($searchText);
         $result = $query->where('nombre', 'LIKE', '%' . $text . '%')
+
             ->where('estado', '=' , '1')
             ->orderBy('id', 'desc');
             // ->paginate(7);
@@ -49,7 +53,6 @@ class CentroMedico extends Model
         $centro->direccion = $request->get('direccion');
         $centro->distrito = $request->get('distrito');
         $centro->uv = $request->get('uv');
-        $centro->imagen = $request->get('imagen');
         $centro->manzano = $request->get('manzano');
         $centro->horas_atencion = $request->get('horas_atencion');
         $centro->telefono = $request->get('telefono');
@@ -59,6 +62,8 @@ class CentroMedico extends Model
         $centro->id_tipo_servicio = $request->get('id_tipo_servicio');
         $centro->id_zona = $request->get('id_zona');
         $centro->id_nivel = $request->get('id_nivel');
+        $centro->camas_total = $request->get('camas_total');
+        $centro->camas_ocupadas = $request->get('camas_ocupadas');
         $centro->estado = 1;
 
         if (Input::hasFile('imagen')) {
@@ -68,27 +73,6 @@ class CentroMedico extends Model
         }
 
         $centro->save();
-
-        $idespecialidad = $request->get('idespecialidad_e');
-
-        $cont = 0;
-        while ($cont < count($idespecialidad)) {
-            $detalleEspecialidad = new DetalleCentroEspecialidad();
-            $detalleEspecialidad->id_centro_medico = $centro->id;
-            $detalleEspecialidad->id_especialidad = $idespecialidad[$cont];
-            if($request->get($idespecialidad[$cont].'_e') != null ){
-                $detalleEspecialidad->etapa_emergencia = 1;
-            }
-            if($request->get($idespecialidad[$cont].'_c') != null ){
-                $detalleEspecialidad->etapa_consulta = 1;
-            }
-            if($request->get($idespecialidad[$cont].'_h') != null ){
-                $detalleEspecialidad->etapa_hospitalizacion = 1;
-            }
-            $detalleEspecialidad->estado = 1;
-            $detalleEspecialidad->save();
-            $cont = $cont + 1;
-        }
     }
 
     public function scope_editarCentroMedico($query, $request, $id)
@@ -98,7 +82,8 @@ class CentroMedico extends Model
         $centro->direccion = $request->get('direccion');
         $centro->distrito = $request->get('distrito');
         $centro->uv = $request->get('uv');
-        // $centro->imagen = $request->get('imagen');
+        $centro->camas_total = $request->get('camas_total');
+        $centro->camas_ocupadas = $request->get('camas_ocupadas');
         $centro->manzano = $request->get('manzano');
         $centro->horas_atencion = $request->get('horas_atencion');
         $centro->telefono = $request->get('telefono');
@@ -117,6 +102,52 @@ class CentroMedico extends Model
 
         $centro->update();
 
+    }
+
+    public function scope_editarCentroMedicoMedicos($query, $request, $id)
+    {
+        $centro = CentroMedico::findOrFail($id);
+        if ($request->get('idmedicos') != null) {
+            $idmedicos = $request->get('idmedicos');
+            $cont = 0;
+            while ($cont < count($idmedicos)) {
+                $detalle_medico = new DetalleCentroMedico();
+                $detalle_medico->id_centro_medico = $centro->id;
+                $detalle_medico->id_medico = $idmedicos[$cont];
+                $detalle_medico->estado = 1;
+                $detalle_medico->save();
+                $cont = $cont + 1;
+            }
+        }
+
+        if ($request->get('idmedico_delete') != null) {
+            $idmedico_delete = $request->get('idmedico_delete');
+            $cont = 0;
+            while ($cont < count($idmedico_delete)) {
+                // DetalleCentroEspecialidad::destroy($idespecialidad[$cont]);
+                $detalle_medico = DetalleCentroMedico::findOrFail($idmedico_delete[$cont]);
+                $detalle_medico->estado = 0;
+                $detalle_medico->update();
+                $cont = $cont + 1;
+            }
+        }
+
+        if ($request->get('idmedico_habilitar') != null) {
+            $idmedico_habilitar = $request->get('idmedico_habilitar');
+            $cont = 0;
+            while ($cont < count($idmedico_habilitar)) {
+                // DetalleCentroEspecialidad::destroy($idespecialidad[$cont]);
+                $detalle_medico = DetalleCentroMedico::findOrFail($idmedico_habilitar[$cont]);
+                $detalle_medico->estado = 1;
+                $detalle_medico->update();
+                $cont = $cont + 1;
+            }
+        }
+    }
+
+    public function scope_editarCentroMedicoEspecialidades($query, $request, $id)
+    {
+        $centro = CentroMedico::findOrFail($id);
         if ($request->get('idespecialidad_edit') != null) {
             $idespecialidad = $request->get('idespecialidad_edit');
             $cont = 0;
@@ -142,13 +173,9 @@ class CentroMedico extends Model
                     $cant_aux++;
                 }
                 if ($cant_aux == 3) {
-                    // $detalleEspecialidad2 = DetalleCentroEspecialidad::findOrFail($idespecialidad[$cont]);
                     $detalleEspecialidad->estado = 0;
-                    // $detalleEspecialidad2->update();
                 }else{
-                    // $detalleEspecialidad2 = DetalleCentroEspecialidad::findOrFail($idespecialidad[$cont]);
                     $detalleEspecialidad->estado = 1;
-                    // $detalleEspecialidad2->update();
                 }
                 $cant_aux = 0;
                 $detalleEspecialidad->update();
@@ -159,39 +186,51 @@ class CentroMedico extends Model
         if ($request->get('idespecialidad_e') != null) {
             $idespecialidad = $request->get('idespecialidad_e');
             $cont = 0;
+            $cant_aux = 0;
             while ($cont < count($idespecialidad)) {
                 $detalleEspecialidad = new DetalleCentroEspecialidad();
                 $detalleEspecialidad->id_centro_medico = $centro->id;
                 $detalleEspecialidad->id_especialidad = $idespecialidad[$cont];
                 if($request->get($idespecialidad[$cont].'_e') != null ){
                     $detalleEspecialidad->etapa_emergencia = 1;
+                }else{
+                    $detalleEspecialidad->etapa_emergencia = 0;
+                    $cant_aux++;
                 }
                 if($request->get($idespecialidad[$cont].'_c') != null ){
                     $detalleEspecialidad->etapa_consulta = 1;
+                }else{
+                    $detalleEspecialidad->etapa_consulta = 0;
+                    $cant_aux++;
                 }
                 if($request->get($idespecialidad[$cont].'_h') != null ){
                     $detalleEspecialidad->etapa_hospitalizacion = 1;
+                }else{
+                    $detalleEspecialidad->etapa_hospitalizacion = 0;
+                    $cant_aux++;
                 }
-                $detalleEspecialidad->estado = 1;
+                if ($cant_aux == 3) {
+                    $detalleEspecialidad->estado = 0;
+                }else{
+                    $detalleEspecialidad->estado = 1;
+                }
+                $cant_aux = 0;
                 $detalleEspecialidad->save();
                 $cont = $cont + 1;
             }
         }
 
-        if ($request->get('idespecialidad_delete') != null) {
-            $idespecialidad = $request->get('idespecialidad_delete');
-            $cont = 0;
-            while ($cont < count($idespecialidad)) {
-                // DetalleCentroEspecialidad::destroy($idespecialidad[$cont]);
-                $detalleEspecialidad = DetalleCentroEspecialidad::findOrFail($idespecialidad[$cont]);
-                $detalleEspecialidad->estado = 0;
-                $detalleEspecialidad->update();
-                $cont = $cont + 1;
-            }
-        }
-        // dd($idespecialidad);
-        // dd("ss");
-
+        // if ($request->get('idespecialidad_delete') != null) {
+        //     $idespecialidad = $request->get('idespecialidad_delete');
+        //     $cont = 0;
+        //     while ($cont < count($idespecialidad)) {
+        //         // DetalleCentroEspecialidad::destroy($idespecialidad[$cont]);
+        //         $detalleEspecialidad = DetalleCentroEspecialidad::findOrFail($idespecialidad[$cont]);
+        //         $detalleEspecialidad->estado = 0;
+        //         $detalleEspecialidad->update();
+        //         $cont = $cont + 1;
+        //     }
+        // }
     }
 
     public function scope_obtenerCentro($query, $id)
@@ -201,7 +240,7 @@ class CentroMedico extends Model
             ->join('tipo_servicio as t', 't.id', '=', 'c.id_tipo_servicio')
             ->join('zona as z', 'z.id', '=', 'c.id_zona')
             ->join('nivel as n', 'n.id', '=', 'c.id_nivel')
-            ->select('c.id', 'c.nombre', 'c.latitud', 'c.longitud', 'c.direccion', 'c.descripcion', 'c.distrito', 'c.uv', 'c.manzano', 'c.horas_atencion', 'c.imagen', 'telefono', 'r.nombre as nombreRed', 't.nombre as nombreServicio', 'z.nombre as nombreZona', 'n.nombre as nombreNivel')
+            ->select('c.id', 'c.nombre', 'c.latitud', 'c.longitud', 'c.direccion', 'c.descripcion', 'c.distrito', 'c.uv', 'c.manzano', 'c.horas_atencion', 'c.imagen', 'c.telefono', 'c.camas_total', 'c.camas_ocupadas', 'r.nombre as nombreRed', 't.nombre as nombreServicio', 'z.nombre as nombreZona', 'n.nombre as nombreNivel')
             ->where('c.id', '=', $id)
             ->first();
 
@@ -218,6 +257,18 @@ class CentroMedico extends Model
             ->get();
 
         return $detalle;
+    }
+
+    public function scope_obtenerDetalleCentroMedicos($query, $id)
+    {
+        $result = DB::table('detalle_medico_centro_medico as de')
+            ->join('medico as e', 'e.id', '=', 'de.id_medico')
+            ->select('e.nombre','e.apellido','e.telefono', 'de.id' ,'de.id_medico','de.estado')
+            ->where('de.id_centro_medico', '=', $id)
+            ->orderBy("de.id", "asc")
+            ->get();
+
+        return $result;
     }
 
     public function scope_obtenerEspecialidadesEtapaEmergencia($query, $id)

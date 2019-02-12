@@ -22,10 +22,9 @@
               <th class="text-center">ESTADO</th>
               <th class="text-center">NOMBRE</th>
               <th class="text-center">DIRECCION</th>
-              <th class="text-center">RED</th>
-              <th class="text-center">SERVICIO</th>
-              <th class="text-center">ZONA</th>
-              <th class="text-center">NIVEL</th>
+              <th class="text-center">CAMAS OCUPADAS</th>
+              <th class="text-center">CAMAS LIBRES</th>
+              <th class="text-center">CAMAS TOTAL</th>
               <th class="text-center">OPCIONES</th>
              </tr>
              </thead>
@@ -39,10 +38,9 @@
                       @endif
                       <td class="text-center">{{ $var->nombre }}</td>
                       <td class="text-center">{{ $var->direccion }}</td>
-                      <td class="text-center">{{ $var->id_red }}</td>
-                      <td class="text-center">{{ $var->id_tipo_servicio }}</td>
-                      <td class="text-center">{{ $var->id_zona }}</td>
-                      <td class="text-center">{{ $var->id_nivel }}</td>
+                      <td class="text-center"><span class="badge bg-red">{{ $var->camas_ocupadas }}</span></td>
+                      <td class="text-center"><span class="badge bg-blue">{{ $var->camas_total - $var->camas_ocupadas }}</span></td>
+                      <td class="text-center"><span class="badge bg-orange">{{ $var->camas_total }}</span></td>
                       <td class="text-center">
                         <a href="" data-target="#modal-delete-{{$var->id}}" data-toggle="modal" class="btn btn-danger" data-placement="top" data-original-title="Remove"><i class="fa fa-times fa fa-white"></i></a>
                         <a href="{{URL::action('CentroMedicoController@show',$var->id)}}" class="btn btn-info" data-placement="top"><i class="fa fa-eye"></i></a>
