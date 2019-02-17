@@ -32,7 +32,7 @@ Route::get('adm/centro/index_cartera_servicio/{id}',[
 	'as' => 'index-cartera-servicio',
 	'uses' => 'CarteraServicioController@index_cartera_servicio'
 ]);
-Route::get('adm/centro/show_cartera_servicio/{id}',[
+Route::get('adm/centro/show_cartera_servicio/{id_cartera_servicio}/{id_centro}',[
 	'as' => 'show-cartera-servicio',
 	'uses' => 'CarteraServicioController@show_cartera_servicio'
 ]);
