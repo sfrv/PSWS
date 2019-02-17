@@ -143,4 +143,8 @@ class CentroMedicoController extends Controller
     public function get_AllRolTurnos($id){
         return json_encode(array("roles" => CentroMedico::_getAllRolTurnos($id)->get()));
     }
+    public function get_CentroMedico($id){
+        return json_encode(array("centro" => CentroMedico::_obtenerCentro($id)));
+    }
+
 }

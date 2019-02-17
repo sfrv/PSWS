@@ -240,7 +240,7 @@ class CentroMedico extends Model
             ->join('tipo_servicio as t', 't.id', '=', 'c.id_tipo_servicio')
             ->join('zona as z', 'z.id', '=', 'c.id_zona')
             ->join('nivel as n', 'n.id', '=', 'c.id_nivel')
-            ->select('c.id', 'c.nombre', 'c.latitud', 'c.longitud', 'c.direccion', 'c.descripcion', 'c.distrito', 'c.uv', 'c.manzano', 'c.horas_atencion', 'c.imagen', 'c.telefono', 'c.camas_total', 'c.camas_ocupadas', 'r.nombre as nombreRed', 't.nombre as nombreServicio', 'z.nombre as nombreZona', 'n.nombre as nombreNivel')
+            ->select('c.id', 'c.nombre', 'c.latitud', 'c.longitud', 'c.direccion', 'c.descripcion', 'c.distrito', 'c.uv', 'c.manzano', 'c.horas_atencion', 'c.imagen', 'c.telefono', 'c.camas_total', 'c.camas_ocupadas', 'c.estado', 'r.nombre as nombreRed', 't.nombre as nombreServicio', 'z.nombre as nombreZona', 'n.nombre as nombreNivel')
             ->where('c.id', '=', $id)
             ->first();
 
@@ -394,7 +394,7 @@ class CentroMedico extends Model
             ->join('tipo_servicio as t', 't.id', '=', 'c.id_tipo_servicio')
             ->join('zona as z', 'z.id', '=', 'c.id_zona')
             ->join('nivel as n', 'n.id', '=', 'c.id_nivel')
-            ->select('c.id', 'c.nombre', 'c.latitud', 'c.longitud', 'c.direccion', 'c.descripcion', 'c.distrito', 'c.uv', 'c.manzano', 'c.horas_atencion', 'telefono', 'r.nombre as nombreRed', 't.nombre as nombreTipoServicio', 'z.nombre as nombreZona', 'n.nombre as nombreNivel', 'c.estado')
+            ->select('c.id', 'c.nombre', 'c.latitud', 'c.longitud', 'c.camas_total','c.direccion', 'c.descripcion', 'c.distrito', 'c.uv', 'c.manzano', 'c.horas_atencion', 'telefono', 'r.nombre as nombreRed', 't.nombre as nombreServicio', 'z.nombre as nombreZona', 'n.nombre as nombreNivel', 'c.estado')
 
             ->where('c.id_red', '=', $id_red)
             ->where('c.id_tipo_servicio', '=', $id_tipo_servicio)

@@ -221,6 +221,9 @@ Route::get('get-medicos', [
 	'uses' => 'MedicoController@get_AllMedicos'
 ]);
 
+Route::get('get-CentroMedico/{id}', [
+	'uses' => 'CentroMedicoController@get_CentroMedico'
+]);
 //modificar
 
 // Route::get('get-especialidades',[
