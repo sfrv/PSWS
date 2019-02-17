@@ -165,7 +165,8 @@ function guardar(){
 	}
 
 	objeto = {
-		"titulo": titulo,
+		"id_centro": '{{$id_centro}}',
+    "titulo": titulo,
 		"mes": mes,
 		"anio": anio,
 		"datos": datos
@@ -175,7 +176,7 @@ function guardar(){
 	    my_json: objeto
 	};
 
-	console.log(objeto["datos"])
+	console.log(objeto)
 
   	$.ajax({
   		type: "GET", 

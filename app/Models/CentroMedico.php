@@ -322,26 +322,17 @@ class CentroMedico extends Model
     {
         $text = trim($searchText);
         if ($text == "") {
-            $result = DB::table('centro_medico as a')
-                ->join('detalle_centro_especialidad as b', 'a.id', '=', 'b.id_centro_medico')
-                ->join('servicio as c', 'b.id', '=', 'c.id_detalle_centro_especialidad')
-                ->join('cartera_servicio as d', 'c.id_cartera_servicio', '=', 'd.id')
-                ->select('d.*')
-                ->where('a.id', '=', $id)
-                ->distinct()
-                ->orderBy("d.id", "DES")
-                ->paginate(10);
+            $result = DB::table('cartera_servicio as a')
+                ->select('a.*')
+                ->where('a.id_centro_medico', '=', $id)
+                ->orderBy("a.id", "DES");
         } else {
-            $result = DB::table('centro_medico as a')
-                ->join('detalle_centro_especialidad as b', 'a.id', '=', 'b.id_centro_medico')
-                ->join('servicio as c', 'b.id', '=', 'c.id_detalle_centro_especialidad')
-                ->join('cartera_servicio as d', 'c.id_cartera_servicio', '=', 'd.id')
-                ->select('d.*')
-                ->where('a.id', '=', $id)
-                ->where('d.mes', 'LIKE', '%' . $text . '%')
-                ->orWhere('d.titulo', 'LIKE', '%' . $text . '%')
-                ->distinct()
-                ->get();
+            $result = DB::table('cartera_servicio as a')
+                ->select('a.*')
+                ->where('a.id_centro_medico', '=', $id)
+                ->where('a.mes', 'LIKE', '%' . $text . '%')
+                ->orWhere('a.titulo', 'LIKE', '%' . $text . '%')
+                ->orderBy("a.id", "DES");
           // $result=$query->where('estado','=',1)
           //             ->where('nombre','LIKE','%'.$text.'%')
           //               ->orWhere('id','LIKE','%'.$text.'%')

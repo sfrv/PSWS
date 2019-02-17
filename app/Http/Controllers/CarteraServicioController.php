@@ -17,7 +17,7 @@ class CarteraServicioController extends Controller
 	public function index_cartera_servicio($id,Request $request)
     {
         $centro = CentroMedico::_obtenerCentro($id);
-        $cartera_servicios = CentroMedico::_obtenerCarteraServicios($id,$request['searchText']);
+        $cartera_servicios = CentroMedico::_obtenerCarteraServicios($id,$request['searchText'])->paginate(7);
         // dd($request['searchText']);
         $searchText = $request->get('searchText');
         return view('admCentros.centro.cartera_servicio.index_cartera_servicio',compact('cartera_servicios','centro','searchText'));
@@ -124,18 +124,19 @@ class CarteraServicioController extends Controller
         })->export('xlsx');
     }
 
-    public function show_cartera_servicio($id)
+    public function show_cartera_servicio($id,$id_centro)
     {
     	$cartera_servicio = CarteraServicio::findOrFail($id);
     	$servicios = CarteraServicio::_getServiciosPorId($id);
-    	$especialidades = CarteraServicio::_getEspecialidadesPorId($id);
+    	// $especialidades = CarteraServicio::_getEspecialidadesPorId($id);
+        $especialidades = CentroMedico::_obtenerDetalleCentro($id_centro);
 
     	$servicios_json = json_encode($servicios, JSON_UNESCAPED_SLASHES );
     	// dd($cartera_servicio);
     	return view('admCentros.centro.cartera_servicio.show_cartera_servicio',compact('cartera_servicio','especialidades','servicios_json'));
     }
 
-    public function create_cartera_servicio($id)
+    public function create_cartera_servicio($id_centro)
     {
         $meses = array("Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre");
         $anios = array("2018","2019","2020","2021","2022","2023","2024","2025","2026","2027","2028","2029","2030");
@@ -143,9 +144,9 @@ class CarteraServicioController extends Controller
         $anio_actual = date("Y");
         $mes_actual = $meses[date('n')-1];
 
-        $detalle = CentroMedico::_obtenerDetalleCentro($id);
+        $detalle = CentroMedico::_obtenerDetalleCentro($id_centro);
         $detalle2 = json_encode($detalle, JSON_UNESCAPED_SLASHES );
-        return view('admCentros.centro.cartera_servicio.create_cartera_servicio',compact('detalle','detalle2','meses','mes_actual','anios','anio_actual','nombres_servicios'));
+        return view('admCentros.centro.cartera_servicio.create_cartera_servicio',compact('id_centro','detalle','detalle2','meses','mes_actual','anios','anio_actual','nombres_servicios'));
     }
 
     public function edit_cartera_servicio($id,$id_centro)
@@ -170,8 +171,9 @@ class CarteraServicioController extends Controller
         $titulo = $my_json['titulo'];
         $mes = $my_json['mes'];
         $anio = $my_json['anio'];
+        $id_centro = $my_json['id_centro'];
 
-        $id_cartera_servicio = CarteraServicio::_insertarCarteraServicio($titulo,$mes,$anio);
+        $id_cartera_servicio = CarteraServicio::_insertarCarteraServicio($titulo,$mes,$anio,$id_centro);
 
         $datos = (array)$my_json['datos'];
         for ($i=0; $i < count($datos) ; $i++) { 

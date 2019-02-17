@@ -15,15 +15,17 @@ class CarteraServicio extends Model
 	  'titulo',
 	  'mes',
 	  'anio',
+      'id_centro_medico',
 	  'estado'
 	];
 
-	public function scope_insertarCarteraServicio($query, $titulo, $mes, $anio)
+	public function scope_insertarCarteraServicio($query, $titulo, $mes, $anio,$id_centro)
 	{
 	  $cartera_servicio = new CarteraServicio;
 	  $cartera_servicio->titulo = $titulo;
 	  $cartera_servicio->mes = $mes;
 	  $cartera_servicio->anio = $anio;
+      $cartera_servicio->id_centro_medico = $id_centro;
 	  $cartera_servicio->estado = 1;
 	  $cartera_servicio->save();
 	  return $cartera_servicio->id;
