@@ -2,7 +2,7 @@
 @section('contenido')
  <section class="content-header">
    <h1 align="center">
-       <b>CENTRO MEDICOS</b>
+       <b>CENTRO MEDICOS &nbsp;</b><i class="fa fa-hospital-o"></i>
    </h1>
 
  </section>
@@ -13,9 +13,10 @@
        <div class="box box-success">
          <div class="box-header with-border">
              <h3 align="center">PANEL DE <span class="text-bold">CENTROS MEDICOS REGISTRADOS</span></h3>
+             @include('admCentros.centro.search')
          </div>
+         <div class="box-body table-responsive no-padding">
          <div class="box-body">
-           @include('admCentros.centro.search')
            <table class="table table-striped" style="border-top-color: #00AEFF">
              <thead>
              <tr>
@@ -42,10 +43,18 @@
                       <td class="text-center"><span class="badge bg-blue">{{ $var->camas_total - $var->camas_ocupadas }}</span></td>
                       <td class="text-center"><span class="badge bg-orange">{{ $var->camas_total }}</span></td>
                       <td class="text-center">
-                        <a href="" data-target="#modal-delete-{{$var->id}}" data-toggle="modal" class="btn btn-danger" data-placement="top" data-original-title="Remove"><i class="fa fa-times fa fa-white"></i></a>
+                        @if(Auth::user()->tipo == 'ADMINISTRADOR')
+                          <a href="" data-target="#modal-delete-{{$var->id}}" data-toggle="modal" class="btn btn-danger" data-placement="top" data-original-title="Remove"><i class="fa fa-times fa fa-white"></i></a>
+                        @endif
+                        
                         <a href="{{URL::action('CentroMedicoController@show',$var->id)}}" class="btn btn-info" data-placement="top"><i class="fa fa-eye"></i></a>
-                        <a href="{{URL::action('CentroMedicoController@edit',$var->id)}}" class="btn btn-success" data-placement="top"><i class="fa fa-edit"></i></a>
+
+                        @if(Auth::user()->id_centro_medico == $var->id || Auth::user()->tipo == 'ADMINISTRADOR')
+                          <a href="{{URL::action('CentroMedicoController@edit',$var->id)}}" class="btn btn-success" data-placement="top"><i class="fa fa-edit"></i></a>
+                        @endif
+
                         <a href="{{ route('index-cartera-servicio', $var->id) }}" class="btn btn-primary" data-placement="top"><i class="fa fa-bars"></i></a>
+
                         <a href="{{ route('index-rol-turno', $var->id) }}" class="btn btn-warning" data-placement="top"><i class="fa fa-bars"></i></a>
                       </td>
                     </tr>
@@ -53,6 +62,7 @@
                 @endforeach
              </tbody>
            </table>
+         </div>
          </div>
          {{ $centros->links() }}
        </div>

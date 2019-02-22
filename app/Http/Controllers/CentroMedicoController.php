@@ -11,15 +11,21 @@ use App\Models\Zona;
 use App\Models\Nivel;
 use App\Models\Especialidad;
 use App\Models\Medico;
+use Illuminate\Support\Facades\Auth;
 use DB;
 
 
 class CentroMedicoController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
 
     public function index(Request $request)
     {
-        $centros = CentroMedico::_getAllCentrosMedicos($request['searchText'])->paginate(7);
+        $centros = CentroMedico::_getAllCentrosMedicos($request['searchText'],$request['filtro'])->paginate(7);
+        
         return view('admCentros.centro.index', ["centros" => $centros, "searchText" => $request->get('searchText')]);
     }
 
@@ -51,6 +57,9 @@ class CentroMedicoController extends Controller
 
     public function edit($id)
     {
+        if (Auth::user()->id_centro_medico != $id && Auth::user()->tipo == 'USUARIO') {
+            return Redirect::to('adm/centro/'.Auth::user()->id_centro_medico.'/edit');
+        }
         $centro = CentroMedico::_obtenerCentro($id);
         $detalle = CentroMedico::_obtenerDetalleCentro($id);
         $detalle_medicos = CentroMedico::_obtenerDetalleCentroMedicos($id);
@@ -73,6 +82,10 @@ class CentroMedicoController extends Controller
 
     public function edit_especialidades($id)
     {
+        if (Auth::user()->id_centro_medico != $id && Auth::user()->tipo == 'USUARIO') {
+            return Redirect::to('adm/centro/'.Auth::user()->id_centro_medico.'/edit_especialidades');
+        }
+        
         $centro = CentroMedico::_obtenerCentro($id);
         $detalle = CentroMedico::_obtenerDetalleCentro($id);
         $especialidades = Especialidad::_getAllEspecialidades("")->get();
@@ -89,6 +102,9 @@ class CentroMedicoController extends Controller
 
     public function edit_medicos($id)
     {
+        if (Auth::user()->id_centro_medico != $id && Auth::user()->tipo == 'USUARIO') {
+            return Redirect::to('adm/centro/'.Auth::user()->id_centro_medico.'/edit_medicos');
+        }
         $centro = CentroMedico::_obtenerCentro($id);
         $medicos = Medico::_getAllMedicos("")->get();
         $detalle_medicos = CentroMedico::_obtenerDetalleCentroMedicos($id);

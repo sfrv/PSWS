@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateDetalleSintomasTable extends Migration
+class CreateRoleUserTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,10 +13,8 @@ class CreateDetalleSintomasTable extends Migration
      */
     public function up()
     {
-        // Schema::create('detalle_sintomas', function (Blueprint $table) {
+        // Schema::create('role_user', function (Blueprint $table) {
         //     $table->increments('id');
-        //     $table->integer('id_enfermedad');
-        //     $table->integer('id_sintoma');
         //     $table->timestamps();
         // });
     }
@@ -28,6 +26,6 @@ class CreateDetalleSintomasTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('detalle_sintomas');
+        Schema::dropIfExists('role_user');
     }
 }

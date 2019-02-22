@@ -10,6 +10,11 @@ use App\Http\Requests\MedicoFormRequest;
 
 class MedicoController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+    
     public function index(Request $request)
     {
         $medicos = Medico::_getAllMedicos($request['searchText'])->paginate(7);

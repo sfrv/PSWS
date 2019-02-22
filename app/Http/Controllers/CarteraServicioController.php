@@ -14,13 +14,18 @@ use Maatwebsite\Excel\Facades\Excel;
 
 class CarteraServicioController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+    
 	public function index_cartera_servicio($id,Request $request)
     {
         $centro = CentroMedico::_obtenerCentro($id);
         $cartera_servicios = CentroMedico::_obtenerCarteraServicios($id,$request['searchText'])->paginate(7);
         // dd($request['searchText']);
         $searchText = $request->get('searchText');
-        return view('admCentros.centro.cartera_servicio.index_cartera_servicio',compact('cartera_servicios','centro','searchText'));
+        return view('admCentros.centro.cartera_servicio.index',compact('cartera_servicios','centro','searchText'));
     }
 
     public function generar_excel_cartera_servicio($id_cart,$id_centro)
@@ -133,7 +138,7 @@ class CarteraServicioController extends Controller
 
     	$servicios_json = json_encode($servicios, JSON_UNESCAPED_SLASHES );
     	// dd($cartera_servicio);
-    	return view('admCentros.centro.cartera_servicio.show_cartera_servicio',compact('cartera_servicio','especialidades','servicios_json'));
+    	return view('admCentros.centro.cartera_servicio.show',compact('cartera_servicio','especialidades','servicios_json'));
     }
 
     public function create_cartera_servicio($id_centro)
@@ -146,7 +151,7 @@ class CarteraServicioController extends Controller
 
         $detalle = CentroMedico::_obtenerDetalleCentro($id_centro);
         $detalle2 = json_encode($detalle, JSON_UNESCAPED_SLASHES );
-        return view('admCentros.centro.cartera_servicio.create_cartera_servicio',compact('id_centro','detalle','detalle2','meses','mes_actual','anios','anio_actual','nombres_servicios'));
+        return view('admCentros.centro.cartera_servicio.create',compact('id_centro','detalle','detalle2','meses','mes_actual','anios','anio_actual','nombres_servicios'));
     }
 
     public function edit_cartera_servicio($id,$id_centro)
@@ -162,25 +167,33 @@ class CarteraServicioController extends Controller
     	$servicios_json = json_encode($servicios, JSON_UNESCAPED_SLASHES );
         $nombres_servicios_json = json_encode($nombres_servicios, JSON_UNESCAPED_SLASHES );
         
-    	return view('admCentros.centro.cartera_servicio.edit_cartera_servicio',compact('cartera_servicio','especialidades','servicios_json','meses','anios','nombres_servicios_json','nombres_servicios'));
+    	return view('admCentros.centro.cartera_servicio.edit',compact('cartera_servicio','especialidades','servicios_json','meses','anios','nombres_servicios_json','nombres_servicios'));
     }
 
-    public function guardar_cartera_servicio()
+    public function store_cartera_servicio(Request $request,$id_centro)
     {
-        $my_json = $_REQUEST['my_json'];
-        $titulo = $my_json['titulo'];
-        $mes = $my_json['mes'];
-        $anio = $my_json['anio'];
-        $id_centro = $my_json['id_centro'];
+        // return $request->all();
+        $titulo = $request->get('titulo');
+        $mes = $request->get('mes');
+        $anio = $request->get('anio');
 
         $id_cartera_servicio = CarteraServicio::_insertarCarteraServicio($titulo,$mes,$anio,$id_centro);
 
-        $datos = (array)$my_json['datos'];
-        for ($i=0; $i < count($datos) ; $i++) { 
-            Servicio::_insertarServicio($datos[$i][1],$datos[$i][2],$datos[$i][3],$datos[$i][4],$id_cartera_servicio,$datos[$i][0]);
+        if ($request->get('idservicios') != null) {
+            $idservicios = $request->get('idservicios');
+            $idespecialidades = $request->get('idespecialidad');
+            $a = 0;
+            while ($a < count($idservicios)) {
+                $servicio = $request->get('text_s'.$idservicios[$a]);
+                $dia = $request->get('text_d'.$idservicios[$a]);
+                $hora = $request->get('text_h'.$idservicios[$a]);
+                $observacion = $request->get('text_o'.$idservicios[$a]);
+                $id_especialidad = $idespecialidades[$a];
+                Servicio::_insertarServicio($servicio,$dia,$hora,$observacion,$id_cartera_servicio,$id_especialidad);
+                $a++;
+            }
         }
-        
-        echo "Exito";
+        return Redirect::to('adm/centro/index_cartera_servicio/'.$id_centro);
     }
 
     public function actualizar_cartera_servicio()
@@ -226,7 +239,7 @@ class CarteraServicioController extends Controller
         $servicios_json = json_encode($servicios, JSON_UNESCAPED_SLASHES );
         $nombres_servicios_json = json_encode($nombres_servicios, JSON_UNESCAPED_SLASHES );
         // dd($cartera_servicio);
-        return view('admCentros.centro.cartera_servicio.renovate_cartera_servicio',compact('cartera_servicio','especialidades','servicios_json','anios','meses','nombres_servicios_json','nombres_servicios'));
+        return view('admCentros.centro.cartera_servicio.renovate',compact('id_centro','cartera_servicio','especialidades','servicios_json','anios','meses','nombres_servicios_json','nombres_servicios'));
     }
 
     //================================================

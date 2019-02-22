@@ -1,7 +1,7 @@
 @extends('layouts.admin')
 @section('contenido')
  <section class="content-header">
-   <h2 align="center">
+   <!-- <h2 align="center">
        * * * * * <b>B I E N V E N I D O</b> * * * * *
    </h2>
    <h1 align="center">
@@ -17,7 +17,7 @@
    <div class="row">
      <div class="col-sm-12 col-xs-12">
        <div class="box box-primary">
-       <!-- TITULO DE PANEL -->
+       
        <div class="box-header with-border">
            <h3 align="center">PRO-SOLUTIONS tiene los siguientes objetivos: <span class="text-bold">•	Desarrollar software de calidad
             •	Dar experiencia de trabajo a los miembros de la empresa
@@ -27,7 +27,7 @@
 
      </div>
      </div>
-   </div>
+   </div> -->
    <br>
  </section>
 @endsection

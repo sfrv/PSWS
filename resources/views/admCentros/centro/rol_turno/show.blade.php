@@ -123,7 +123,7 @@ for (var i = 0; i < turnos.length; i++) {
 					'<select disabled="true" id="sel_d_l'+cont+'" class="form-control selectpicker">'+
 					'<option value="-1" selected >Ninguno</option>';
 					for (var j = 0; j < medicos_j.length; j++) {
-						if (medicos_j[j]['id'] === rol_dias[c]['id_medico']) {
+						if (medicos_j[j]['id'] == rol_dias[c]['id_medico']) {
 							fila_lunes = fila_lunes + '<option value="'+medicos_j[j]['id']+'" selected>'+medicos_j[j]['apellido']+' ' + medicos_j[j]['telefono'] +'</option>';
 						}else{
 							fila_lunes = fila_lunes + '<option value="'+medicos_j[j]['id']+'">'+medicos_j[j]['apellido']+' ' + medicos_j[j]['telefono'] +'</option>';
@@ -135,7 +135,7 @@ for (var i = 0; i < turnos.length; i++) {
 					'<select disabled="true" id="sel_d_m'+cont+'" class="form-control selectpicker">'+
 					'<option value="-1" selected >Ninguno</option>';
 					for (var j = 0; j < medicos_j.length; j++) {
-						if (medicos_j[j]['id'] === rol_dias[c]['id_medico']) {
+						if (medicos_j[j]['id'] == rol_dias[c]['id_medico']) {
 							fila_martes = fila_martes + '<option value="'+medicos_j[j]['id']+'" selected>'+medicos_j[j]['apellido']+' ' + medicos_j[j]['telefono'] +'</option>';
 						}else{
 							fila_martes = fila_martes + '<option value="'+medicos_j[j]['id']+'">'+medicos_j[j]['apellido']+' ' + medicos_j[j]['telefono'] +'</option>';
@@ -147,7 +147,7 @@ for (var i = 0; i < turnos.length; i++) {
 					'<select disabled="true" id="sel_d_mi'+cont+'" class="form-control selectpicker">'+
 					'<option value="-1" selected >Ninguno</option>';
 					for (var j = 0; j < medicos_j.length; j++) {
-						if (medicos_j[j]['id'] === rol_dias[c]['id_medico']) {
+						if (medicos_j[j]['id'] == rol_dias[c]['id_medico']) {
 							fila_miercoles = fila_miercoles + '<option value="'+medicos_j[j]['id']+'" selected>'+medicos_j[j]['apellido']+' ' + medicos_j[j]['telefono'] +'</option>';
 						}else{
 							fila_miercoles = fila_miercoles + '<option value="'+medicos_j[j]['id']+'">'+medicos_j[j]['apellido']+' ' + medicos_j[j]['telefono'] +'</option>';
@@ -171,7 +171,7 @@ for (var i = 0; i < turnos.length; i++) {
 					'<select disabled="true" id="sel_d_v'+cont+'" class="form-control selectpicker">'+
 					'<option value="-1" selected >Ninguno</option>';
 					for (var j = 0; j < medicos_j.length; j++) {
-						if (medicos_j[j]['id'] === rol_dias[c]['id_medico']) {
+						if (medicos_j[j]['id'] == rol_dias[c]['id_medico']) {
 							fila_viernes = fila_viernes + '<option value="'+medicos_j[j]['id']+'" selected>'+medicos_j[j]['apellido']+' ' + medicos_j[j]['telefono'] +'</option>';
 						}else{
 							fila_viernes = fila_viernes + '<option value="'+medicos_j[j]['id']+'">'+medicos_j[j]['apellido']+' ' + medicos_j[j]['telefono'] +'</option>';
@@ -183,7 +183,7 @@ for (var i = 0; i < turnos.length; i++) {
 					'<select disabled="true" id="sel_d_s'+cont+'" class="form-control selectpicker">'+
 					'<option value="-1" selected >Ninguno</option>';
 					for (var j = 0; j < medicos_j.length; j++) {
-						if (medicos_j[j]['id'] === rol_dias[c]['id_medico']) {
+						if (medicos_j[j]['id'] == rol_dias[c]['id_medico']) {
 							fila_sabado = fila_sabado + '<option value="'+medicos_j[j]['id']+'" selected>'+medicos_j[j]['apellido']+' ' + medicos_j[j]['telefono'] +'</option>';
 						}else{
 							fila_sabado = fila_sabado + '<option value="'+medicos_j[j]['id']+'">'+medicos_j[j]['apellido']+' ' + medicos_j[j]['telefono'] +'</option>';
@@ -195,7 +195,7 @@ for (var i = 0; i < turnos.length; i++) {
 					'<select disabled="true" id="sel_d_d'+cont+'" class="form-control selectpicker">'+
 					'<option value="-1" selected >Ninguno</option>';
 					for (var j = 0; j < medicos_j.length; j++) {
-						if (medicos_j[j]['id'] === rol_dias[c]['id_medico']) {
+						if (medicos_j[j]['id'] == rol_dias[c]['id_medico']) {
 							fila_domingo = fila_domingo + '<option value="'+medicos_j[j]['id']+'" selected>'+medicos_j[j]['apellido']+' ' + medicos_j[j]['telefono'] +'</option>';
 						}else{
 							fila_domingo = fila_domingo + '<option value="'+medicos_j[j]['id']+'">'+medicos_j[j]['apellido']+' ' + medicos_j[j]['telefono'] +'</option>';

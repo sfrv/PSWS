@@ -2,7 +2,7 @@
 @section('contenido')
  <section class="content-header">
    <h1 align="center">
-       <b>TIPOS DE SERVICIOS</b>
+       <b>TIPOS DE SERVICIOS &nbsp;</b><i class="fa fa-plus-square"></i>
    </h1>
    <ol class="breadcrumb">
      <li><a href="{{url('/')}}"><i class="fa fa-dashboard"></i> Home</a></li>
@@ -19,6 +19,7 @@
        <div class="box-header with-border">
            <h3 align="center">PANEL DE <span class="text-bold">TIPOS DE SERVICIOS REGISTRADOS</span></h3>
        </div>
+       <div class="box-body table-responsive no-padding">
        <div class="box-body">
          @include('admCentros.servicio.search')
          <table class="table table-striped" style="border-top-color: #00AEFF">
@@ -27,7 +28,9 @@
              <th class="text-center">ESTADO</th>
              <th class="text-center">NOMBRE</th>
              <th class="text-center">DESCRIPCION</th>
-             <th class="text-center">OPCIONES</th>
+             @if(Auth::user()->tipo == 'ADMINISTRADOR')
+              <th class="text-center">OPCIONES</th>
+             @endif
            </tr>
            </thead>
            <tbody>
@@ -40,15 +43,18 @@
                     @endif
                     <td>{{ $var->nombre }}</td>
                     <td>{{ $var->descripcion }}</td>
-                    <td>
-                      <a href="{{URL::action('TipoServicioController@edit',$var->id)}}" class="btn btn-info" data-placement="top" data-original-title="Edit"><i class="fa fa-edit"></i></a>
-                      <a href="" data-target="#modal-delete-{{$var->id}}" data-toggle="modal" class="btn btn-danger" data-placement="top" data-original-title="Remove"><i class="fa fa-times fa fa-white"></i></a>
-                    </td>
+                    @if(Auth::user()->tipo == 'ADMINISTRADOR')
+                      <td>
+                        <a href="{{URL::action('TipoServicioController@edit',$var->id)}}" class="btn btn-info" data-placement="top" data-original-title="Edit"><i class="fa fa-edit"></i></a>
+                        <a href="" data-target="#modal-delete-{{$var->id}}" data-toggle="modal" class="btn btn-danger" data-placement="top" data-original-title="Remove"><i class="fa fa-times fa fa-white"></i></a>
+                      </td>
+                    @endif
                   </tr>
                   @include('admCentros.servicio.modal')
               @endforeach
            </tbody>
          </table>
+       </div>
        </div>
 
      </div>

@@ -2,12 +2,8 @@
 @section('contenido')
  <section class="content-header">
    <h1 align="center">
-       <b>NIVELES DE CENTROS</b>
+       <b>NIVELES DE CENTROS &nbsp;</b><i class="fa fa-list-ul"></i>
    </h1>
-   <ol class="breadcrumb">
-     <li><a href="{{url('/')}}"><i class="fa fa-dashboard"></i> Home</a></li>
-     <li><a href="#">index</a></li>
-   </ol>
  </section>
  <br>
 
@@ -19,6 +15,7 @@
        <div class="box-header with-border">
            <h3 align="center">PANEL DE  <span class="text-bold">NIVELES DE CENTROS REGISTRADOS</span></h3>
        </div>
+       <div class="box-body table-responsive no-padding">
        <div class="box-body">
          @include('admCentros.nivel.search')
          <table class="table table-striped" style="border-top-color: #00AEFF">
@@ -27,7 +24,9 @@
              <th class="text-center">ESTADO</th>
              <th class="text-center">NOMBRE</th>
              <th class="text-center">DESCRIPCION</th>
-             <th class="text-center">OPCIONES</th>
+             @if(Auth::user()->tipo == 'ADMINISTRADOR')
+              <th class="text-center">OPCIONES</th>
+             @endif
            </tr>
            </thead>
            <tbody>
@@ -40,15 +39,18 @@
                     @endif
                     <td>{{ $var->nombre }}</td>
                     <td>{{ $var->descripcion }}</td>
-                    <td>
-                      <a href="{{URL::action('NivelController@edit',$var->id)}}" class="btn btn-info" data-placement="top" data-original-title="Edit"><i class="fa fa-edit"></i></a>
-                      <a href="" data-target="#modal-delete-{{$var->id}}" data-toggle="modal" class="btn btn-danger" data-placement="top" data-original-title="Remove"><i class="fa fa-times fa fa-white"></i></a>
-                    </td>
+                    @if(Auth::user()->tipo == 'ADMINISTRADOR')
+                      <td>
+                        <a href="{{URL::action('NivelController@edit',$var->id)}}" class="btn btn-info" data-placement="top" data-original-title="Edit"><i class="fa fa-edit"></i></a>
+                        <a href="" data-target="#modal-delete-{{$var->id}}" data-toggle="modal" class="btn btn-danger" data-placement="top" data-original-title="Remove"><i class="fa fa-times fa fa-white"></i></a>
+                      </td>
+                    @endif
                   </tr>
                   @include('admCentros.nivel.modal')
               @endforeach
            </tbody>
          </table>
+       </div>
        </div>
 
      </div>

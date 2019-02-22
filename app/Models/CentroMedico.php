@@ -35,13 +35,35 @@ class CentroMedico extends Model
     ];
 
 
-    public function scope_getAllCentrosMedicos($query, $searchText)
+    public function scope_getAllCentrosMedicos($query, $searchText, $filtro)
     {
-        $text = trim($searchText);
-        $result = $query->where('nombre', 'LIKE', '%' . $text . '%')
+        // dd($filtro);
+        // return $filtro;
+        if($filtro != ""){
+            if($filtro == 1){
+                $text = trim($searchText);
+                $result = $query->where('nombre', 'LIKE', '%' . $text . '%')
 
-            ->where('estado', '=' , '1')
-            ->orderBy('id', 'desc');
+                    ->where('estado', '=' , '1')
+                    ->orderBy('id', 'desc');
+            }
+            if($filtro == 2){
+                $text = trim($searchText);
+                $result = DB::table('centro_medico as a')
+                ->join('detalle_centro_especialidad as b', 'b.id_centro_medico', '=', 'a.id')
+                ->join('especialidad as c', 'c.id', '=', 'b.id_especialidad')
+                ->select('a.*')
+                ->where('c.nombre', 'LIKE', '%' . $text . '%')
+                ->where('a.estado', '=' , '1')
+                ->orderBy('id', 'desc');
+            }
+        }else{
+            $text = trim($searchText);
+            $result = $query->where('nombre', 'LIKE', '%' . $text . '%')
+
+                ->where('estado', '=' , '1')
+                ->orderBy('id', 'desc');
+        }
             // ->paginate(7);
         return $result;
     }
@@ -290,28 +312,26 @@ class CentroMedico extends Model
 
         $text = trim($searchText);
         if ($text == "") {
-            $result = DB::table('centro_medico as a')
-                ->join('detalle_centro_especialidad as b', 'a.id', '=', 'b.id_centro_medico')
-                ->join('turno as c', 'b.id', '=', 'c.id_detalle_centro_especialidad')
-                ->join('etapa_servicio as d', 'c.id_etapa_servicio', '=', 'd.id')
-                ->join('rol_turno as e', 'd.id_rol_turno', '=', 'e.id')
-                ->select('e.*')
-                ->where('a.id', '=', $id)
-                ->distinct()
-                ->orderBy("e.id", "DES");
+            $result = DB::table('rol_turno as a')
+                // ->join('detalle_centro_especialidad as b', 'a.id', '=', 'b.id_centro_medico')
+                // ->join('turno as c', 'b.id', '=', 'c.id_detalle_centro_especialidad')
+                // ->join('etapa_servicio as d', 'c.id_etapa_servicio', '=', 'd.id')
+                // ->join('rol_turno as e', 'd.id_rol_turno', '=', 'e.id')
+                ->select('a.*')
+                ->where('a.id_centro_medico', '=', $id)
+                ->orderBy("a.id", "DES");
         } else {
 
-            $result = DB::table('centro_medico as a')
-                ->join('detalle_centro_especialidad as b', 'a.id', '=', 'b.id_centro_medico')
-                ->join('turno as c', 'b.id', '=', 'c.id_detalle_centro_especialidad')
-                ->join('etapa_servicio as d', 'c.id_etapa_servicio', '=', 'd.id')
-                ->join('rol_turno as e', 'd.id_rol_turno', '=', 'e.id')
-                ->select('e.*')
-                ->where('a.id', '=', $id)
-                ->where('e.mes', 'LIKE', '%' . $text . '%')
-                ->orWhere('e.titulo', 'LIKE', '%' . $text . '%')
-                ->distinct()
-                ->orderBy("e.id", "DES");
+            $result = DB::table('rol_turno as a')
+                // ->join('detalle_centro_especialidad as b', 'a.id', '=', 'b.id_centro_medico')
+                // ->join('turno as c', 'b.id', '=', 'c.id_detalle_centro_especialidad')
+                // ->join('etapa_servicio as d', 'c.id_etapa_servicio', '=', 'd.id')
+                // ->join('rol_turno as e', 'd.id_rol_turno', '=', 'e.id')
+                ->select('a.*')
+                ->where('a.id_centro_medico', '=', $id)
+                ->where('a.mes', 'LIKE', '%' . $text . '%')
+                ->orWhere('a.titulo', 'LIKE', '%' . $text . '%')
+                ->orderBy("a.id", "DES");
         }
 
 

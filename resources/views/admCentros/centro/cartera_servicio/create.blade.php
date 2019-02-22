@@ -14,6 +14,9 @@
       <div class="box-header with-border">
         <h3 align="center">PANEL DE REGISTRO DE <span class="text-bold">CARTERA DE SERVICIO</span></h3>
       	<br>
+        {!! Form::open(array('route'=>['store-cartera-servicio',$id_centro],'method'=>'POST','autocomplete'=>'off'))!!}
+        {{Form::token()}}
+
       	<div class="row">
         	<div class="col-lg-4 col-md-4 col-dm-4 col-xs-12">
 	          <label for="form-field-24">TITULO:</label>
@@ -83,12 +86,13 @@
              </div>
              <div class="col-sm-8 col-sm-offset-2">
                <div class="form-group">
-               	<button onclick="guardar()" class="btn btn-primary btn-block" type="submit">
+               	<button class="btn btn-primary btn-block" type="submit">
                    <i class="fa fa-arrow-circle-right"> REGISTRAR CARTERA DE SERVICIO </i>
                 </button>
                </div>
              </div>
         </div>
+        {!!Form::close()!!}
       </div>
     </div>
   </div>
@@ -100,102 +104,46 @@ var x = document.getElementById("mynav");
 x.className += " sidebar-collapse";
 
 var cont = 0;
-var datos = [];
-var objeto = {};
-var datos_filas = [];
-// var especialidades = []; 
-// var my_var = {!! $detalle2 !!};
-// console.log(cont);
 
 function agregar(id)
 {
-	// var fila_servicio = '<div id="fila_s'+cont+'"><input style="margin-bottom: 14px;" id="text_s'+cont+'" type="text" step="any"> </br></div>';
   var fila_servicio = '<div id="fila_s'+cont+'">'+
-    '<select id="text_s'+cont+'" class="form-control selectpicker">'+
+    '<input type="hidden" name="idservicios[]" value="'+cont+'">'+
+    '<input type="hidden" name="idespecialidad[]" value="'+id+'">'+
+    '<select name="text_s'+cont+'" class="form-control selectpicker">'+
       '@foreach($nombres_servicios as $var)'+
       ' <option value="{{$var}}">{{$var}}</option> '+
       '@endforeach'+
     '</select> '+
   '</br></div>';
 
-	var fila_dia = '<div id="fila_d'+cont+'"><input class="autosize form-control" id="text_d'+cont+'" type="text" step="any"> </br></div>';
-	var fila_hora ='<div id="fila_h'+cont+'"><input class="autosize form-control" id="text_h'+cont+'" type="text" step="any"> <br></div>';
-	var fila_observacion = '<div id="fila_ob'+cont+'"><input class="autosize form-control" id="text_o'+cont+'" type="text" step="any"><br></div>';
-	var fila_opcion = '<div id="fila_op'+cont+'"><button style="margin-bottom: 20px;" type="button" class="btn btn-danger" onclick="eliminar('+cont+');"><i class="fa fa-close"></i></button><br></div>';
-	var fila = [];//new
-	fila.push(cont,id);//new
-	datos_filas.splice(cont, 0, fila);//new
+	var fila_dia = '<div id="fila_d'+cont+'">'+
+        '<input class="autosize form-control" name="text_d'+cont+'" type="text" step="any"> </br>'+
+      '</div>';
+	var fila_hora ='<div id="fila_h'+cont+'">'+
+        '<input class="autosize form-control" name="text_h'+cont+'" type="text" step="any"> <br>'+
+      '</div>';
+	var fila_observacion = '<div id="fila_ob'+cont+'">'+
+        '<input class="autosize form-control" name="text_o'+cont+'" type="text" step="any"><br>'+
+      '</div>';
+	var fila_opcion = '<div id="fila_op'+cont+'">'+
+        '<button style="margin-bottom: 20px;" type="button" class="btn btn-danger" onclick="eliminar('+cont+');"><i class="fa fa-close"></i></button><br>'+
+      '</div>';
 	cont++;
 	$('#especialidad_servicio'+id).append(fila_servicio);
 	$('#especialidad_dia'+id).append(fila_dia);
 	$('#especialidad_hora'+id).append(fila_hora);
 	$('#especialidad_observacion'+id).append(fila_observacion);
 	$('#especialidad_opcion'+id).append(fila_opcion);
-	console.log(datos_filas);//new
 }
 
 function eliminar(cont)
 {
-	var n_i = getIndDato(cont);
-	if (n_i != -1) {
-		datos_filas.splice(n_i,1);
-	}
-	console.log(datos_filas);
 	$('#fila_s'+cont).remove();
 	$('#fila_d'+cont).remove();
 	$('#fila_h'+cont).remove();
 	$('#fila_ob'+cont).remove();
 	$('#fila_op'+cont).remove();
-}
-
-function guardar(){
-
-	var titulo = document.getElementById("titulo").value;
-	var mes = document.getElementById("mes").value;
-	var anio = document.getElementById("anio").value;
-
-	for (var i = 0; i < datos_filas.length; i++) {
-		var servicio = document.getElementById("text_s"+datos_filas[i][0]).value;
-		var dia = document.getElementById("text_d"+datos_filas[i][0]).value;
-		var hora = document.getElementById("text_h"+datos_filas[i][0]).value;
-		var observacion = document.getElementById("text_o"+datos_filas[i][0]).value;
-		var dato = [];
-		dato.push(datos_filas[i][1],servicio,dia,hora,observacion);//
-		datos.push(dato);
-	}
-
-	objeto = {
-		"id_centro": '{{$id_centro}}',
-    "titulo": titulo,
-		"mes": mes,
-		"anio": anio,
-		"datos": datos
-	};
-	// console.log(objeto);
-	var parametros = {
-	    my_json: objeto
-	};
-
-	console.log(objeto)
-
-  	$.ajax({
-  		type: "GET", 
-  		url: "{{route('guardar-cartera-servicio')}}",
-  		data: parametros
-  	}).done(function(info){
-  		window.location.href = "{{url('adm/centro')}}";
-  	});
-}
-
-function getIndDato(ind) {
-  var c = 0;
-  for (var i = 0; i < datos_filas.length; i++) {
-    if (datos_filas[i][0] == ind) {
-      return c;
-    }
-    c++;
-  }
-  return -1;
 }
 
 </script>

@@ -9,6 +9,11 @@ use App\Http\Requests\ZonaFormRequest;
 
 class ZonaController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+    
   public function index(Request $request)
   {
     $zonas = Zona::_getAllZonas($request['searchText'])->paginate(7);

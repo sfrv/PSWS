@@ -11,13 +11,13 @@
                       <i class="fa fa-search"></i>
                     </button> </span>
                   </span>
-                  <span class="input-group-btn">
-                    <a href="red/create" class="btn btn-danger btn-flat">
-                      <i class="fa fa-plus"></i>
-                    </a>
-                  </span>
-
-
+                  @if(Auth::user()->tipo == 'ADMINISTRADOR')
+                    <span class="input-group-btn">
+                      <a href="red/create" class="btn btn-danger btn-flat">
+                        <i class="fa fa-plus"></i>
+                      </a>
+                    </span>
+                  @endif
                 </div>
               </div>
           </div>

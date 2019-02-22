@@ -17,7 +17,7 @@
          folder instead of downloading all of them to reduce the load. -->
     <link rel="stylesheet" href="{{asset('css/_all-skins.min.css')}}">
     <link rel="apple-touch-icon" href="{{asset('img/apple-touch-icon.png')}}">
-    <link rel="shortcut icon" href="{{asset('img/favicon.ico')}}">
+    <link rel="shortcut icon" href="{{asset('images/iconoTaller.png')}}">
 
   </head>
   <body class="hold-transition skin-green sidebar-mini" id="mynav">
@@ -26,7 +26,7 @@
       <header class="main-header">
 
         <!-- Logo -->
-        <a href="{{url('administracion/cliente')}}" class="logo">
+        <a href="{{url('dashboard')}}" class="logo">
           <!-- mini logo for sidebar mini 50x50 pixels -->
           <span class="logo-mini"><b>S</b>E</span>
           <!-- logo for regular state and mobile devices -->
@@ -47,31 +47,33 @@
               <!-- User Account: style can be found in dropdown.less -->
               <li class="dropdown user user-menu">
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                  <small class="bg-green">Online</small>
-                  <span class="hidden-xs">
-                  </span>
+                  <img src="{{asset('images/iconoTaller.png')}}" class="user-image" alt="User Image">
+                  <span class="hidden-xs">{{ Auth::user()->nombre }} {{ Auth::user()->apellido }}</span>
                 </a>
                 <ul class="dropdown-menu">
                   <!-- User image -->
 
                   <li class="user-header">
+                    <img src="{{asset('images/iconoTaller.png')}}" class="img-circle" alt="User Image">
                     <p>
-                      Usuario(a):
-                      <small>Ingenieria de Software 1</small>
+                      Usuario(a): {{ Auth::user()->name }}
+                      <small>SEDES - CRUED</small>
+                      <small>TIPO - {{ Auth::user()->tipo }}</small>
                     </p>
-                    <img src="" class="img-circle" alt="User Image">
-
                   </li>
 
                   <!-- Menu Footer-->
                   <li class="user-footer">
-                    <div class="pull-right">
-                      <a href="" class="btn btn-default btn-flat">Cerrar Secion</a>
+                    <div class="pull-left">
+                      <a href="" class="btn btn-default btn-flat">Cerrar</a>
                     </div>
                     <div class="pull-right">
-                      <a href="#" class="btn btn-default btn-flat">Cerrar</a>
+                      <a href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();" class="btn btn-default btn-flat">Cerrar Secion</a>
+                      
+                      <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                          {{ csrf_field() }}
+                      </form>
                     </div>
-
                   </li>
                 </ul>
               </li>
@@ -153,6 +155,13 @@
               <li>
                 <a href="{{url('adm/medico')}}">
                   <i class="fa fa-user-plus"></i> <span>MEDICOS</span>
+                  <i class="fa fa-angle-right pull-right"></i>
+                </a>
+              </li>
+
+              <li>
+                <a href="{{url('adm/usuario')}}">
+                  <i class="fa fa-user"></i> <span>USUARIOS</span>
                   <i class="fa fa-angle-right pull-right"></i>
                 </a>
               </li>

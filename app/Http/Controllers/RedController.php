@@ -8,6 +8,10 @@ use App\Models\Red;
 
 class RedController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
   public function index(Request $request)
   {
     $redes = Red::_getAllRedes($request['searchText'])->paginate(7);

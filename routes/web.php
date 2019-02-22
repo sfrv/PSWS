@@ -11,18 +11,23 @@
 |
 */
 
-Route::get('/', function () {
-    return view('layouts/admin');
-});
+// Route::get('/', function () {
+//     return view('layouts/admin');
+// });
+
+// Route::get('/', function () {
+//     return view('welcome');
+// });
 Route::resource('dashboard','DashBoardController');
+Route::resource('/','WelcomeController');
 Route::resource('home','HomeController');
 Route::get('adm/centro/create_cartera_servicio/{id}',[
 	'as' => 'create-cartera-servicio',
 	'uses' => 'CarteraServicioController@create_cartera_servicio'
 ]);
-Route::get('adm/centro/guardar_cartera_servicio',[
-	'as' => 'guardar-cartera-servicio',
-	'uses' => 'CarteraServicioController@guardar_cartera_servicio'
+Route::post('adm/centro/store_cartera_servicio/{id}',[
+	'as' => 'store-cartera-servicio',
+	'uses' => 'CarteraServicioController@store_cartera_servicio'
 ]);
 Route::get('adm/centro/actualizar_cartera_servicio',[
 	'as' => 'actualizar-cartera-servicio',
@@ -103,7 +108,7 @@ Route::resource('adm/especialidad','EspecialidadController');
 Route::resource('adm/red','RedController');
 Route::resource('adm/servicio','TipoServicioController');
 Route::resource('adm/medico','MedicoController');
-
+Route::resource('adm/usuario','UsuarioController');
 
 
 // Route::resource('adm/enfermedad','EnfermedadController');
@@ -237,3 +242,7 @@ Route::get('get-CentroMedico/{id}', [
 // 	'uses' => 'RedController@getRedes'
 // ]);
 
+
+Auth::routes();
+
+Route::get('/home', 'HomeController@index')->name('home');

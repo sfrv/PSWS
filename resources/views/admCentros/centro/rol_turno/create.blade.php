@@ -87,7 +87,7 @@
              </div>
              <div class="col-sm-8 col-sm-offset-2">
                <div class="form-group">
-               	<button class="btn btn-primary btn-block" type="submit">
+               	<button onclick="guardar()" class="btn btn-primary btn-block" type="submit">
                    <i class="fa fa-arrow-circle-right"> REGISTRAR ROL DE TURNO - ETAPA EMERGENCIA </i>
                 </button>
                </div>
@@ -98,6 +98,11 @@
     </div>
   </div>
 </div>
+<div id="progress_bar" hidden class="progress">
+    <div class="progress-bar progress-bar-striped active" role="progressbar" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" style="width:100%;height: 80%">
+      Cargando, Por favor Espere.
+    </div>
+  </div>
 </section>
 @push ('scripts')
 <script>
@@ -125,9 +130,9 @@ function agregarFilaHora(id) {//id especialidad
 			'<input type="hidden" name="idespecialidad[]" value="'+id+'">'+
 		'-</td>'+
 		'<td class="text-center">'+
-			'<input required placeholder="TITULO..." class="autosize form-control" name="text_turno'+conth+'" type="text">'+
-			'<input required placeholder="HORA INICIO..." class="autosize form-control" name="text_hora_inicio'+conth+'" type="text">'+
-			'<input required placeholder="HORA FIN..." class="autosize form-control" name="text_hora_fin'+conth+'" type="text">'+
+			'<input  placeholder="TITULO..." class="autosize form-control" name="text_turno'+conth+'" type="text">'+
+			'<input  placeholder="HORA INICIO..." class="autosize form-control" name="text_hora_inicio'+conth+'" type="text">'+
+			'<input  placeholder="HORA FIN..." class="autosize form-control" name="text_hora_fin'+conth+'" type="text">'+
 		'</td>'+
 		'<td class="text-center" id="lunes'+conth+'"></td>'+ //lunes
 		'<td class="text-center" id="martes'+conth+'"></td>'+ //martes
@@ -222,6 +227,12 @@ function eliminarFila(cont_l,conth_l) {
 function eliminarFilaHora(conth_l)
 {
 	$('#fila_h'+conth_l).remove();
+}
+
+function guardar() {
+	if (document.getElementById("titulo").value != "") {
+		document.getElementById("progress_bar").hidden = false;
+	}
 }
 
 

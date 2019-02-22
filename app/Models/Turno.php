@@ -21,6 +21,15 @@ class Turno extends Model
 
 	public function scope_insertarTurno($query, $nombre, $hora_inicio, $hora_fin, $id_detalle_centro_especialidad, $id_etapa_servicio)
 	{
+		if ($nombre == null) {
+			$nombre = "";
+		}
+		if ($hora_inicio == null) {
+			$hora_inicio = "";
+		}
+		if ($hora_fin == null) {
+			$hora_fin = "";
+		}
 	  $turno = new Turno;
 	  $turno->nombre = $nombre;
 	  $turno->hora_inicio = $hora_inicio;
@@ -35,6 +44,15 @@ class Turno extends Model
 
 	public function scope_editarTurno($query, $nombre, $hora_inicio, $hora_fin, $id)
 	{
+		if ($nombre == null) {
+			$nombre = "";
+		}
+		if ($hora_inicio == null) {
+			$hora_inicio = "";
+		}
+		if ($hora_fin == null) {
+			$hora_fin = "";
+		}
 	  $turno = Turno::findOrFail($id);
 	  $turno->nombre = $nombre;
 	  $turno->hora_inicio = $hora_inicio;

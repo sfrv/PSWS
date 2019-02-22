@@ -16,7 +16,7 @@
            <h3 align="center">PANEL DE <span class="text-bold">CARTERA DE SERVICIOS REGISTRADOS</span></h3>
        </div>
        <div class="box-body">
-         @include('admCentros.centro.cartera_servicio.search_cartera_servicio')
+         @include('admCentros.centro.cartera_servicio.search')
          <table class="table table-striped" style="border-top-color: #00AEFF">
            <thead>
            <tr>
@@ -41,10 +41,17 @@
                     <td class="text-center">{{ $var->mes }}</td>
                     <td class="text-center">{{ $var->anio}}</td>
                     <td class="text-center">
+                      @if(Auth::user()->id_centro_medico == $centro->id || Auth::user()->tipo == 'ADMINISTRADOR' )
                       <a href="" data-target="#modal-delete-{{$var->id}}" data-toggle="modal" class="btn btn-danger" data-placement="top" data-original-title="Remove"><i class="fa fa-times fa fa-white"></i></a>
                       <a href="{{ route('edit-cartera-servicio',[$var->id,$centro->id]) }}" class="btn btn-info" data-placement="top"><i class="fa fa-edit"></i></a>
+                      @endif
+                      
                       <a href="{{ route('show-cartera-servicio',[$var->id,$centro->id]) }}" class="btn btn-success" data-placement="top" data-original-title="Ver Detalle de Orden de Produccion"><i class="fa fa-eye"></i></a>
+
+                      @if(Auth::user()->id_centro_medico == $centro->id || Auth::user()->tipo == 'ADMINISTRADOR' )
                       <a href="{{ route('renovate-cartera-servicio',[$var->id,$centro->id] ) }}" class="btn btn-warning" data-placement="top"><i class="fa fa-refresh"></i></a>
+                      @endif
+
                       <a href="{{ route('generar-excel-cartera-servicio',[$var->id,$centro->id] ) }}" class="btn btn-primary" data-placement="top"><i class="fa fa-download"></i></a>
                     </td>
                   </tr>

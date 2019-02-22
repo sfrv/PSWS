@@ -13,6 +13,11 @@ use App\Models\Turno;
 
 class RolTurnoController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+
 	public function index_rol_turno($id,Request $request)
 	{
 		$centro = CentroMedico::_obtenerCentro($id);
@@ -48,6 +53,7 @@ class RolTurnoController extends Controller
         $especialidades_etapa_emergencia = CentroMedico::_obtenerEspecialidadesEtapaEmergencia($id_centro);
     	$turnos = RolTurno::_getTurnosPorIdEtapaServicio($etapa_servicio_uno->id);
     	$rol_dias = RolTurno::_getRolDiasPorIdEtapaServicio($etapa_servicio_uno->id);
+        // dd($rol_dias);
     	$medicos = Medico::_getAllMedicos("")->get();
     	
     	$turnos_json = json_encode($turnos, JSON_UNESCAPED_SLASHES );
@@ -80,7 +86,7 @@ class RolTurnoController extends Controller
         $titulo = $request->get('titulo');
         $mes = $request->get('mes');
         $anio = $request->get('anio');
-        RolTurno::_editarRolTurno($titulo,$mes,$anio,$id_rol_turno);
+        $id_centro = RolTurno::_editarRolTurno($titulo,$mes,$anio,$id_rol_turno);
 
         $etapa_servicio_uno = RolTurno::_getEtapaServicio($id_rol_turno,'ETAPA DE EMERGENCIA');
 
@@ -226,7 +232,7 @@ class RolTurnoController extends Controller
                 $a++;
             }
         }
-        return Redirect::to('adm/centro');
+        return Redirect::to('adm/centro/index_rol_turno/'.$id_centro);
     }
 
     public function store_rol_turno(Request $request,$id_centro)
@@ -235,7 +241,7 @@ class RolTurnoController extends Controller
         $titulo = $request->get('titulo');
         $mes = $request->get('mes');
         $anio = $request->get('anio');
-        $id_rol_turno = RolTurno::_insertarRolTurno($titulo,$mes,$anio);
+        $id_rol_turno = RolTurno::_insertarRolTurno($titulo,$mes,$anio,$id_centro);
         $id_etapa_servicio = EtapaServicio::_insertarEtapaServicio('ETAPA DE EMERGENCIA',$id_rol_turno);
 
         if ($request->get('idturnos') != null) {

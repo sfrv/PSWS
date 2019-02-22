@@ -16,10 +16,11 @@ class RolTurno extends Model
 	  'descripcion',
 	  'mes',
 	  'anio',
+      'id_centro_medico',
 	  'estado'
 	];
 
-	public function scope_insertarRolTurno($query, $titulo, $mes, $anio)
+	public function scope_insertarRolTurno($query, $titulo, $mes, $anio, $id_centro_medico)
 	{
 	  $rol_turno = new RolTurno;
 	  $rol_turno->titulo = $titulo;
@@ -27,6 +28,7 @@ class RolTurno extends Model
 	  $rol_turno->anio = $anio;
 	  $rol_turno->descripcion = 'Ninguno.';
 	  $rol_turno->estado = 1;
+      $rol_turno->id_centro_medico = $id_centro_medico;
 	  $rol_turno->save();
 
 	  return $rol_turno->id;
@@ -39,6 +41,8 @@ class RolTurno extends Model
 	  $rol_turno->mes = $mes;
 	  $rol_turno->anio = $anio;
 	  $rol_turno->save();
+
+      return $rol_turno->id_centro_medico;
 	}
 
 	public function scope_getEtapaServicio($query, $id, $nombre)

@@ -100,6 +100,7 @@ var conth = 0;
 var cont = 0;
 var turnos = {!! $turnos_json !!};
 var rol_dias = {!! $rol_dias_json !!};
+console.log(rol_dias);
 var medicos_j = {!! $medicos_json !!};
 var array_auxa = [];
 
@@ -148,7 +149,7 @@ for (var i = 0; i < turnos.length; i++) {
 					'<select name="select_dia_lunes_actualizar_'+rol_dias[c]['id']+'" class="form-control selectpicker">'+
 					'<option value="-1" selected >Ninguno</option>';
 					for (var j = 0; j < medicos_j.length; j++) {
-						if (medicos_j[j]['id'] === rol_dias[c]['id_medico']) {
+						if (medicos_j[j]['id'] == rol_dias[c]['id_medico']) {
 							fila_lunes = fila_lunes + '<option value="'+medicos_j[j]['id']+'" selected>'+medicos_j[j]['apellido']+' ' + medicos_j[j]['telefono'] +'</option>';
 						}else{
 							fila_lunes = fila_lunes + '<option value="'+medicos_j[j]['id']+'">'+medicos_j[j]['apellido']+' ' + medicos_j[j]['telefono'] +'</option>';
@@ -163,7 +164,7 @@ for (var i = 0; i < turnos.length; i++) {
 					'<select name="select_dia_martes_actualizar_'+rol_dias[c]['id']+'" class="form-control selectpicker">'+
 					'<option value="-1" selected >Ninguno</option>';
 					for (var j = 0; j < medicos_j.length; j++) {
-						if (medicos_j[j]['id'] === rol_dias[c]['id_medico']) {
+						if (medicos_j[j]['id'] == rol_dias[c]['id_medico']) {
 							fila_martes = fila_martes + '<option value="'+medicos_j[j]['id']+'" selected>'+medicos_j[j]['apellido']+' ' + medicos_j[j]['telefono'] +'</option>';
 						}else{
 							fila_martes = fila_martes + '<option value="'+medicos_j[j]['id']+'">'+medicos_j[j]['apellido']+' ' + medicos_j[j]['telefono'] +'</option>';
@@ -178,7 +179,7 @@ for (var i = 0; i < turnos.length; i++) {
 					'<select name="select_dia_miercoles_actualizar_'+rol_dias[c]['id']+'" class="form-control selectpicker">'+
 					'<option value="-1" selected >Ninguno</option>';
 					for (var j = 0; j < medicos_j.length; j++) {
-						if (medicos_j[j]['id'] === rol_dias[c]['id_medico']) {
+						if (medicos_j[j]['id'] == rol_dias[c]['id_medico']) {
 							fila_miercoles = fila_miercoles + '<option value="'+medicos_j[j]['id']+'" selected>'+medicos_j[j]['apellido']+' ' + medicos_j[j]['telefono'] +'</option>';
 						}else{
 							fila_miercoles = fila_miercoles + '<option value="'+medicos_j[j]['id']+'">'+medicos_j[j]['apellido']+' ' + medicos_j[j]['telefono'] +'</option>';
@@ -193,7 +194,7 @@ for (var i = 0; i < turnos.length; i++) {
 					'<select name="select_dia_jueves_actualizar_'+rol_dias[c]['id']+'" class="form-control selectpicker">'+
 					'<option value="-1" selected >Ninguno</option>';
 					for (var j = 0; j < medicos_j.length; j++) {
-						if (medicos_j[j]['id'] === rol_dias[c]['id_medico']) {
+						if (medicos_j[j]['id'] == rol_dias[c]['id_medico']) {
 							fila_jueves = fila_jueves + '<option value="'+medicos_j[j]['id']+'" selected>'+medicos_j[j]['apellido']+' ' + medicos_j[j]['telefono'] +'</option>';
 						}else{
 							fila_jueves = fila_jueves + '<option value="'+medicos_j[j]['id']+'">'+medicos_j[j]['apellido']+' ' + medicos_j[j]['telefono'] +'</option>';
@@ -208,7 +209,7 @@ for (var i = 0; i < turnos.length; i++) {
 					'<select name="select_dia_viernes_actualizar_'+rol_dias[c]['id']+'" class="form-control selectpicker">'+
 					'<option value="-1" selected >Ninguno</option>';
 					for (var j = 0; j < medicos_j.length; j++) {
-						if (medicos_j[j]['id'] === rol_dias[c]['id_medico']) {
+						if (medicos_j[j]['id'] == rol_dias[c]['id_medico']) {
 							fila_viernes = fila_viernes + '<option value="'+medicos_j[j]['id']+'" selected>'+medicos_j[j]['apellido']+' ' + medicos_j[j]['telefono'] +'</option>';
 						}else{
 							fila_viernes = fila_viernes + '<option value="'+medicos_j[j]['id']+'">'+medicos_j[j]['apellido']+' ' + medicos_j[j]['telefono'] +'</option>';
@@ -223,7 +224,7 @@ for (var i = 0; i < turnos.length; i++) {
 					'<select name="select_dia_sabado_actualizar_'+rol_dias[c]['id']+'" class="form-control selectpicker">'+
 					'<option value="-1" selected >Ninguno</option>';
 					for (var j = 0; j < medicos_j.length; j++) {
-						if (medicos_j[j]['id'] === rol_dias[c]['id_medico']) {
+						if (medicos_j[j]['id'] == rol_dias[c]['id_medico']) {
 							fila_sabado = fila_sabado + '<option value="'+medicos_j[j]['id']+'" selected>'+medicos_j[j]['apellido']+' ' + medicos_j[j]['telefono'] +'</option>';
 						}else{
 							fila_sabado = fila_sabado + '<option value="'+medicos_j[j]['id']+'">'+medicos_j[j]['apellido']+' ' + medicos_j[j]['telefono'] +'</option>';
@@ -238,7 +239,7 @@ for (var i = 0; i < turnos.length; i++) {
 					'<select name="select_dia_domingo_actualizar_'+rol_dias[c]['id']+'" class="form-control selectpicker">'+
 					'<option value="-1" selected >Ninguno</option>';
 					for (var j = 0; j < medicos_j.length; j++) {
-						if (medicos_j[j]['id'] === rol_dias[c]['id_medico']) {
+						if (medicos_j[j]['id'] == rol_dias[c]['id_medico']) {
 							fila_domingo = fila_domingo + '<option value="'+medicos_j[j]['id']+'" selected>'+medicos_j[j]['apellido']+' ' + medicos_j[j]['telefono'] +'</option>';
 						}else{
 							fila_domingo = fila_domingo + '<option value="'+medicos_j[j]['id']+'">'+medicos_j[j]['apellido']+' ' + medicos_j[j]['telefono'] +'</option>';

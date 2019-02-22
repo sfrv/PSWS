@@ -5,6 +5,10 @@
   <h1 align="center">
     <b>CENTRO DE SALUD: {{$centro->nombre}}</b>
   </h1>
+  <ol class="breadcrumb">
+     <li><a href="{{url('/dashboard')}}"><i class="fa fa-dashboard"></i> Home</a></li>
+     <li><a href="{{url('adm/centro')}}">index</a></li>
+  </ol>
   <br>
 </section>
 <section>
