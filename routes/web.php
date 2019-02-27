@@ -273,6 +273,11 @@ Route::get('get-medicos', [
 Route::get('get-CentroMedico/{id}', [
 	'uses' => 'CentroMedicoController@get_CentroMedico'
 ]);
+
+Route::get('get-centrosPorN-E/{searchText}/{filtro}', [
+	'uses' => 'CentroMedicoController@get_CentrosMedicos_por_nombre_o_especialidad'
+]);
+
 //modificar
 
 // Route::get('get-especialidades',[

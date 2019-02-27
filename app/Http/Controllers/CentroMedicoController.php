@@ -162,5 +162,8 @@ class CentroMedicoController extends Controller
     public function get_CentroMedico($id){
         return json_encode(array("centro" => CentroMedico::_obtenerCentro($id)));
     }
+    public function get_CentrosMedicos_por_nombre_o_especialidad($searchText, $filtro){
+        return json_encode(array("centros" => CentroMedico::_getAllCentrosMedicos($searchText, $filtro)->get()));
+    }
 
 }
