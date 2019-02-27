@@ -12,7 +12,7 @@
                     </button> </span>
                   </span>
                   <span class="input-group-btn">
-                    <a href="{{ route('create-rol-turno', $centro->id) }}" class="btn btn-danger btn-flat">
+                    <a href="{{ route('create-rol-turno-emergencia', $centro->id) }}" class="btn btn-danger btn-flat">
                       <i class="fa fa-plus"></i>
                     </a>
                   </span>

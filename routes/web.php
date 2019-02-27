@@ -54,13 +54,29 @@ Route::get('adm/centro/generar_excel_cartera_servicio/{id_cartera_servicio}/{id_
 	'uses' => 'CarteraServicioController@generar_excel_cartera_servicio'
 ]);
 
-Route::get('adm/centro/create_rol_turno/{id}',[
-	'as' => 'create-rol-turno',
-	'uses' => 'RolTurnoController@create_rol_turno'
+Route::get('adm/centro/create_rol_turno_emergencia/{id}',[
+	'as' => 'create-rol-turno-emergencia',
+	'uses' => 'RolTurnoController@create_rol_turno_emergencia'
 ]);
-Route::post('adm/centro/store_rol_turno/{id}',[
-	'as' => 'store-rol-turno',
-	'uses' => 'RolTurnoController@store_rol_turno'
+Route::get('adm/centro/create_rol_turno_consulta/{id_centro}/{id_rol_turno}',[
+	'as' => 'create-rol-turno-consulta',
+	'uses' => 'RolTurnoController@create_rol_turno_consulta'
+]);
+Route::get('adm/centro/create_rol_turno_hospitalizacion/{id_centro}/{id_rol_turno}',[
+	'as' => 'create-rol-turno-hospitalizacion',
+	'uses' => 'RolTurnoController@create_rol_turno_hospitalizacion'
+]);
+Route::post('adm/centro/store_rol_turno_emergencia/{id_centro}',[
+	'as' => 'store-rol-turno-emergencia',
+	'uses' => 'RolTurnoController@store_rol_turno_emergencia'
+]);
+Route::post('adm/centro/store_rol_turno_consulta/{id_centro}/{id_rol_turno}',[
+	'as' => 'store-rol-turno-consulta',
+	'uses' => 'RolTurnoController@store_rol_turno_consulta'
+]);
+Route::post('adm/centro/store_rol_turno_hospitalizacion/{id_centro}/{id_rol_turno}',[
+	'as' => 'store-rol-turno-hospitalizacion',
+	'uses' => 'RolTurnoController@store_rol_turno_hospitalizacion'
 ]);
 Route::get('adm/centro/index_rol_turno/{id}',[
 	'as' => 'index-rol-turno',
@@ -74,13 +90,41 @@ Route::get('adm/centro/edit_rol_turno/{id_rol_turno}/{id_centro}',[
 	'as' => 'edit-rol-turno',
 	'uses' => 'RolTurnoController@edit_rol_turno'
 ]);
+Route::get('adm/centro/edit_rol_turno_emergencia/{id_rol_turno}/{id_centro}',[
+	'as' => 'edit-rol-turno-emergencia',
+	'uses' => 'RolTurnoController@edit_rol_turno_emergencia'
+]);
+Route::get('adm/centro/edit_rol_turno_consulta/{id_rol_turno}/{id_centro}',[
+	'as' => 'edit-rol-turno-consulta',
+	'uses' => 'RolTurnoController@edit_rol_turno_consulta'
+]);
+Route::get('adm/centro/edit_rol_turno_hospitalizacion/{id_rol_turno}/{id_centro}',[
+	'as' => 'edit-rol-turno-hospitalizacion',
+	'uses' => 'RolTurnoController@edit_rol_turno_hospitalizacion'
+]);
 Route::patch('adm/centro/update_rol_tuno/{id}',[
 	'as' => 'update-rol-turno',
 	'uses' => 'RolTurnoController@update_rol_tuno'
 ]);
+Route::patch('adm/centro/update_rol_tuno_emergencia/{id_rol_turno}/{id_centro}',[
+	'as' => 'update-rol-turno-emergencia',
+	'uses' => 'RolTurnoController@update_rol_tuno_emergencia'
+]);
+Route::patch('adm/centro/update_rol_tuno_consulta/{id_rol_turno}/{id_centro}',[
+	'as' => 'update-rol-turno-consulta',
+	'uses' => 'RolTurnoController@update_rol_tuno_consulta'
+]);
+Route::patch('adm/centro/update_rol_tuno_hospitalizacion/{id_rol_turno}/{id_centro}',[
+	'as' => 'update-rol-turno-hospitalizacion',
+	'uses' => 'RolTurnoController@update_rol_tuno_hospitalizacion'
+]);
 Route::get('adm/centro/renovate_rol_turno/{id_rol_turno}/{id_centro}',[
 	'as' => 'renovate-rol-turno',
 	'uses' => 'RolTurnoController@renovate_rol_turno'
+]);
+Route::get('adm/centro/build_rol_turno/{id_rol_turno}/{id_centro}',[
+	'as' => 'build-rol-turno',
+	'uses' => 'RolTurnoController@build_rol_turno'
 ]);
 //////////////////////////////////////
 

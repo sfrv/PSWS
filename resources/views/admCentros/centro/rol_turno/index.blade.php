@@ -44,8 +44,9 @@
                       <a href="" data-target="#modal-delete-{{$var->id}}" data-toggle="modal" class="btn btn-danger" data-placement="top" data-original-title="Remove"><i class="fa fa-times fa fa-white"></i></a>
                       <a href="{{ route('edit-rol-turno', [$var->id,$centro->id]) }}" class="btn btn-info" data-placement="top"><i class="fa fa-edit"></i></a>
                       <a href="{{ route('show-rol-turno', [$var->id,$centro->id]) }}" class="btn btn-success" data-placement="top"><i class="fa fa-eye"></i></a>
-                      <a href="{{ route('renovate-rol-turno', [$var->id,$centro->id]) }}" class="btn btn-warning" data-placement="top"><i class="fa fa-refresh"></i></a>
-                      <a href="" class="btn bg-olive btn-flat" data-placement="top"><i class="fa fa-mail-forward"></i></a>
+                      <!-- <a href="{{ route('renovate-rol-turno', [$var->id,$centro->id]) }}" class="btn btn-warning" data-placement="top"><i class="fa fa-refresh"></i></a> -->
+                      <a href="" class="btn btn-warning" data-placement="top"><i class="fa fa-refresh"></i></a>
+                      <a href="{{ route('build-rol-turno', [$var->id,$centro->id]) }}" class="btn bg-olive btn-flat" data-placement="top"><i class="fa fa-mail-forward"></i></a>
                       <a href="" class="btn btn-primary" data-placement="top"><i class="fa fa-download"></i></a>
                     </td>
                   </tr>

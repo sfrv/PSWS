@@ -16,7 +16,7 @@ class CarteraServicioController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('auth');
+        // $this->middleware('auth');
     }
     
 	public function index_cartera_servicio($id,Request $request)

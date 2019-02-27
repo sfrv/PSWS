@@ -307,6 +307,34 @@ class CentroMedico extends Model
         return $result;
     }
 
+    public function scope_obtenerEspecialidadesEtapaHospitalizacion($query, $id)
+    {
+        $result = DB::table('detalle_centro_especialidad as de')
+            ->join('especialidad as e', 'e.id', '=', 'de.id_especialidad')
+            ->select('e.nombre', 'de.id')
+            ->where('de.id_centro_medico', '=', $id)
+            ->where('de.estado', '=', 1)
+            ->where('de.etapa_hospitalizacion', '=', 1)
+            ->orderBy("de.id", "asc")
+            ->get();
+
+        return $result;
+    }
+
+    public function scope_obtenerEspecialidadesEtapaConsultaExt($query, $id)
+    {
+        $result = DB::table('detalle_centro_especialidad as de')
+            ->join('especialidad as e', 'e.id', '=', 'de.id_especialidad')
+            ->select('e.nombre', 'de.id')
+            ->where('de.id_centro_medico', '=', $id)
+            ->where('de.estado', '=', 1)
+            ->where('de.etapa_consulta', '=', 1)
+            ->orderBy("de.id", "asc")
+            ->get();
+
+        return $result;
+    }
+
     public function scope_obtenerRolTurnos($query, $id, $searchText)
     {
 
