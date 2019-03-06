@@ -18,7 +18,7 @@
       	{!! Form::open(array('route'=>['store-rol-turno-hospitalizacion',$id_centro,$id_rol_turno],'method'=>'POST','autocomplete'=>'off'))!!}
         {{Form::token()}}
         <div class="row">
-        	
+        	@include('alertas.logrado')
       	</div>
         <br>
         <div>

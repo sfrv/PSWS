@@ -14,6 +14,7 @@
        <div class="box box-success">
        <div class="box-header with-border">
            <h3 align="center">PANEL DE <span class="text-bold">ROL DE TURNO REGISTRADOS</span></h3>
+           @include('alertas.logrado')
        </div>
        <div class="box-body">
          @include('admCentros.centro.rol_turno.search')

@@ -66,6 +66,10 @@ Route::get('adm/centro/create_rol_turno_hospitalizacion/{id_centro}/{id_rol_turn
 	'as' => 'create-rol-turno-hospitalizacion',
 	'uses' => 'RolTurnoController@create_rol_turno_hospitalizacion'
 ]);
+Route::get('adm/centro/create_rol_turno_personal_encargado/{id_centro}/{id_rol_turno}',[
+	'as' => 'create-rol-turno-personal-encargado',
+	'uses' => 'RolTurnoController@create_rol_turno_personal_encargado'
+]);
 Route::post('adm/centro/store_rol_turno_emergencia/{id_centro}',[
 	'as' => 'store-rol-turno-emergencia',
 	'uses' => 'RolTurnoController@store_rol_turno_emergencia'
@@ -77,6 +81,10 @@ Route::post('adm/centro/store_rol_turno_consulta/{id_centro}/{id_rol_turno}',[
 Route::post('adm/centro/store_rol_turno_hospitalizacion/{id_centro}/{id_rol_turno}',[
 	'as' => 'store-rol-turno-hospitalizacion',
 	'uses' => 'RolTurnoController@store_rol_turno_hospitalizacion'
+]);
+Route::post('adm/centro/store_rol_turno_personal_encargado/{id_centro}/{id_rol_turno}',[
+	'as' => 'store-rol-turno-personal-encargado',
+	'uses' => 'RolTurnoController@store_rol_turno_personal_encargado'
 ]);
 Route::get('adm/centro/index_rol_turno/{id}',[
 	'as' => 'index-rol-turno',
@@ -102,6 +110,10 @@ Route::get('adm/centro/edit_rol_turno_hospitalizacion/{id_rol_turno}/{id_centro}
 	'as' => 'edit-rol-turno-hospitalizacion',
 	'uses' => 'RolTurnoController@edit_rol_turno_hospitalizacion'
 ]);
+Route::get('adm/centro/edit_rol_turno_personal_encargado/{id_rol_turno}/{id_centro}',[
+	'as' => 'edit-rol-turno-personal-encargado',
+	'uses' => 'RolTurnoController@edit_rol_turno_personal_encargado'
+]);
 Route::patch('adm/centro/update_rol_tuno/{id}',[
 	'as' => 'update-rol-turno',
 	'uses' => 'RolTurnoController@update_rol_tuno'
@@ -117,6 +129,10 @@ Route::patch('adm/centro/update_rol_tuno_consulta/{id_rol_turno}/{id_centro}',[
 Route::patch('adm/centro/update_rol_tuno_hospitalizacion/{id_rol_turno}/{id_centro}',[
 	'as' => 'update-rol-turno-hospitalizacion',
 	'uses' => 'RolTurnoController@update_rol_tuno_hospitalizacion'
+]);
+Route::patch('adm/centro/update_rol_tuno_personal_encargado/{id_rol_turno}/{id_centro}',[
+	'as' => 'update-rol-turno-personal-encargado',
+	'uses' => 'RolTurnoController@update_rol_tuno_personal_encargado'
 ]);
 Route::get('adm/centro/renovate_rol_turno/{id_rol_turno}/{id_centro}',[
 	'as' => 'renovate-rol-turno',

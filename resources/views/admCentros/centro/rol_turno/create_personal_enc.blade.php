@@ -3,7 +3,7 @@
 
 <section class="content-header">
   <h1 align="center">
-    <b>ROL DE TURNO - ETAPA DE CONSULTA EXTERNA</b>
+    <b>ROL DE TURNO - ETAPA DE PERSONAL ENCARGADO</b>
   </h1>
   <br>
 </section>
@@ -12,10 +12,10 @@
   <div class="col-sm-12 col-xs-12">
     <div class="box box-success">
       <div class="box-header with-border">
-      	<h3 align="center">PANEL DE REGISTRO DE <span class="text-bold">ROL DE TURNO - ETAPA DE CONSULTA EXTERNA</span></h3>
+      	<h3 align="center">PANEL DE REGISTRO DE <span class="text-bold">ROL DE TURNO - PERSONAL ENCARGADO</span></h3>
       	<br>
       	
-      	{!! Form::open(array('route'=>['store-rol-turno-consulta',$id_centro,$id_rol_turno],'method'=>'POST','autocomplete'=>'off'))!!}
+      	{!! Form::open(array('route'=>['store-rol-turno-personal-encargado',$id_centro,$id_rol_turno],'method'=>'POST','autocomplete'=>'off'))!!}
         {{Form::token()}}
         <div class="row">
         	@include('alertas.logrado')
@@ -23,34 +23,23 @@
         <br>
         <div>
             <div class="panel panel-info">
-              <div class="panel-heading">CREACION DE ROL DE TURNO - ETAPA DE CONSULTA EXTERNA</div>
+              	<div class="panel-heading">
+              		<div class="row">
+	              		<div class="col-lg-11 col-md-11 col-dm-11 col-xs-10">
+	              			ETAPA DE PERSONAL ENCARGADO
+	              		</div>
+	              		<div>
+	              			<button type="button" class="btn btn-info" onclick="agregarFilaPersonal();"><i class="fa fa-plus"></i></button>
+	              		</div>
+              		</div>
+              	</div>
               <div class="panel-body">
           		<div class="col-lg-12 col-md-12 col-dm-12 col-xs-12">
           			<div class="table-responsive">
           				<div id="table-scroll" class="table-scroll">
           					<div class="table-wrap">
-          						<table class="main-table">
-          							@foreach($especialidades_etapa_consulta as $var)
-          							<thead style="background-color:#A9D0F5">
-          								<tr>
-          									<th class="text-center" style="background-color:#AAD0F5;" scope="col">Esp: {{$var -> nombre}} {{$var -> id}}</th>
-					          				<th class="text-center" style="background-color:#AAD0F5;" scope="col">Turno</th>
-					          				<th class="text-center" style="background-color:#AAD0F5;" scope="col">Lunes</th>
-					          				<th class="text-center" style="background-color:#AAD0F5;" scope="col">Martes</th>
-					          				<th class="text-center" style="background-color:#AAD0F5;" scope="col">Miercoles</th>
-					          				<th class="text-center" style="background-color:#AAD0F5;" scope="col">Jueves</th>
-					          				<th class="text-center" style="background-color:#AAD0F5;" scope="col">Viernes</th>
-					          				<th class="text-center" style="background-color:#AAD0F5;" scope="col">Sabado</th>
-					          				<th class="text-center" style="background-color:#AAD0F5;" scope="col">Domingo</th>
-					          				<th class="text-center" style="background-color:#AAD0F5;" scope="col">Op1</th>
-					          				<th class="text-center" style="background-color:#AAD0F5;" scope="col"><button type="button" class="btn btn-info" onclick="agregarFilaHora({{$var -> id}});"><i class="fa fa-plus"></i></button></th>
-          								</tr>
-          							</thead>
+          						<table class="main-table" id="table_personal">
           							
-          							<tbody id="fila_datos{{$var -> id}}">
-          								
-          							</tbody>
-          							@endforeach
           						</table>
           					</div>
           				</div>
@@ -61,7 +50,7 @@
              <div class="col-sm-8 col-sm-offset-2">
                <div class="form-group">
                	<button onclick="guardar()" class="btn btn-primary btn-block" type="submit">
-                   <i class="fa fa-arrow-circle-right"> REGISTRAR ROL DE TURNO - ETAPA CONSULTA EXTERNA </i>
+                   <i class="fa fa-arrow-circle-right"> REGISTRAR ETAPA PERSONAL ENC. </i>
                 </button>
                </div>
              </div>
@@ -89,6 +78,7 @@ jQuery(document).ready(function() {
 var x = document.getElementById("mynav");
 x.className += " sidebar-collapse";
 
+var contp = 0;
 var conth = 0;
 var cont = 0;
 
@@ -96,11 +86,35 @@ var datos = [];
 var filas = [];
 var datos_filas = [];
 
-function agregarFilaHora(id) {//id especialidad
+function agregarFilaPersonal() {
+	var fila_personal = '<thead style="background-color:#A9D0F5" id="fila_datos_head'+contp+'">'+
+			'<tr>'+
+				'<th class="text-center" style="background-color:#AAD0F5;" scope="col">'+
+					'<input  placeholder="Nombre de Cargo" class="autosize form-control" name="text_personal'+contp+'" type="text">'+
+					'<input type="hidden" name="idpersonal[]" value="'+contp+'">'+
+				'</th>'+
+				'<th class="text-center" style="background-color:#AAD0F5;" scope="col">Turno</th>'+
+				'<th class="text-center" style="background-color:#AAD0F5;" scope="col">Lunes</th>'+
+				'<th class="text-center" style="background-color:#AAD0F5;" scope="col">Martes</th>'+
+				'<th class="text-center" style="background-color:#AAD0F5;" scope="col">Miercoles</th>'+
+				'<th class="text-center" style="background-color:#AAD0F5;" scope="col">Jueves</th>'+
+				'<th class="text-center" style="background-color:#AAD0F5;" scope="col">Viernes</th>'+
+				'<th class="text-center" style="background-color:#AAD0F5;" scope="col">Sabado</th>'+
+				'<th class="text-center" style="background-color:#AAD0F5;" scope="col">Domingo</th>'+
+				'<th class="text-center" style="background-color:#AAD0F5;" scope="col">Op1</th>'+
+				'<th class="text-center" style="background-color:#AAD0F5;" scope="col"><button type="button" class="btn btn-info" onclick="agregarFilaHora('+contp+');"><i class="fa fa-plus"></i></button> <button type="button" class="btn btn-danger" onclick="eliminarFilaPersonal('+contp+');"><i class="fa fa-close"></i></button></th>'+
+			'</tr>'+
+		'</thead>'+
+		'<tbody id="fila_datos_body'+contp+'">'+
+		'</tbody>';
+	contp++;
+	$('#table_personal').append(fila_personal);
+}
+
+function agregarFilaHora(id) {//id cargo
 	var fila_hora ='<tr id="fila_h'+conth+'">'+
 		'<td class="text-center" id="arrays'+conth+'">'+
-			'<input type="hidden" name="idturnos[]" value="'+conth+'">'+
-			'<input type="hidden" name="idespecialidad[]" value="'+id+'">'+
+			'<input type="hidden" name="idturnos'+id+'[]" value="'+conth+'">'+
 		'-</td>'+
 		'<td class="text-center">'+
 			'<input  placeholder="TITULO..." class="autosize form-control" name="text_turno'+conth+'" type="text">'+
@@ -115,10 +129,10 @@ function agregarFilaHora(id) {//id especialidad
 		'<td class="text-center" id="sabado'+conth+'"></td>'+ //sabado
 		'<td class="text-center" id="domingo'+conth+'"></td>'+ //domingo
 		'<td class="text-center" id="opcion'+conth+'"></td>'+
-		'<td class="text-center"> <button type="button" class="btn btn-success" onclick="agregarFila('+id+','+conth+');"><i class="fa fa-plus"></i></button> <button type="button" class="btn btn-warning" onclick="eliminarFilaHora('+conth+');"><i class="fa fa-close"></i></button> </td>'+
+		'<td class="text-center"> <button type="button" class="btn btn-info" onclick="agregarFila('+id+','+conth+');"><i class="fa fa-plus"></i></button> <button type="button" class="btn btn-danger" onclick="eliminarFilaHora('+conth+');"><i class="fa fa-close"></i></button> </td>'+
 		'</tr>';
 	conth++;
-	$('#fila_datos'+id).append(fila_hora);
+	$('#fila_datos_body'+id).append(fila_hora);
 }
 // id="fila_dias_turno_'+conth_l+'_'+cont+'"
 function agregarFila(id_l,conth_l) {
@@ -202,10 +216,16 @@ function eliminarFilaHora(conth_l)
 	$('#fila_h'+conth_l).remove();
 }
 
+function eliminarFilaPersonal(contp_l)
+{
+	$('#fila_datos_body'+contp_l).remove();
+	$('#fila_datos_head'+contp_l).remove();
+}
+
 function guardar() {
-	if (document.getElementById("titulo").value != "") {
-		document.getElementById("progress_bar").hidden = false;
-	}
+	
+	document.getElementById("progress_bar").hidden = false;
+	
 }
 
 

@@ -112,7 +112,7 @@
 		            <div class="icon">
 		              <i class="fa fa-user-md"></i>
 		            </div>
-		            <a href="#" class="small-box-footer">EDITAR ETAPA <i class="fa fa-arrow-circle-right"></i></a>
+		            <a href="{{ route('edit-rol-turno-personal-encargado', [$rol_turno->id,$id_centro]) }}" class="small-box-footer">EDITAR ETAPA <i class="fa fa-arrow-circle-right"></i></a>
 		          </div>
 		        </div>
 		        <!-- ./col -->
