@@ -39,32 +39,34 @@ class CentroMedico extends Model
     {
         // dd($filtro);
         // return $filtro;
-        if($filtro != ""){
-            if($filtro == 1){
+        if ($filtro != "") {
+            if ($filtro == 1) {
                 $text = trim($searchText);
                 $result = $query->where('nombre', 'LIKE', '%' . $text . '%')
 
-                    ->where('estado', '=' , '1')
+                    ->where('estado', '=', '1')
+                    ->distinct()
                     ->orderBy('id', 'desc');
             }
-            if($filtro == 2){
+            if ($filtro == 2) {
                 $text = trim($searchText);
                 $result = DB::table('centro_medico as a')
-                ->join('detalle_centro_especialidad as b', 'b.id_centro_medico', '=', 'a.id')
-                ->join('especialidad as c', 'c.id', '=', 'b.id_especialidad')
-                ->select('a.*')
-                ->where('c.nombre', 'LIKE', '%' . $text . '%')
-                ->where('a.estado', '=' , '1')
-                ->orderBy('id', 'desc');
+                    ->join('detalle_centro_especialidad as b', 'b.id_centro_medico', '=', 'a.id')
+                    ->join('especialidad as c', 'c.id', '=', 'b.id_especialidad')
+                    ->select('a.*')
+                    ->where('c.nombre', 'LIKE', '%' . $text . '%')
+                    ->where('a.estado', '=', '1')
+                    ->distinct()
+                    ->orderBy('id', 'desc');
             }
-        }else{
+        } else {
             $text = trim($searchText);
             $result = $query->where('nombre', 'LIKE', '%' . $text . '%')
 
-                ->where('estado', '=' , '1')
+                ->where('estado', '=', '1')
                 ->orderBy('id', 'desc');
         }
-            // ->paginate(7);
+        // ->paginate(7);
         return $result;
     }
 
@@ -433,7 +435,7 @@ class CentroMedico extends Model
             ->join('tipo_servicio as t', 't.id', '=', 'c.id_tipo_servicio')
             ->join('zona as z', 'z.id', '=', 'c.id_zona')
             ->join('nivel as n', 'n.id', '=', 'c.id_nivel')
-            ->select('c.id', 'c.nombre', 'c.latitud', 'c.longitud', 'c.camas_total','c.direccion', 'c.descripcion', 'c.distrito', 'c.uv', 'c.manzano', 'c.horas_atencion', 'telefono', 'r.nombre as nombreRed', 't.nombre as nombreServicio', 'z.nombre as nombreZona', 'n.nombre as nombreNivel', 'c.estado')
+            ->select('c.id', 'c.nombre', 'c.latitud', 'c.longitud', 'c.camas_total', 'c.direccion', 'c.descripcion', 'c.distrito', 'c.uv', 'c.manzano', 'c.horas_atencion', 'telefono', 'r.nombre as nombreRed', 't.nombre as nombreServicio', 'z.nombre as nombreZona', 'n.nombre as nombreNivel', 'c.estado')
 
             ->where('c.id_red', '=', $id_red)
             ->where('c.id_tipo_servicio', '=', $id_tipo_servicio)

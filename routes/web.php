@@ -310,6 +310,11 @@ Route::get('get-centrosPorN-E/{searchText}/{filtro}', [
 	'uses' => 'CentroMedicoController@get_CentrosMedicos_por_nombre_o_especialidad'
 ]);
 
+Route::get('get-cargosPersonal/{id}', [
+	'uses' => 'RolTurnoController@get_obtenerPersonalEtapaPersonalArea'
+]);
+
+
 //modificar
 
 // Route::get('get-especialidades',[

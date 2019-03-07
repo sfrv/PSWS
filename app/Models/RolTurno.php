@@ -73,7 +73,7 @@ class RolTurno extends Model
         ->join('especialidad as c', 'b.id_especialidad', '=', 'c.id')
         ->select('c.nombre','b.id')
         ->where('a.id_etapa_servicio','=', $id)
-        ->orderBy('b.id', 'ASC')
+        ->orderBy('c.nombre', 'ASC')
         ->distinct()
         ->get();
 
@@ -99,7 +99,7 @@ class RolTurno extends Model
         $result = DB::table('etapa_servicio as a')
         ->select('a.*')
         ->where('a.id_rol_turno','=', $id)
-        ->orderBy('a.id', 'desc');
+        ->orderBy('a.id', 'asc');
         return $result;
     }
 }

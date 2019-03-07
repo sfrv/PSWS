@@ -782,4 +782,8 @@ class RolTurnoController extends Controller
     public function get_RolDiasPorIdEtapaServicio($id){
         return json_encode(array("rolesDia" => RolTurno::_getRolDiasPorIdEtapaServicio($id)));
     }
+
+    public function get_obtenerPersonalEtapaPersonalArea($id){
+        return json_encode(array("cargosPersonal" => PersonalArea::_obtenerPersonalEtapaPersonalArea($id)));
+    }
 }
