@@ -74,7 +74,7 @@ class CarteraServicio extends Model
         ->join('especialidad as c', 'b.id_especialidad', '=', 'c.id')
         ->select('c.nombre','b.id','c.id as idEspecialidad')
         ->where('a.id_cartera_servicio','=', $id)
-        ->orderBy('c.nombre', 'asc')
+        ->orderBy('b.id', 'asc')
         ->distinct()
         ->get();
 
