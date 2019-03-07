@@ -48,6 +48,25 @@ class CarteraServicioController extends Controller
                     2     =>  45,
                     3     =>  60
                 ));
+                // $sheet->setBorder('A3', 'solid');
+                $sheet->cell('A3', function($cell){//BORDE
+                    $cell->setBorder('thin','thin','thin','thin');
+                });
+                $sheet->cell('B3', function($cell){
+                    $cell->setBorder('thin','thin','thin','thin');
+                });
+                $sheet->cell('C3', function($cell){
+                    $cell->setBorder('thin','thin','thin','thin');
+                });
+                $sheet->cell('D3', function($cell){
+                    $cell->setBorder('thin','thin','thin','thin');
+                });
+                $sheet->cell('E3', function($cell){
+                    $cell->setBorder('thin','thin','thin','thin');
+                });
+                // $sheet->cell('A3:E3', function($cell){
+                //     $cell->setBorder('thin', 'thin', 'thin', 'thin');
+                // });
 
                 $sheet->cells('A1:E1', function($cells) {
                     $cells->setFontSize(26);
@@ -55,7 +74,10 @@ class CarteraServicioController extends Controller
                     $cells->setAlignment('center');
                     $cells->setFontWeight('bold');
                     $cells->setValignment('center');
-                    // $cells->setFontColor('#AAD0F5');
+                    $cells->setFontColor('#FFFFFF');
+                    $cells->setBackground('#506228');
+                    $cells->setBorder('thin','thin','thin','thin');//BORDE
+                    // $cells->setBorder('thin','thin','thin','thin');
                 });
                 $sheet->cells('A2:E2', function($cells) {
                     $cells->setFontSize(26);
@@ -63,6 +85,9 @@ class CarteraServicioController extends Controller
                     $cells->setAlignment('center');
                     $cells->setFontWeight('bold');
                     $cells->setValignment('center');
+                    $cells->setFontColor('#FFFFFF');
+                    $cells->setBackground('#76923B');
+                    $cells->setBorder('thin','thin','thin','thin');//BORDE
                 });
                 $sheet->cells('A3:E3', function($cells) {
                     $cells->setFontSize(26);
@@ -70,6 +95,9 @@ class CarteraServicioController extends Controller
                     $cells->setAlignment('center');
                     $cells->setFontWeight('bold');
                     $cells->setValignment('center');
+                    $cells->setFontColor('#FFFFFF');
+                    $cells->setBackground('#76923B');
+                    $cells->setBorder('thin','thin','thin','thin');//BORDE
                 });
 
                 $cartera_servicio = CarteraServicio::findOrFail($id_cart);
@@ -86,12 +114,17 @@ class CarteraServicioController extends Controller
                     $servicios_especialidad = CarteraServicio::_getServiciosPorIdCarteraAndEspecialidad($id_cart,$especialidad->id);
                     $celdas_ini = $cont_filas;
                     $sheet->setCellValue('A'.$celdas_ini, $especialidad->nombre);
+                    $sheet->cell('A'.$celdas_ini, function($cell){//BORDE
+                        $cell->setBorder('thin','thin','thin','thin');
+                    });
                     $sheet->cells('A'.$celdas_ini.':A'.$celdas_ini, function($cells) {
                             $cells->setFontSize(15);
                             $cells->setFontFamily('Arial');
                             $cells->setAlignment('center');
                             $cells->setValignment('center');
                             $cells->setFontWeight('bold');
+                            $cells->setBackground('#D9D9D9');
+                            // $cells->setBorder('thin','thin','thin','thin');
                     });
 
                     foreach ($servicios_especialidad as $servicio) {
@@ -99,13 +132,14 @@ class CarteraServicioController extends Controller
                         $sheet->setCellValue('C'.$cont_filas, $servicio->dias);
                         $sheet->setCellValue('D'.$cont_filas, $servicio->hora);
                         $sheet->setCellValue('E'.$cont_filas, $servicio->observacion);
-
+                        
                         $sheet->setHeight($cont_filas, 40);
                         $sheet->cells('B'.$cont_filas.':E'.$cont_filas, function($cells) {
                             $cells->setFontSize(15);
                             $cells->setFontFamily('Arial');
                             $cells->setAlignment('center');
                             $cells->setValignment('center');
+                            $cells->setBorder('thin','thin','thin','thin');
                         });
                         // $row = [];
                         // // $row[0] = $especialidad->id;
@@ -122,7 +156,7 @@ class CarteraServicioController extends Controller
                     // $sheet->mergeCells('A4:A4');
                 }
                 // $sheet->fromArray($data);
-                $sheet->setCellValue('A25', 'some value');
+                // $sheet->setCellValue('A25', 'some value');
 
             });
 
@@ -167,7 +201,7 @@ class CarteraServicioController extends Controller
     	$servicios_json = json_encode($servicios, JSON_UNESCAPED_SLASHES );
         $nombres_servicios_json = json_encode($nombres_servicios, JSON_UNESCAPED_SLASHES );
         
-    	return view('admCentros.centro.cartera_servicio.edit',compact('cartera_servicio','especialidades','servicios_json','meses','anios','nombres_servicios_json','nombres_servicios'));
+    	return view('admCentros.centro.cartera_servicio.edit',compact('id_centro','cartera_servicio','especialidades','servicios_json','meses','anios','nombres_servicios_json','nombres_servicios'));
     }
 
     public function store_cartera_servicio(Request $request,$id_centro)

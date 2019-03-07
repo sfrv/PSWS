@@ -117,18 +117,67 @@ class RolTurnoController extends Controller
     public function show_rol_turno($id,$id_centro)
     {
     	$rol_turno = RolTurno::findOrFail($id);
-    	$etapa_servicio_uno = RolTurno::_getEtapaServicio($id,'ETAPA DE EMERGENCIA');
-    	// $especialidades = RolTurno::_getEspecialidadesPorIdEtapaServicio($etapa_servicio_uno->id);
+    	return view('admCentros.centro.rol_turno.show',compact('id_centro','rol_turno'));
+    }
+
+    public function show_rol_turno_emergencia($id,$id_centro)
+    {
+        $rol_turno = RolTurno::findOrFail($id);
+        $etapa_servicio_uno = RolTurno::_getEtapaServicio($id,'ETAPA DE EMERGENCIA');
         $especialidades_etapa_emergencia = CentroMedico::_obtenerEspecialidadesEtapaEmergencia($id_centro);
-    	$turnos = RolTurno::_getTurnosPorIdEtapaServicio($etapa_servicio_uno->id);
-    	$rol_dias = RolTurno::_getRolDiasPorIdEtapaServicio($etapa_servicio_uno->id);
-    	$medicos = Medico::_getAllMedicos("")->get();
-    	
-    	$turnos_json = json_encode($turnos, JSON_UNESCAPED_SLASHES );
-    	$rol_dias_json = json_encode($rol_dias, JSON_UNESCAPED_SLASHES );
-    	$medicos_json = json_encode($medicos, JSON_UNESCAPED_SLASHES );
-    	// dd($especialidades);
-    	return view('admCentros.centro.rol_turno.show',compact('rol_turno','especialidades_etapa_emergencia','turnos_json','rol_dias_json','medicos_json'));
+        $turnos = RolTurno::_getTurnosPorIdEtapaServicio($etapa_servicio_uno->id);
+        $rol_dias = RolTurno::_getRolDiasPorIdEtapaServicio($etapa_servicio_uno->id);
+        $medicos = Medico::_getAllMedicos("")->get();
+        
+        $turnos_json = json_encode($turnos, JSON_UNESCAPED_SLASHES );
+        $rol_dias_json = json_encode($rol_dias, JSON_UNESCAPED_SLASHES );
+        $medicos_json = json_encode($medicos, JSON_UNESCAPED_SLASHES );
+        return view('admCentros.centro.rol_turno.show_emergencia',compact('id_centro','rol_turno','especialidades_etapa_emergencia','turnos_json','rol_dias_json','medicos_json'));
+    }
+
+    public function show_rol_turno_consulta($id,$id_centro)
+    {
+        $rol_turno = RolTurno::findOrFail($id);
+        $etapa_servicio_uno = RolTurno::_getEtapaServicio($id,'ETAPA DE CONSULTA EXTERNA');
+        $especialidades_etapa_consulta = CentroMedico::_obtenerEspecialidadesEtapaConsultaExt($id_centro);
+        $turnos = RolTurno::_getTurnosPorIdEtapaServicio($etapa_servicio_uno->id);
+        $rol_dias = RolTurno::_getRolDiasPorIdEtapaServicio($etapa_servicio_uno->id);
+        $medicos = Medico::_getAllMedicos("")->get();
+        
+        $turnos_json = json_encode($turnos, JSON_UNESCAPED_SLASHES );
+        $rol_dias_json = json_encode($rol_dias, JSON_UNESCAPED_SLASHES );
+        $medicos_json = json_encode($medicos, JSON_UNESCAPED_SLASHES );
+        return view('admCentros.centro.rol_turno.show_consulta',compact('id_centro','rol_turno','especialidades_etapa_consulta','turnos_json','rol_dias_json','medicos_json'));
+    }
+
+    public function show_rol_turno_hospitalizacion($id,$id_centro)
+    {
+        $rol_turno = RolTurno::findOrFail($id);
+        $etapa_servicio_uno = RolTurno::_getEtapaServicio($id,'ETAPA DE HOSPITALIZACION');
+        $especialidades_etapa_hospitalizacion = CentroMedico::_obtenerEspecialidadesEtapaHospitalizacion($id_centro);
+        $turnos = RolTurno::_getTurnosPorIdEtapaServicio($etapa_servicio_uno->id);
+        $rol_dias = RolTurno::_getRolDiasPorIdEtapaServicio($etapa_servicio_uno->id);
+        $medicos = Medico::_getAllMedicos("")->get();
+        
+        $turnos_json = json_encode($turnos, JSON_UNESCAPED_SLASHES );
+        $rol_dias_json = json_encode($rol_dias, JSON_UNESCAPED_SLASHES );
+        $medicos_json = json_encode($medicos, JSON_UNESCAPED_SLASHES );
+        return view('admCentros.centro.rol_turno.show_hospitalizacion',compact('id_centro','rol_turno','especialidades_etapa_hospitalizacion','turnos_json','rol_dias_json','medicos_json'));
+    }
+
+    public function show_rol_turno_personal_encargado($id,$id_centro)
+    {
+        $rol_turno = RolTurno::findOrFail($id);
+        $etapa_servicio = RolTurno::_getEtapaServicio($id,'ETAPA DE PERSONAL ENCARGADO');
+        $personal_etapa_personal_area = PersonalArea::_obtenerPersonalEtapaPersonalArea($etapa_servicio->id);
+        $turnos = RolTurno::_getTurnosPorIdEtapaServicio($etapa_servicio->id);
+        $rol_dias = RolTurno::_getRolDiasPorIdEtapaServicio($etapa_servicio->id);
+        $medicos = Medico::_getAllMedicos("")->get();
+        
+        $turnos_json = json_encode($turnos, JSON_UNESCAPED_SLASHES );
+        $rol_dias_json = json_encode($rol_dias, JSON_UNESCAPED_SLASHES );
+        $medicos_json = json_encode($medicos, JSON_UNESCAPED_SLASHES );
+        return view('admCentros.centro.rol_turno.show_personal_encargado',compact('id_centro','rol_turno','personal_etapa_personal_area','turnos_json','rol_dias_json','medicos_json'));
     }
 
     public function update_rol_tuno(Request $request,$id_rol_turno)

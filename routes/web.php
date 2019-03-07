@@ -94,6 +94,22 @@ Route::get('adm/centro/show_rol_turno/{id}/{id_centro}',[
 	'as' => 'show-rol-turno',
 	'uses' => 'RolTurnoController@show_rol_turno'
 ]);
+Route::get('adm/centro/show_rol_turno_emergencia/{id_rol_turno}/{id_centro}',[
+	'as' => 'show-rol-turno-emergencia',
+	'uses' => 'RolTurnoController@show_rol_turno_emergencia'
+]);
+Route::get('adm/centro/show_rol_turno_consulta/{id_rol_turno}/{id_centro}',[
+	'as' => 'show-rol-turno-consulta',
+	'uses' => 'RolTurnoController@show_rol_turno_consulta'
+]);
+Route::get('adm/centro/show_rol_turno_hospitalizacion/{id_rol_turno}/{id_centro}',[
+	'as' => 'show-rol-turno-hospitalizacion',
+	'uses' => 'RolTurnoController@show_rol_turno_hospitalizacion'
+]);
+Route::get('adm/centro/show_rol_turno_personal_encargado/{id_rol_turno}/{id_centro}',[
+	'as' => 'show-rol-turno-personal-encargado',
+	'uses' => 'RolTurnoController@show_rol_turno_personal_encargado'
+]);
 Route::get('adm/centro/edit_rol_turno/{id_rol_turno}/{id_centro}',[
 	'as' => 'edit-rol-turno',
 	'uses' => 'RolTurnoController@edit_rol_turno'

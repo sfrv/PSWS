@@ -256,7 +256,7 @@ function actualizar(){
       url: "{{route('actualizar-cartera-servicio')}}",
       data: parametros
     }).done(function(info){
-      window.location.href = "{{url('adm/centro')}}";
+      window.location.href = "{{url('adm/centro/index_cartera_servicio/'.$id_centro)}}";
     });
 }
 

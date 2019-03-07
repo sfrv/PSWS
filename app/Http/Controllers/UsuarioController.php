@@ -22,7 +22,7 @@ class UsuarioController extends Controller
 
     public function create()
     {
-    	$centros = CentroMedico::_getAllCentrosMedicos("")->get();
+    	$centros = CentroMedico::all();
         return view('admCentros.usuario.create', compact('centros'));
     }
 
