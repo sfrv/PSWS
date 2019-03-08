@@ -16,6 +16,7 @@
            <h3 align="center">PANEL DE <span class="text-bold">ROL DE TURNO REGISTRADOS</span></h3>
            @include('alertas.logrado')
        </div>
+       <div class="box-body table-responsive no-padding">
        <div class="box-body">
          @include('admCentros.centro.rol_turno.search')
          <table class="table table-striped" style="border-top-color: #00AEFF">
@@ -61,6 +62,7 @@
               @endforeach
            </tbody>
          </table>
+       </div>
        </div>
        {{ $rol_turnos->links() }}
      </div>

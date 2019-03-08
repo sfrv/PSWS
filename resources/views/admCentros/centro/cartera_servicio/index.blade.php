@@ -15,6 +15,7 @@
        <div class="box-header with-border">
            <h3 align="center">PANEL DE <span class="text-bold">CARTERA DE SERVICIOS REGISTRADOS</span></h3>
        </div>
+       <div class="box-body table-responsive no-padding">
        <div class="box-body">
          @include('admCentros.centro.cartera_servicio.search')
          <table class="table table-striped" style="border-top-color: #00AEFF">
@@ -59,6 +60,7 @@
               @endforeach
            </tbody>
          </table>
+       </div>
        </div>
        {{ $cartera_servicios->links() }}
      </div>
