@@ -66,6 +66,17 @@ class RolTurno extends Model
         return $result;
     }
 
+    public function scope_getDetalleTurnosPorIdEtapaServicio($query, $id)
+    {
+        $result = DB::table('turno as a')
+        ->join('detalle_turno as b', 'a.id', '=', 'b.id_turno')
+        ->select('b.*')
+        ->where('a.id_etapa_servicio','=', $id)
+        ->get();
+
+        return $result;
+    }
+
     public function scope_getEspecialidadesPorIdEtapaServicio($query, $id)
     {
         $result = DB::table('turno as a')
@@ -86,6 +97,41 @@ class RolTurno extends Model
     	->join('rol_dia as b', 'a.id', '=', 'b.id_turno')
         ->select('b.*')
         ->where('a.id_etapa_servicio','=', $id)
+        ->get();
+
+        return $result;
+    }
+
+    public function scope_getTurnosPorIdEtapaAndEspecialidad($query, $id_etapa_servicio, $id_especialidad)
+    {
+        $result = DB::table('turno as a')
+        ->select('a.*')
+        ->where('a.id_etapa_servicio','=', $id_etapa_servicio)
+        ->where('a.id_detalle_centro_especialidad','=', $id_especialidad)
+        ->orderBy('a.id', 'asc')
+        ->get();
+
+        return $result;
+    }
+
+    public function scope_getTurnosPorIdEtapaAndPersonal($query, $id_etapa_servicio, $id_personal_area)
+    {
+        $result = DB::table('turno as a')
+        ->select('a.*')
+        ->where('a.id_etapa_servicio','=', $id_etapa_servicio)
+        ->where('a.id_personal_area','=', $id_personal_area)
+        ->orderBy('a.id', 'asc')
+        ->get();
+
+        return $result;
+    }
+
+    public function scope_getRolDiasPorIdETurno($query, $id_turno)
+    {
+        $result = DB::table('rol_dia as a')
+        ->select('a.*')
+        ->where('a.id_turno','=', $id_turno)
+        ->orderBy('a.id', 'asc')
         ->get();
 
         return $result;

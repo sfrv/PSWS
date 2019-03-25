@@ -158,6 +158,10 @@ Route::get('adm/centro/build_rol_turno/{id_rol_turno}/{id_centro}',[
 	'as' => 'build-rol-turno',
 	'uses' => 'RolTurnoController@build_rol_turno'
 ]);
+Route::get('adm/centro/generar_excel_rol_turno/{id_rol_turno}/{id_centro}',[
+	'as' => 'generar-excel-rol-turno',
+	'uses' => 'RolTurnoController@generar_excel_rol_turno'
+]);
 //////////////////////////////////////
 
 Route::resource('adm/centro','CentroMedicoController');

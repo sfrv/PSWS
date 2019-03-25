@@ -45,6 +45,7 @@
 					          				<th class="text-center" style="background-color:#AAD0F5;" scope="col">Viernes</th>
 					          				<th class="text-center" style="background-color:#AAD0F5;" scope="col">Sabado</th>
 					          				<th class="text-center" style="background-color:#AAD0F5;" scope="col">Domingo</th>
+					          				<th class="text-center" style="background-color:#AAD0F5;" scope="col">Observacion</th>
 					          				<th class="text-center" style="background-color:#AAD0F5;" scope="col">Op1</th>
 					          				<th class="text-center" style="background-color:#AAD0F5;" scope="col"><button type="button" class="btn btn-info" onclick="agregarFilaHora({{$var -> id}});"><i class="fa fa-plus"></i></button></th>
           								</tr>
@@ -90,6 +91,7 @@ x.className += " sidebar-collapse";
 var conth = 0;
 var cont = 0;
 var turnos = {!! $turnos_json !!};
+var detalle_turnos = {!! $detalle_turnos_json !!};
 var rol_dias = {!! $rol_dias_json !!};
 console.log(rol_dias);
 var medicos_j = {!! $medicos_json !!};
@@ -101,9 +103,9 @@ for (var i = 0; i < turnos.length; i++) {
 				'<input type="hidden" name="id_turnos_actualizar[]" value="'+turnos[i]['id']+'">-'+
 			'</td>'+
 			'<td>'+
-				'<input value="'+turnos[i]['nombre']+'" class="autosize form-control" name="text_turno_actualizar'+turnos[i]['id']+'" type="text"><br>'+
-				'<input class="autosize form-control" name="text_hora_inicio_actualizar'+turnos[i]['id']+'" type="text" value="'+turnos[i]['hora_inicio']+'"><br>'+
-				'<input value="'+turnos[i]['hora_fin']+'" class="autosize form-control" name="text_hora_fin_actualizar'+turnos[i]['id']+'" type="text">'+
+				'<input style="width:110px;" value="'+turnos[i]['nombre']+'" class="autosize form-control" name="text_turno_actualizar'+turnos[i]['id']+'" type="text">'+
+				'<input style="width:110px;" class="autosize form-control" name="text_hora_inicio_actualizar'+turnos[i]['id']+'" type="text" value="'+turnos[i]['hora_inicio']+'">'+
+				'<input style="width:110px;" value="'+turnos[i]['hora_fin']+'" class="autosize form-control" name="text_hora_fin_actualizar'+turnos[i]['id']+'" type="text">'+
 			'</td>'+
 			'<td id="lunes'+conth+'"></td>'+ //lunes
 			'<td id="martes'+conth+'"></td>'+ //martes
@@ -112,6 +114,7 @@ for (var i = 0; i < turnos.length; i++) {
 			'<td id="viernes'+conth+'"></td>'+ //viernes
 			'<td id="sabado'+conth+'"></td>'+ //sabado
 			'<td id="domingo'+conth+'"></td>'+ //domingo
+			'<td id="observacion'+conth+'"></td>'+ //observacion
 			'<td id="opcion'+conth+'"></td>'+
 			'<td>'+
 				'<button type="button" class="btn btn-success" onclick="agregarFila('+turnos[i]['id_detalle_centro_especialidad']+','+conth+','+turnos[i]['id']+');"><i class="fa fa-plus"></i></button> '+
@@ -126,6 +129,7 @@ for (var i = 0; i < turnos.length; i++) {
 		if (turnos[i]['id'] == rol_dias[c]['id_turno']) {
 			//0 1 2 3 4 5 6
 			var my_array = '<div id="fila_dias'+cont+'">'+
+				'<input type="hidden" name="observaciones_actualizar[]" value="'+detalle_turnos[(c / 7)]['id']+'">'+
 		 		'<input type="hidden" name="id_rol_dias_actualizar[]" value="'+rol_dias[c]['id']+'">'+
 		 		'<input type="hidden" name="id_rol_dias_actualizar[]" value="'+rol_dias[c+1]['id']+'">'+
 		 		'<input type="hidden" name="id_rol_dias_actualizar[]" value="'+rol_dias[c+2]['id']+'">'+
@@ -136,8 +140,8 @@ for (var i = 0; i < turnos.length; i++) {
 		 	'</div>';
 		  	$('#dias'+conth).append(my_array);
 
-			var fila_lunes = '<div id="fila_d_l'+cont+'">'+
-					'<select name="select_dia_lunes_actualizar_'+rol_dias[c]['id']+'" class="form-control selectpicker">'+
+			var fila_lunes = '<div id="fila_d_l'+cont+'" style="padding-bottom: 10px;">'+
+					'<select style="width:155px;" name="select_dia_lunes_actualizar_'+rol_dias[c]['id']+'" class="form-control selectpicker">'+
 					'<option value="-1" selected >Ninguno</option>';
 					for (var j = 0; j < medicos_j.length; j++) {
 						if (medicos_j[j]['id'] == rol_dias[c]['id_medico']) {
@@ -146,13 +150,13 @@ for (var i = 0; i < turnos.length; i++) {
 							fila_lunes = fila_lunes + '<option value="'+medicos_j[j]['id']+'">'+medicos_j[j]['apellido']+' ' + medicos_j[j]['telefono'] +'</option>';
 						}
 					}
-			fila_lunes = fila_lunes + '</select></br></div>';
+			fila_lunes = fila_lunes + '</select></div>';
 			var array_auxb = [];
 			array_auxb.push(rol_dias[c]['id'],turnos[i]['id'],cont);//new
 			array_auxa.push(array_auxb);
 			c++;
-			var fila_martes = '<div id="fila_d_m'+cont+'">'+
-					'<select name="select_dia_martes_actualizar_'+rol_dias[c]['id']+'" class="form-control selectpicker">'+
+			var fila_martes = '<div id="fila_d_m'+cont+'" style="padding-bottom: 10px;">'+
+					'<select style="width:155px;" name="select_dia_martes_actualizar_'+rol_dias[c]['id']+'" class="form-control selectpicker">'+
 					'<option value="-1" selected >Ninguno</option>';
 					for (var j = 0; j < medicos_j.length; j++) {
 						if (medicos_j[j]['id'] == rol_dias[c]['id_medico']) {
@@ -161,13 +165,13 @@ for (var i = 0; i < turnos.length; i++) {
 							fila_martes = fila_martes + '<option value="'+medicos_j[j]['id']+'">'+medicos_j[j]['apellido']+' ' + medicos_j[j]['telefono'] +'</option>';
 						}
 					}
-			fila_martes = fila_martes + '</select></br></div>';
+			fila_martes = fila_martes + '</select></div>';
 			var array_auxb = [];
 			array_auxb.push(rol_dias[c]['id'],turnos[i]['id'],cont);//new
 			array_auxa.push(array_auxb);
 			c++;
-			var fila_miercoles = '<div id="fila_d_mi'+cont+'">'+
-					'<select name="select_dia_miercoles_actualizar_'+rol_dias[c]['id']+'" class="form-control selectpicker">'+
+			var fila_miercoles = '<div id="fila_d_mi'+cont+'" style="padding-bottom: 10px;">'+
+					'<select style="width:155px;" name="select_dia_miercoles_actualizar_'+rol_dias[c]['id']+'" class="form-control selectpicker">'+
 					'<option value="-1" selected >Ninguno</option>';
 					for (var j = 0; j < medicos_j.length; j++) {
 						if (medicos_j[j]['id'] == rol_dias[c]['id_medico']) {
@@ -176,13 +180,13 @@ for (var i = 0; i < turnos.length; i++) {
 							fila_miercoles = fila_miercoles + '<option value="'+medicos_j[j]['id']+'">'+medicos_j[j]['apellido']+' ' + medicos_j[j]['telefono'] +'</option>';
 						}
 					}
-			fila_miercoles = fila_miercoles + '</select></br></div>';
+			fila_miercoles = fila_miercoles + '</select></div>';
 			var array_auxb = [];
 			array_auxb.push(rol_dias[c]['id'],turnos[i]['id'],cont);//new
 			array_auxa.push(array_auxb);
 			c++;
-			var fila_jueves = '<div id="fila_d_j'+cont+'">'+
-					'<select name="select_dia_jueves_actualizar_'+rol_dias[c]['id']+'" class="form-control selectpicker">'+
+			var fila_jueves = '<div id="fila_d_j'+cont+'" style="padding-bottom: 10px;">'+
+					'<select style="width:155px;" name="select_dia_jueves_actualizar_'+rol_dias[c]['id']+'" class="form-control selectpicker">'+
 					'<option value="-1" selected >Ninguno</option>';
 					for (var j = 0; j < medicos_j.length; j++) {
 						if (medicos_j[j]['id'] == rol_dias[c]['id_medico']) {
@@ -191,13 +195,13 @@ for (var i = 0; i < turnos.length; i++) {
 							fila_jueves = fila_jueves + '<option value="'+medicos_j[j]['id']+'">'+medicos_j[j]['apellido']+' ' + medicos_j[j]['telefono'] +'</option>';
 						}
 					}
-			fila_jueves = fila_jueves + '</select></br></div>';
+			fila_jueves = fila_jueves + '</select></div>';
 			var array_auxb = [];
 			array_auxb.push(rol_dias[c]['id'],turnos[i]['id'],cont);//new
 			array_auxa.push(array_auxb);
 			c++;
-			var fila_viernes = '<div id="fila_d_v'+cont+'">'+
-					'<select name="select_dia_viernes_actualizar_'+rol_dias[c]['id']+'" class="form-control selectpicker">'+
+			var fila_viernes = '<div id="fila_d_v'+cont+'" style="padding-bottom: 10px;">'+
+					'<select style="width:155px;" name="select_dia_viernes_actualizar_'+rol_dias[c]['id']+'" class="form-control selectpicker">'+
 					'<option value="-1" selected >Ninguno</option>';
 					for (var j = 0; j < medicos_j.length; j++) {
 						if (medicos_j[j]['id'] == rol_dias[c]['id_medico']) {
@@ -206,13 +210,13 @@ for (var i = 0; i < turnos.length; i++) {
 							fila_viernes = fila_viernes + '<option value="'+medicos_j[j]['id']+'">'+medicos_j[j]['apellido']+' ' + medicos_j[j]['telefono'] +'</option>';
 						}
 					}
-			fila_viernes = fila_viernes + '</select></br></div>';
+			fila_viernes = fila_viernes + '</select></div>';
 			var array_auxb = [];
 			array_auxb.push(rol_dias[c]['id'],turnos[i]['id'],cont);//new
 			array_auxa.push(array_auxb);
 			c++;
-			var fila_sabado = '<div id="fila_d_s'+cont+'">'+
-					'<select name="select_dia_sabado_actualizar_'+rol_dias[c]['id']+'" class="form-control selectpicker">'+
+			var fila_sabado = '<div id="fila_d_s'+cont+'" style="padding-bottom: 10px;">'+
+					'<select style="width:155px;" name="select_dia_sabado_actualizar_'+rol_dias[c]['id']+'" class="form-control selectpicker">'+
 					'<option value="-1" selected >Ninguno</option>';
 					for (var j = 0; j < medicos_j.length; j++) {
 						if (medicos_j[j]['id'] == rol_dias[c]['id_medico']) {
@@ -221,13 +225,13 @@ for (var i = 0; i < turnos.length; i++) {
 							fila_sabado = fila_sabado + '<option value="'+medicos_j[j]['id']+'">'+medicos_j[j]['apellido']+' ' + medicos_j[j]['telefono'] +'</option>';
 						}
 					}
-			fila_sabado = fila_sabado + '</select></br></div>';
+			fila_sabado = fila_sabado + '</select></div>';
 			var array_auxb = [];
 			array_auxb.push(rol_dias[c]['id'],turnos[i]['id'],cont);//new
 			array_auxa.push(array_auxb);
 			c++;
-			var fila_domingo = '<div id="fila_d_d'+cont+'">'+
-					'<select name="select_dia_domingo_actualizar_'+rol_dias[c]['id']+'" class="form-control selectpicker">'+
+			var fila_domingo = '<div id="fila_d_d'+cont+'" style="padding-bottom: 10px;">'+
+					'<select style="width:155px;" name="select_dia_domingo_actualizar_'+rol_dias[c]['id']+'" class="form-control selectpicker">'+
 					'<option value="-1" selected >Ninguno</option>';
 					for (var j = 0; j < medicos_j.length; j++) {
 						if (medicos_j[j]['id'] == rol_dias[c]['id_medico']) {
@@ -236,13 +240,17 @@ for (var i = 0; i < turnos.length; i++) {
 							fila_domingo = fila_domingo + '<option value="'+medicos_j[j]['id']+'">'+medicos_j[j]['apellido']+' ' + medicos_j[j]['telefono'] +'</option>';
 						}
 					}
-			fila_domingo = fila_domingo + '</select></br></div>';
+			fila_domingo = fila_domingo + '</select></div>';
 			var array_auxb = [];
 			array_auxb.push(rol_dias[c]['id'],turnos[i]['id'],cont);//new
 			array_auxa.push(array_auxb);
 			c++;
 
-			var fila_opcion = '<div style="margin-bottom: 20px;" id="fila_op'+cont+'"><button type="button" class="btn btn-warning" onclick="eliminarFila('+cont+','+turnos[i]['id']+','+turnos[i]['id_detalle_centro_especialidad']+');"><i class="fa fa-close"></i></button><br></div>';
+			var fila_observacion = '<div id="fila_observacion'+cont+'" style="padding-bottom: 10px;">'+
+					'<input style="width:200px;" value="'+detalle_turnos[(c / 7)-1]['observacion']+'" class="autosize form-control" name="observacion_actualizar_'+detalle_turnos[(c / 7)-1]['id']+'" type="text">'+
+				'</div>';
+
+			var fila_opcion = '<div style="margin-bottom: 10px;" id="fila_op'+cont+'"><button type="button" class="btn btn-warning" onclick="eliminarFila('+cont+','+turnos[i]['id']+','+turnos[i]['id_detalle_centro_especialidad']+','+detalle_turnos[(c / 7)-1]['id']+');"><i class="fa fa-close"></i></button><br></div>';
 
 			cont++;
 
@@ -253,6 +261,7 @@ for (var i = 0; i < turnos.length; i++) {
 			$('#viernes'+conth).append(fila_viernes);
 			$('#sabado'+conth).append(fila_sabado);
 			$('#domingo'+conth).append(fila_domingo);
+			$('#observacion'+conth).append(fila_observacion);
 			$('#opcion'+conth).append(fila_opcion);
 			// c = c + 7;
 		}else{
@@ -275,57 +284,61 @@ function agregarFila(id_especialidad_l,conth_l,id_turno_l) {
 		$('#dias'+conth_l).append(my_array);
 	}
 
-	var fila_lunes = '<div id="fila_d_l'+cont+'">'+
+	var fila_lunes = '<div id="fila_d_l'+cont+'" style="padding-bottom: 10px;">'+
 		'<select name="selec_dia_lunes_nuevo'+cont+'" class="form-control selectpicker">'+
 			'<option value="-1">Ninguno</option>'+
 			'@foreach($medicos as $var)'+
 				'<option value="{{$var->id}}">{{$var->apellido}} {{$var->telefono}}</option>'+
 			'@endforeach'+
-		'</select></br></div>';
-	var fila_martes = '<div id="fila_d_m'+cont+'">'+
+		'</select></div>';
+	var fila_martes = '<div id="fila_d_m'+cont+'" style="padding-bottom: 10px;">'+
 	'<select name="selec_dia_martes_nuevo'+cont+'" class="form-control selectpicker">'+
 		'<option value="-1">Ninguno</option>'+
 		'@foreach($medicos as $var)'+
 			'<option value="{{$var->id}}">{{$var->apellido}} {{$var->telefono}}</option>'+
 		'@endforeach'+
-	'</select></br></div>';
-	var fila_miercoles = '<div id="fila_d_mi'+cont+'">'+
+	'</select></div>';
+	var fila_miercoles = '<div id="fila_d_mi'+cont+'" style="padding-bottom: 10px;">'+
 	'<select name="selec_dia_miercoles_nuevo'+cont+'" class="form-control selectpicker">'+
 		'<option value="-1">Ninguno</option>'+
 		'@foreach($medicos as $var)'+
 			'<option value="{{$var->id}}">{{$var->apellido}} {{$var->telefono}}</option>'+
 		'@endforeach'+
-	'</select></br></div>';
-	var fila_jueves = '<div id="fila_d_j'+cont+'">'+
+	'</select></div>';
+	var fila_jueves = '<div id="fila_d_j'+cont+'" style="padding-bottom: 10px;">'+
 	'<select name="selec_dia_jueves_nuevo'+cont+'" class="form-control selectpicker">'+
 		'<option value="-1">Ninguno</option>'+
 		'@foreach($medicos as $var)'+
 			'<option value="{{$var->id}}">{{$var->apellido}} {{$var->telefono}}</option>'+
 		'@endforeach'+
-	'</select></br></div>';
-	var fila_viernes = '<div id="fila_d_v'+cont+'">'+
+	'</select></div>';
+	var fila_viernes = '<div id="fila_d_v'+cont+'" style="padding-bottom: 10px;">'+
 	'<select name="selec_dia_viernes_nuevo'+cont+'" class="form-control selectpicker">'+
 		'<option value="-1">Ninguno</option>'+
 		'@foreach($medicos as $var)'+
 			'<option value="{{$var->id}}">{{$var->apellido}} {{$var->telefono}}</option>'+
 		'@endforeach'+
-	'</select></br></div>';
-	var fila_sabado = '<div id="fila_d_s'+cont+'">'+
+	'</select></div>';
+	var fila_sabado = '<div id="fila_d_s'+cont+'" style="padding-bottom: 10px;">'+
 	'<select name="selec_dia_sabado_nuevo'+cont+'" class="form-control selectpicker">'+
 		'<option value="-1">Ninguno</option>'+
 		'@foreach($medicos as $var)'+
 			'<option value="{{$var->id}}">{{$var->apellido}} {{$var->telefono}}</option>'+
 		'@endforeach'+
-	'</select></br></div>';
-	var fila_domingo = '<div id="fila_d_d'+cont+'">'+
+	'</select></div>';
+	var fila_domingo = '<div id="fila_d_d'+cont+'" style="padding-bottom: 10px;">'+
 	'<select name="selec_dia_domingo_nuevo'+cont+'" class="form-control selectpicker">'+
 		'<option value="-1">Ninguno</option>'+
 		'@foreach($medicos as $var)'+
 			'<option value="{{$var->id}}">{{$var->apellido}} {{$var->telefono}}</option>'+
 		'@endforeach'+
-	'</select></br></div>';
+	'</select></div>';
 
-	var fila_opcion = '<div style="margin-bottom: 20px;" id="fila_op'+cont+'"><button type="button" class="btn btn-danger" onclick="eliminarFila('+cont+');"><i class="fa fa-close"></i></button><br></div>';
+	var fila_observacion = '<div id="fila_observacion'+cont+'" style="padding-bottom: 10px;">'+
+		'<input style="width:200px;" placeholder="OBSERVACION..." class="autosize form-control" name="text_observacion_nuevo'+cont+'" type="text">'+
+		'</div>';
+
+	var fila_opcion = '<div style="margin-bottom: 10px;" id="fila_op'+cont+'"><button type="button" class="btn btn-danger" onclick="eliminarFila('+cont+');"><i class="fa fa-close"></i></button></div>';
 	
 	cont++;
 	
@@ -336,6 +349,7 @@ function agregarFila(id_especialidad_l,conth_l,id_turno_l) {
 	$('#viernes'+conth_l).append(fila_viernes);
 	$('#sabado'+conth_l).append(fila_sabado);
 	$('#domingo'+conth_l).append(fila_domingo);
+	$('#observacion'+conth_l).append(fila_observacion);
 	$('#opcion'+conth_l).append(fila_opcion);
 	
 }
@@ -349,9 +363,9 @@ function agregarFilaHora(id) {//id especialidad
 			'<input type="hidden" name="idespecialidad[]" value="'+id+'">'+
 		'</td>'+
 		'<td>'+
-			'<input placeholder="TITULO..." class="autosize form-control" name="text_turno'+conth+'" type="text"> <br>'+
-			'<input placeholder="HORA INICIO..." class="autosize form-control" name="text_hora_inicio'+conth+'" type="text"> <br>'+
-			'<input placeholder="HORA FIN..." class="autosize form-control" name="text_hora_fin'+conth+'" type="text">'+
+			'<input style="width:110px;" placeholder="TITULO..." class="autosize form-control" name="text_turno'+conth+'" type="text">'+
+			'<input style="width:110px;" placeholder="HORA INICIO..." class="autosize form-control" name="text_hora_inicio'+conth+'" type="text">'+
+			'<input style="width:110px;" placeholder="HORA FIN..." class="autosize form-control" name="text_hora_fin'+conth+'" type="text">'+
 		'</td>'+
 		'<td id="lunes'+conth+'"></td>'+ //lunes
 		'<td id="martes'+conth+'"></td>'+ //martes
@@ -360,6 +374,7 @@ function agregarFilaHora(id) {//id especialidad
 		'<td id="viernes'+conth+'"></td>'+ //viernes
 		'<td id="sabado'+conth+'"></td>'+ //sabado
 		'<td id="domingo'+conth+'"></td>'+ //domingo
+		'<td id="observacion'+conth+'"></td>'+ //observacion
 		'<td id="opcion'+conth+'"></td>'+
 		'<td>'+
 			'<button type="button" class="btn btn-success" onclick="agregarFila('+id+','+conth+',-1'+');"><i class="fa fa-plus"></i></button> '+
@@ -369,7 +384,7 @@ function agregarFilaHora(id) {//id especialidad
 	$('#fila_datos'+id).append(fila_hora);
 }
 
-function eliminarFila(cont_l,id_turno_l,id_especialidad_l) {
+function eliminarFila(cont_l,id_turno_l,id_especialidad_l,id_detalle_turno_l) {
 
 	var n_i = getIndDato(cont_l,array_auxa,2);
 	while( n_i != -1 ){
@@ -380,6 +395,11 @@ function eliminarFila(cont_l,id_turno_l,id_especialidad_l) {
 	  	array_auxa.splice(n_i,1);
 		n_i = getIndDato(cont_l,array_auxa,2);
 	}
+
+	var fila='<tr hidden>'+
+	      '<td><input type="hidden" name="id_detalle_turno_delete[]" value="'+id_detalle_turno_l+'"></td>'+
+	    '</tr>';
+	  	$('#fila_datos'+id_especialidad_l).append(fila);
 	console.log(array_auxa);
 
 	$('#fila_d_l'+cont_l).remove();
@@ -389,6 +409,7 @@ function eliminarFila(cont_l,id_turno_l,id_especialidad_l) {
 	$('#fila_d_v'+cont_l).remove();
 	$('#fila_d_s'+cont_l).remove();
 	$('#fila_d_d'+cont_l).remove();
+	$('#fila_observacion'+cont_l).remove();
 	$('#fila_op'+cont_l).remove();
 
 }
@@ -401,16 +422,16 @@ function eliminarFilaHora(conth_l,id_turno_l,id_especialidad_l)
 		return
 	}
 
-	var n_i = getIndDato(id_turno_l,array_auxa,1);
-	while( n_i != -1 ){
-		var fila='<tr hidden>'+
-	      '<td><input type="hidden" name="id_rol_dias_delete[]" value="'+array_auxa[n_i][0]+'"></td>'+
-	    '</tr>';
-	  	$('#fila_datos'+id_especialidad_l).append(fila);
-	  	array_auxa.splice(n_i,1);
-		n_i = getIndDato(id_turno_l,array_auxa,1);
-	}
-	console.log(array_auxa);
+	// var n_i = getIndDato(id_turno_l,array_auxa,1);
+	// while( n_i != -1 ){
+	// 	var fila='<tr hidden>'+
+	//       '<td><input type="hidden" name="id_rol_dias_delete[]" value="'+array_auxa[n_i][0]+'"></td>'+
+	//     '</tr>';
+	//   	$('#fila_datos'+id_especialidad_l).append(fila);
+	//   	array_auxa.splice(n_i,1);
+	// 	n_i = getIndDato(id_turno_l,array_auxa,1);
+	// }
+	// console.log(array_auxa);
 
 	var fila='<tr hidden>'+
       '<td><input type="hidden" name="id_turnos_delete[]" value="'+id_turno_l+'"></td>'+

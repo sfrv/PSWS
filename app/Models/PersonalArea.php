@@ -27,6 +27,13 @@ class PersonalArea extends Model
 	  	return $personal_area->id;
 	}
 
+	public function scope_editarPersonal($query, $id, $nombre)
+	{
+	  	$personal_area = PersonalArea::findOrFail($id);
+	  	$personal_area->nombre = $nombre;
+	  	$personal_area->save();
+	}
+
 	public function scope_obtenerPersonalEtapaPersonalArea($query, $id_etapa_servicio)
     {
     	$result = $query->where('id_etapa_servicio', '=', $id_etapa_servicio)
