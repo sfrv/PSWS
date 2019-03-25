@@ -29,6 +29,13 @@ class Medico extends Model
         return $result;
     }
 
+    public function scope_getMedico($query, $id_medico)
+    {
+        $result = $query->where('id', '=', $id_medico)
+                ->first();
+        return $result;
+    }
+
     public function scope_insertarMedico($query, $request)
     {
         $medico = new Medico;

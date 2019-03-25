@@ -55,7 +55,7 @@
                       <a href="{{ route('build-rol-turno', [$var->id,$centro->id]) }}" class="btn bg-olive btn-flat" data-placement="top"><i class="fa fa-mail-forward"></i></a>
                       @endif
                       
-                      <a href="" class="btn btn-primary" data-placement="top"><i class="fa fa-download"></i></a>
+                      <a href="{{ route('generar-excel-rol-turno',[$var->id,$centro->id] ) }}" class="btn btn-primary" data-placement="top"><i class="fa fa-download"></i></a>
                     </td>
                   </tr>
                   
