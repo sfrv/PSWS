@@ -461,14 +461,27 @@ class CentroMedico extends Model
             return $result;
     }
 
-    
-        //modificar el la funcion ateriorr de carteras pues el nombre no corresponde
-        public function scope_getAllRolTurnos($query, $id)
-        {
-            $result = DB::table('rol_turno as a')
-                    ->select('a.*')
-                    ->where('a.id_centro_medico', '=', $id)
-                    ->orderBy("a.id", "DES");
-                    return $result;
-        }
+    //modificar el la funcion ateriorr de carteras pues el nombre no corresponde
+    public function scope_getAllRolTurnos($query, $id)
+    {
+        $result = DB::table('centro_medico as a')
+            ->join('detalle_centro_especialidad as b', 'a.id', '=', 'b.id_centro_medico')
+            ->join('turno as c', 'b.id', '=', 'c.id_detalle_centro_especialidad')
+            ->join('etapa_servicio as d', 'c.id_etapa_servicio', '=', 'd.id')
+            ->join('rol_turno as e', 'd.id_rol_turno', '=', 'e.id')
+            ->select('e.*')
+            ->where('a.id', '=', $id)
+            ->distinct()
+            ->orderBy("e.id", "desc");
+        return $result;
+    }
+        // //modificar el la funcion ateriorr de carteras pues el nombre no corresponde
+        // public function scope_getAllRolTurnos($query, $id)
+        // {
+        //     $result = DB::table('rol_turno as a')
+        //             ->select('a.*')
+        //             ->where('a.id_centro_medico', '=', $id)
+        //             ->orderBy("a.id", "DES");
+        //             return $result;
+        // }
 }
