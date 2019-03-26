@@ -277,9 +277,14 @@ Route::get('get-serviciosPorIDCartera/{idCartera}', [
 ]);
 
 //para el excel
-Route::get('get-excel/{idCartera}/{idCentro}', [
+Route::get('get-excelCarteraServicio/{idCartera}/{idCentro}', [
 	'uses' => 'CarteraServicioController@generar_excel_cartera_servicio'
 ]);
+
+Route::get('get-excelRolTurno/{idRolTurno}/{idCentro}', [
+	'uses' => 'RolTurnoController@generar_excel_rol_turno'
+]);
+
 
 //para rol de turnos
 
