@@ -939,6 +939,12 @@ class RolTurnoController extends Controller
                         $cell->setBorder('thin','thin','thin','thin');
                     });
                     $turnos = RolTurno::_getTurnosPorIdEtapaAndEspecialidad($etapa_servicio_uno->id,$especialidad->id);
+                    if(count($turnos) == 0){
+                        $sheet->setHeight(array(
+                            $cont_filas     =>  45
+                        ));
+                        $cont_filas++;
+                    }
                     foreach ($turnos as $turno) {
                         $celdas_ini_turno = $cont_filas;
                         $sheet->getStyle('B'.$cont_filas)->getAlignment()->setWrapText(true);//PARA SALTAR LINEA
@@ -1149,6 +1155,12 @@ class RolTurnoController extends Controller
                         $cell->setBorder('thin','thin','thin','thin');
                     });
                     $turnos = RolTurno::_getTurnosPorIdEtapaAndEspecialidad($etapa_servicio_dos->id,$especialidad->id);
+                    if(count($turnos) == 0){
+                        $sheet->setHeight(array(
+                            $cont_filas     =>  45
+                        ));
+                        $cont_filas++;
+                    }
                     foreach ($turnos as $turno) {
                         $celdas_ini_turno = $cont_filas;
                         $sheet->getStyle('B'.$cont_filas)->getAlignment()->setWrapText(true);//PARA SALTAR LINEA
@@ -1357,6 +1369,12 @@ class RolTurnoController extends Controller
                         $cell->setBorder('thin','thin','thin','thin');
                     });
                     $turnos = RolTurno::_getTurnosPorIdEtapaAndEspecialidad($etapa_servicio_tres->id,$especialidad->id);
+                    if(count($turnos) == 0){
+                        $sheet->setHeight(array(
+                            $cont_filas     =>  45
+                        ));
+                        $cont_filas++;
+                    }
                     foreach ($turnos as $turno) {
                         $celdas_ini_turno = $cont_filas;
                         $sheet->getStyle('B'.$cont_filas)->getAlignment()->setWrapText(true);//PARA SALTAR LINEA
@@ -1565,6 +1583,12 @@ class RolTurnoController extends Controller
                         $cell->setBorder('thin','thin','thin','thin');
                     });
                     $turnos = RolTurno::_getTurnosPorIdEtapaAndPersonal($etapa_servicio_cuatro->id,$personal->id);
+                    if(count($turnos) == 0){
+                        $sheet->setHeight(array(
+                            $cont_filas     =>  45
+                        ));
+                        $cont_filas++;
+                    }
                     foreach ($turnos as $turno) {
                         $celdas_ini_turno = $cont_filas;
                         $sheet->getStyle('B'.$cont_filas)->getAlignment()->setWrapText(true);//PARA SALTAR LINEA
