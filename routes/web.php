@@ -282,8 +282,13 @@ Route::get('get-excel/{idCartera}/{idCentro}', [
 ]);
 
 //para rol de turnos
+
 Route::get('get-AllRolTurnos/{id}', [
 	'uses' => 'CentroMedicoController@get_AllRolTurnos'
+]);
+
+Route::get('get-DetalleTurnosPorIdEtapaServicio/{id}', [
+	'uses' => 'RolTurnoController@get_DetalleTurnosPorIdEtapaServicio'
 ]);
 
 Route::get('get-Etapas/{id}', [
