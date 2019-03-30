@@ -2,825 +2,218 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Redirect;
+use App\Models\Red;
+use App\Models\TipoServicio;
+use App\Models\Nivel;
 use App\Models\CentroMedico;
+use App\Models\Zona;
+use App\Models\CarteraServicio;
 use App\Models\Medico;
 use App\Models\RolTurno;
-use App\Models\EtapaServicio;
-use App\Models\RolDia;
-use App\Models\Turno;
 use App\Models\PersonalArea;
 use App\Models\DetalleTurno;
 use Maatwebsite\Excel\Facades\Excel;
 
-class RolTurnoController extends Controller
+
+class WebServiceController extends Controller
 {
-    public function __construct()
+    public function get_imagen_Red($id)
     {
-        // $this->middleware('auth');
+        $red = Red::findOrFail($id);
+        return response()->file('../public/images/' . $red->imagen);
     }
 
-	public function index_rol_turno($id,Request $request)
-	{
-		$centro = CentroMedico::_obtenerCentro($id);
-        $rol_turnos = CentroMedico::_obtenerRolTurnos($id,$request['searchText'])->paginate(7);
-        $searchText = $request->get('searchText');
-        return view('admCentros.centro.rol_turno.index',compact('centro','rol_turnos','searchText'));
-	}
-
-    public function edit_rol_turno($id_rol_turno,$id_centro)
+    public function get_imagen_TipoServicio($id)
     {
-        $meses = array("Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre");
-        $anios = array("2018","2019","2020","2021","2022","2023","2024","2025","2026","2027","2028","2029","2030");
-
-    	$rol_turno = RolTurno::findOrFail($id_rol_turno);
-    	return view('admCentros.centro.rol_turno.edit',compact('id_centro','rol_turno','meses','anios'));
+        $servicio = TipoServicio::findOrFail($id);
+        return response()->file('../public/images/' . $servicio->imagen);
     }
 
-    public function edit_rol_turno_emergencia($id_rol_turno,$id_centro)
+    public function get_imagen_Nivel($id)
     {
-        // $rol_turno = RolTurno::findOrFail($id_rol_turno);
-        $etapa_servicio_uno = RolTurno::_getEtapaServicio($id_rol_turno,'ETAPA DE EMERGENCIA');
-        // $especialidades = RolTurno::_getEspecialidadesPorIdEtapaServicio($etapa_servicio_uno->id);
-        $especialidades_etapa_emergencia = CentroMedico::_obtenerEspecialidadesEtapaEmergencia($id_centro);
-        $turnos = RolTurno::_getTurnosPorIdEtapaServicio($etapa_servicio_uno->id);
-        $detalle_turnos = RolTurno::_getDetalleTurnosPorIdEtapaServicio($etapa_servicio_uno->id);
-        $rol_dias = RolTurno::_getRolDiasPorIdEtapaServicio($etapa_servicio_uno->id);
-        // dd($detalle_turnos);
-        $medicos = Medico::_getAllMedicos("")->get();
-        
-        $turnos_json = json_encode($turnos, JSON_UNESCAPED_SLASHES );
-        $detalle_turnos_json = json_encode($detalle_turnos, JSON_UNESCAPED_SLASHES );
-        $rol_dias_json = json_encode($rol_dias, JSON_UNESCAPED_SLASHES );
-        $medicos_json = json_encode($medicos, JSON_UNESCAPED_SLASHES );
-        $detalle2 = json_encode($especialidades_etapa_emergencia, JSON_UNESCAPED_SLASHES );
-        // dd($rol_dias);
-        return view('admCentros.centro.rol_turno.edit_emergencia',compact('id_centro','id_rol_turno','especialidades_etapa_emergencia','detalle_turnos_json','turnos_json','rol_dias_json','medicos_json','medicos','detalle2','etapa_servicio_uno'));
+        $nivel = Nivel::findOrFail($id);
+        return response()->file('../public/images/' . $nivel->imagen);
     }
 
-    public function edit_rol_turno_consulta($id_rol_turno,$id_centro)
+    public function get_imagen_CentroMedico($id)
     {
-        $etapa_servicio = RolTurno::_getEtapaServicio($id_rol_turno,'ETAPA DE CONSULTA EXTERNA');
-        if (!isset($etapa_servicio->id)) {
-            $aux = EtapaServicio::_insertarEtapaServicio('ETAPA DE CONSULTA EXTERNA',$id_rol_turno);
-            $etapa_servicio = RolTurno::_getEtapaServicio($id_rol_turno,'ETAPA DE CONSULTA EXTERNA');
-        }
-        $especialidades_etapa_emergencia = CentroMedico::_obtenerEspecialidadesEtapaConsultaExt($id_centro);
-        $turnos = RolTurno::_getTurnosPorIdEtapaServicio($etapa_servicio->id);
-        $detalle_turnos = RolTurno::_getDetalleTurnosPorIdEtapaServicio($etapa_servicio->id);
-        $rol_dias = RolTurno::_getRolDiasPorIdEtapaServicio($etapa_servicio->id);
-        $medicos = Medico::_getAllMedicos("")->get();
-        
-        $turnos_json = json_encode($turnos, JSON_UNESCAPED_SLASHES );
-        $detalle_turnos_json = json_encode($detalle_turnos, JSON_UNESCAPED_SLASHES );
-        $rol_dias_json = json_encode($rol_dias, JSON_UNESCAPED_SLASHES );
-        $medicos_json = json_encode($medicos, JSON_UNESCAPED_SLASHES );
-        $detalle2 = json_encode($especialidades_etapa_emergencia, JSON_UNESCAPED_SLASHES );
-
-        return view('admCentros.centro.rol_turno.edit_consulta',compact('id_centro','id_rol_turno','especialidades_etapa_emergencia','turnos_json','detalle_turnos_json','rol_dias_json','medicos_json','medicos','detalle2'));
+        $centro = CentroMedico::findOrFail($id);
+        return response()->file('../public/images/Centros/' . $centro->imagen);
     }
 
-    public function edit_rol_turno_hospitalizacion($id_rol_turno,$id_centro)
+    public function getRedes()
     {
-        $etapa_servicio = RolTurno::_getEtapaServicio($id_rol_turno,'ETAPA DE HOSPITALIZACION');
-        if (!isset($etapa_servicio->id)) {
-            $aux = EtapaServicio::_insertarEtapaServicio('ETAPA DE HOSPITALIZACION',$id_rol_turno);
-            $etapa_servicio = RolTurno::_getEtapaServicio($id_rol_turno,'ETAPA DE HOSPITALIZACION');
-        }
-        $especialidades_etapa_hospitalizacion = CentroMedico::_obtenerEspecialidadesEtapaHospitalizacion($id_centro);
-        $turnos = RolTurno::_getTurnosPorIdEtapaServicio($etapa_servicio->id);
-        $detalle_turnos = RolTurno::_getDetalleTurnosPorIdEtapaServicio($etapa_servicio->id);
-        $rol_dias = RolTurno::_getRolDiasPorIdEtapaServicio($etapa_servicio->id);
-        $medicos = Medico::_getAllMedicos("")->get();
-        
-        $turnos_json = json_encode($turnos, JSON_UNESCAPED_SLASHES );
-        $detalle_turnos_json = json_encode($detalle_turnos, JSON_UNESCAPED_SLASHES );
-        $rol_dias_json = json_encode($rol_dias, JSON_UNESCAPED_SLASHES );
-        $medicos_json = json_encode($medicos, JSON_UNESCAPED_SLASHES );
-        $detalle2 = json_encode($especialidades_etapa_hospitalizacion, JSON_UNESCAPED_SLASHES );
-
-        return view('admCentros.centro.rol_turno.edit_hospitalizacion',compact('id_centro','id_rol_turno','especialidades_etapa_hospitalizacion','turnos_json','detalle_turnos_json','rol_dias_json','medicos_json','medicos','detalle2'));
+        return json_encode(array("redes" => Red::_getAllRed()->get()));
     }
 
-    public function edit_rol_turno_personal_encargado($id_rol_turno,$id_centro)
+    public function getTipoServicios()
     {
-        $etapa_servicio = RolTurno::_getEtapaServicio($id_rol_turno,'ETAPA DE PERSONAL ENCARGADO');
-        if (!isset($etapa_servicio->id)) {
-            $aux = EtapaServicio::_insertarEtapaServicio('ETAPA DE PERSONAL ENCARGADO',$id_rol_turno);
-            $etapa_servicio = RolTurno::_getEtapaServicio($id_rol_turno,'ETAPA DE PERSONAL ENCARGADO');
-        }
-        $personal_etapa_personal_area = PersonalArea::_obtenerPersonalEtapaPersonalArea($etapa_servicio->id);
-        $turnos = RolTurno::_getTurnosPorIdEtapaServicio($etapa_servicio->id);
-        $detalle_turnos = RolTurno::_getDetalleTurnosPorIdEtapaServicio($etapa_servicio->id);
-        $rol_dias = RolTurno::_getRolDiasPorIdEtapaServicio($etapa_servicio->id);
-        $medicos = Medico::_getAllMedicos("")->get();
-        
-        $turnos_json = json_encode($turnos, JSON_UNESCAPED_SLASHES );
-        $detalle_turnos_json = json_encode($detalle_turnos, JSON_UNESCAPED_SLASHES );
-        $rol_dias_json = json_encode($rol_dias, JSON_UNESCAPED_SLASHES );
-        $medicos_json = json_encode($medicos, JSON_UNESCAPED_SLASHES );
-
-        return view('admCentros.centro.rol_turno.edit_personal_encargado',compact('id_centro','id_rol_turno','personal_etapa_personal_area','detalle_turnos_json','turnos_json','rol_dias_json','medicos_json','medicos'));
+        return json_encode(array("tiposervicios" => TipoServicio::_getAllTipoServicio()->get()));
     }
 
-    public function show_rol_turno($id,$id_centro)
+    public function getZonas()
     {
-    	$rol_turno = RolTurno::findOrFail($id);
-    	return view('admCentros.centro.rol_turno.show',compact('id_centro','rol_turno'));
+        return json_encode(array("zonas" => Zona::_getAllZona()->get()));
     }
 
-    public function show_rol_turno_emergencia($id,$id_centro)
+    public function getNiveles()
     {
-        $rol_turno = RolTurno::findOrFail($id);
-        $etapa_servicio_uno = RolTurno::_getEtapaServicio($id,'ETAPA DE EMERGENCIA');
-        $especialidades_etapa_emergencia = CentroMedico::_obtenerEspecialidadesEtapaEmergencia($id_centro);
-        $turnos = RolTurno::_getTurnosPorIdEtapaServicio($etapa_servicio_uno->id);
-        $rol_dias = RolTurno::_getRolDiasPorIdEtapaServicio($etapa_servicio_uno->id);
-        $medicos = Medico::_getAllMedicos("")->get();
-        
-        $turnos_json = json_encode($turnos, JSON_UNESCAPED_SLASHES );
-        $rol_dias_json = json_encode($rol_dias, JSON_UNESCAPED_SLASHES );
-        $medicos_json = json_encode($medicos, JSON_UNESCAPED_SLASHES );
-        return view('admCentros.centro.rol_turno.show_emergencia',compact('id_centro','rol_turno','especialidades_etapa_emergencia','turnos_json','rol_dias_json','medicos_json'));
+        return json_encode(array("niveles" => Nivel::_getAllNivel()->get()));
     }
 
-    public function show_rol_turno_consulta($id,$id_centro)
+    public function getCentroMedico($id)
     {
-        $rol_turno = RolTurno::findOrFail($id);
-        $etapa_servicio_uno = RolTurno::_getEtapaServicio($id,'ETAPA DE CONSULTA EXTERNA');
-        $especialidades_etapa_consulta = CentroMedico::_obtenerEspecialidadesEtapaConsultaExt($id_centro);
-        $turnos = RolTurno::_getTurnosPorIdEtapaServicio($etapa_servicio_uno->id);
-        $rol_dias = RolTurno::_getRolDiasPorIdEtapaServicio($etapa_servicio_uno->id);
-        $medicos = Medico::_getAllMedicos("")->get();
-        
-        $turnos_json = json_encode($turnos, JSON_UNESCAPED_SLASHES );
-        $rol_dias_json = json_encode($rol_dias, JSON_UNESCAPED_SLASHES );
-        $medicos_json = json_encode($medicos, JSON_UNESCAPED_SLASHES );
-        return view('admCentros.centro.rol_turno.show_consulta',compact('id_centro','rol_turno','especialidades_etapa_consulta','turnos_json','rol_dias_json','medicos_json'));
+        return json_encode(array("centro" => CentroMedico::_getOneCentroMedico($id)->get()));
     }
 
-    public function show_rol_turno_hospitalizacion($id,$id_centro)
+    public function getCentrosMedicos()
     {
-        $rol_turno = RolTurno::findOrFail($id);
-        $etapa_servicio_uno = RolTurno::_getEtapaServicio($id,'ETAPA DE HOSPITALIZACION');
-        $especialidades_etapa_hospitalizacion = CentroMedico::_obtenerEspecialidadesEtapaHospitalizacion($id_centro);
-        $turnos = RolTurno::_getTurnosPorIdEtapaServicio($etapa_servicio_uno->id);
-        $rol_dias = RolTurno::_getRolDiasPorIdEtapaServicio($etapa_servicio_uno->id);
-        $medicos = Medico::_getAllMedicos("")->get();
-        
-        $turnos_json = json_encode($turnos, JSON_UNESCAPED_SLASHES );
-        $rol_dias_json = json_encode($rol_dias, JSON_UNESCAPED_SLASHES );
-        $medicos_json = json_encode($medicos, JSON_UNESCAPED_SLASHES );
-        return view('admCentros.centro.rol_turno.show_hospitalizacion',compact('id_centro','rol_turno','especialidades_etapa_hospitalizacion','turnos_json','rol_dias_json','medicos_json'));
+        return json_encode(array("centros" => CentroMedico::_getAllCentroMedico()->get()));
     }
 
-    public function show_rol_turno_personal_encargado($id,$id_centro)
+    public function getCentrosMedicos_por_red_tipo_nivel($id_red, $id_tipo_servicio, $id_nivel)
     {
-        $rol_turno = RolTurno::findOrFail($id);
-        $etapa_servicio = RolTurno::_getEtapaServicio($id,'ETAPA DE PERSONAL ENCARGADO');
-        $personal_etapa_personal_area = PersonalArea::_obtenerPersonalEtapaPersonalArea($etapa_servicio->id);
-        $turnos = RolTurno::_getTurnosPorIdEtapaServicio($etapa_servicio->id);
-        $rol_dias = RolTurno::_getRolDiasPorIdEtapaServicio($etapa_servicio->id);
-        $medicos = Medico::_getAllMedicos("")->get();
-        
-        $turnos_json = json_encode($turnos, JSON_UNESCAPED_SLASHES );
-        $rol_dias_json = json_encode($rol_dias, JSON_UNESCAPED_SLASHES );
-        $medicos_json = json_encode($medicos, JSON_UNESCAPED_SLASHES );
-        return view('admCentros.centro.rol_turno.show_personal_encargado',compact('id_centro','rol_turno','personal_etapa_personal_area','turnos_json','rol_dias_json','medicos_json'));
+        return json_encode(array("centros" => CentroMedico::_getCentrosMedicos_por_red_tipo_nivel($id_red, $id_tipo_servicio, $id_nivel)->get()));
     }
 
-    public function update_rol_tuno(Request $request,$id_rol_turno)
-    {
-        $titulo = $request->get('titulo');
-        $mes = $request->get('mes');
-        $anio = $request->get('anio');
-        $id_centro = RolTurno::_editarRolTurno($titulo,$mes,$anio,$id_rol_turno);
-
-        return Redirect::to('adm/centro/index_rol_turno/'.$id_centro);
+    public function get_lastCarteraServicio($id){
+        return json_encode(array("carteras" => CentroMedico::_getLastCarteraServicio($id)->get()));
     }
 
-    public function update_rol_tuno_emergencia(Request $request,$id_rol_turno,$id_centro)
-    {
-        // return $request->all();
-        $etapa_servicio_uno = RolTurno::_getEtapaServicio($id_rol_turno,'ETAPA DE EMERGENCIA');
-        $id_etapa_servicio = $etapa_servicio_uno->id;
-        $this->update_rol_tuno_detalle($request,$id_etapa_servicio);
-        
-        return Redirect::to('adm/centro/edit_rol_turno/'.$id_rol_turno.'/'.$id_centro);
+    public function get_especialidadesPorId($id){
+        return json_encode(array("especialidades" => CarteraServicio::_getEspecialidadesPorId($id)));
     }
 
-    public function update_rol_tuno_consulta(Request $request,$id_rol_turno,$id_centro)
-    {
-        $etapa_servicio = RolTurno::_getEtapaServicio($id_rol_turno,'ETAPA DE CONSULTA EXTERNA');
-        $id_etapa_servicio = $etapa_servicio->id;
-        $this->update_rol_tuno_detalle($request,$id_etapa_servicio);
-        
-        return Redirect::to('adm/centro/edit_rol_turno/'.$id_rol_turno.'/'.$id_centro);
+    public function get_ServiciosPorIDCarteraIDEspecialidad($idCartera,$idEspecialidad){
+        return json_encode(array("servicios" => CarteraServicio::_getServiciosPorIDCarteraIDEspecialidad($idCartera,$idEspecialidad)->get()));
     }
 
-    public function update_rol_tuno_hospitalizacion(Request $request,$id_rol_turno,$id_centro)
-    {
-        $etapa_servicio = RolTurno::_getEtapaServicio($id_rol_turno,'ETAPA DE HOSPITALIZACION');
-        $id_etapa_servicio = $etapa_servicio->id;
-        $this->update_rol_tuno_detalle($request,$id_etapa_servicio);
-        
-        return Redirect::to('adm/centro/edit_rol_turno/'.$id_rol_turno.'/'.$id_centro);
+    public function get_ServiciosPorIDCartera($id){
+        return json_encode(array("servicios" => CarteraServicio::_getServiciosPorIDCartera($id)->get()));
     }
 
-    public function update_rol_tuno_personal_encargado(Request $request,$id_rol_turno,$id_centro)
+    public function generar_excel_cartera_servicio($id_cart,$id_centro)
     {
-        $etapa_servicio = RolTurno::_getEtapaServicio($id_rol_turno,'ETAPA DE PERSONAL ENCARGADO');
-        $id_etapa_servicio = $etapa_servicio->id;
-        if($request->get('id_persona_actualizar') != null){
-            $personal_actualizar = $request->get('id_persona_actualizar');
-            $a = 0;
-            while ($a < count($personal_actualizar)) {
-                $id_personal = $personal_actualizar[$a];
-                $nombre = $request->get('text_personal_'.$id_personal);
-                PersonalArea::_editarPersonal($id_personal,$nombre);
-                $a++;
-            }
-        }
-        
-        if ($request->get('id_turnos_actualizar') != null) {
-            $turnos_actualizar = $request->get('id_turnos_actualizar');
-            $a = 0;
-            while ($a < count($turnos_actualizar)) {
-                $titulo = $request->get('text_turno_actualizar'.$turnos_actualizar[$a]);
-                $hora_inicio = $request->get('text_hora_inicio_actualizar'.$turnos_actualizar[$a]);
-                $hora_fin = $request->get('text_hora_fin_actualizar'.$turnos_actualizar[$a]);
-                $id_turno = $turnos_actualizar[$a];
-                Turno::_editarTurno($titulo,$hora_inicio,$hora_fin,$id_turno);
+        Excel::create('CarteraDeServicio', function($excel) use ($id_cart,$id_centro) {
 
-                if ($request->get('id_filas_nuevos_turno'.$id_turno) != null) {
-                    $idfilas = $request->get('id_filas_nuevos_turno'.$id_turno);
-                    $b = 0; 
-                    while ($b < count($idfilas)) {
-                        $id_doctor_rol_dia = $request->get('selec_dia_lunes_nuevo'.$idfilas[$b]);
-                        $id_rol_dia = RolDia::_insertarRolDia('LUNES',$id_turno,$id_doctor_rol_dia);
-                        //
-                        $id_doctor_rol_dia = $request->get('selec_dia_martes_nuevo'.$idfilas[$b]);
-                        $id_rol_dia = RolDia::_insertarRolDia('MARTES',$id_turno,$id_doctor_rol_dia);
-                        //
-                        $id_doctor_rol_dia = $request->get('selec_dia_miercoles_nuevo'.$idfilas[$b]);
-                        $id_rol_dia = RolDia::_insertarRolDia('MIERCOLES',$id_turno,$id_doctor_rol_dia);
-                        //
-                        $id_doctor_rol_dia = $request->get('selec_dia_jueves_nuevo'.$idfilas[$b]);
-                        $id_rol_dia = RolDia::_insertarRolDia('JUEVES',$id_turno,$id_doctor_rol_dia);
-                        //
-                        $id_doctor_rol_dia = $request->get('selec_dia_viernes_nuevo'.$idfilas[$b]);
-                        $id_rol_dia = RolDia::_insertarRolDia('VIERNES',$id_turno,$id_doctor_rol_dia);
-                        //
-                        $id_doctor_rol_dia = $request->get('selec_dia_sabado_nuevo'.$idfilas[$b]);
-                        $id_rol_dia = RolDia::_insertarRolDia('SABADO',$id_turno,$id_doctor_rol_dia);
-                        //
-                        $id_doctor_rol_dia = $request->get('selec_dia_domingo_nuevo'.$idfilas[$b]);
-                        $id_rol_dia = RolDia::_insertarRolDia('DOMINGO',$id_turno,$id_doctor_rol_dia);
-                        $observacion = $request->get('text_observacion_nuevo'.$idfilas[$b]);
-                        DetalleTurno::_insertarDetalleTurno($observacion,$id_turno);
-                        $b++;
+            $excel->sheet('Sheetname', function($sheet) use ($id_cart,$id_centro) {
+                
+                $sheet->mergeCells('A1:E1');
+                $sheet->mergeCells('A2:E2');
+                $sheet->setWidth(array(
+                    'A'     =>  33,
+                    'B'     =>  33,
+                    'C'     =>  33,
+                    'D'     =>  33,
+                    'E'     =>  45
+                ));
+                $sheet->setHeight(array(
+                    1     =>  45,
+                    2     =>  45,
+                    3     =>  60
+                ));
+                // $sheet->setBorder('A3', 'solid');
+                $sheet->cell('A3', function($cell){//BORDE
+                    $cell->setBorder('thin','thin','thin','thin');
+                });
+                $sheet->cell('B3', function($cell){
+                    $cell->setBorder('thin','thin','thin','thin');
+                });
+                $sheet->cell('C3', function($cell){
+                    $cell->setBorder('thin','thin','thin','thin');
+                });
+                $sheet->cell('D3', function($cell){
+                    $cell->setBorder('thin','thin','thin','thin');
+                });
+                $sheet->cell('E3', function($cell){
+                    $cell->setBorder('thin','thin','thin','thin');
+                });
+                // $sheet->cell('A3:E3', function($cell){
+                //     $cell->setBorder('thin', 'thin', 'thin', 'thin');
+                // });
+
+                $sheet->cells('A1:E1', function($cells) {
+                    $cells->setFontSize(26);
+                    $cells->setFontFamily('Calibri');
+                    $cells->setAlignment('center');
+                    $cells->setFontWeight('bold');
+                    $cells->setValignment('center');
+                    $cells->setFontColor('#FFFFFF');
+                    $cells->setBackground('#506228');
+                    $cells->setBorder('thin','thin','thin','thin');//BORDE
+                    // $cells->setBorder('thin','thin','thin','thin');
+                });
+                $sheet->cells('A2:E2', function($cells) {
+                    $cells->setFontSize(26);
+                    $cells->setFontFamily('Calibri');
+                    $cells->setAlignment('center');
+                    $cells->setFontWeight('bold');
+                    $cells->setValignment('center');
+                    $cells->setFontColor('#FFFFFF');
+                    $cells->setBackground('#76923B');
+                    $cells->setBorder('thin','thin','thin','thin');//BORDE
+                });
+                $sheet->cells('A3:E3', function($cells) {
+                    $cells->setFontSize(26);
+                    $cells->setFontFamily('Calibri');
+                    $cells->setAlignment('center');
+                    $cells->setFontWeight('bold');
+                    $cells->setValignment('center');
+                    $cells->setFontColor('#FFFFFF');
+                    $cells->setBackground('#76923B');
+                    $cells->setBorder('thin','thin','thin','thin');//BORDE
+                });
+
+                $cartera_servicio = CarteraServicio::findOrFail($id_cart);
+                $centro = CentroMedico::findOrFail($id_centro);
+                $sheet->row(1, ['FORMATO DE CARTERA DE SERVICIO DE ' . $cartera_servicio->mes . " " . $cartera_servicio->anio]);
+                $sheet->row(2, ['CENTRO DE SALUD ' . $centro->nombre ]);
+                $sheet->row(3, ['ESPECIALIDAD','SERVICIOS','DIAS','HORA','OBSERVACION']);
+
+                $especialidades = CarteraServicio::_getEspecialidadesPorId($id_cart);
+                // dd($especialidades);
+                $data = [];
+                $cont_filas = 4;
+                foreach ($especialidades as $especialidad) {
+                    $servicios_especialidad = CarteraServicio::_getServiciosPorIdCarteraAndEspecialidad($id_cart,$especialidad->id);
+                    $celdas_ini = $cont_filas;
+                    $sheet->setCellValue('A'.$celdas_ini, $especialidad->nombre);
+                    $sheet->cell('A'.$celdas_ini, function($cell){//BORDE
+                        $cell->setBorder('thin','thin','thin','thin');
+                    });
+                    $sheet->cells('A'.$celdas_ini.':A'.$celdas_ini, function($cells) {
+                            $cells->setFontSize(15);
+                            $cells->setFontFamily('Arial');
+                            $cells->setAlignment('center');
+                            $cells->setValignment('center');
+                            $cells->setFontWeight('bold');
+                            $cells->setBackground('#D9D9D9');
+                            // $cells->setBorder('thin','thin','thin','thin');
+                    });
+
+                    foreach ($servicios_especialidad as $servicio) {
+                        $sheet->setCellValue('B'.$cont_filas, $servicio->nombre);
+                        $sheet->setCellValue('C'.$cont_filas, $servicio->dias);
+                        $sheet->setCellValue('D'.$cont_filas, $servicio->hora);
+                        $sheet->setCellValue('E'.$cont_filas, $servicio->observacion);
+                        
+                        $sheet->setHeight($cont_filas, 40);
+                        $sheet->cells('B'.$cont_filas.':E'.$cont_filas, function($cells) {
+                            $cells->setFontSize(15);
+                            $cells->setFontFamily('Arial');
+                            $cells->setAlignment('center');
+                            $cells->setValignment('center');
+                            $cells->setBorder('thin','thin','thin','thin');
+                        });
+                        $cont_filas++;
                     }
+                    $celdas_fin = $cont_filas -1;
+                    $sheet->mergeCells('A'.$celdas_ini.':A'.$celdas_fin);
                 }
-                $a++;
-            }
-        }
-        if ($request->get('id_rol_dias_actualizar') != null) {
-            $rol_dias_actualizar = $request->get('id_rol_dias_actualizar');
-            $id_observaciones_actualizar = $request->get('observaciones_actualizar');
-            $a = 0;
-            while ($a < count($rol_dias_actualizar)) {
-                $id_rol_dia = $rol_dias_actualizar[$a];
-                $id_doctor = $request->get('select_dia_lunes_actualizar_'.$id_rol_dia);
-                RolDia::_editarRolDia($id_doctor,$id_rol_dia);
-                $a++;
+            });
 
-                $id_rol_dia = $rol_dias_actualizar[$a];
-                $id_doctor = $request->get('select_dia_martes_actualizar_'.$id_rol_dia);
-                RolDia::_editarRolDia($id_doctor,$id_rol_dia);
-                $a++;
-
-                $id_rol_dia = $rol_dias_actualizar[$a];
-                $id_doctor = $request->get('select_dia_miercoles_actualizar_'.$id_rol_dia);
-                RolDia::_editarRolDia($id_doctor,$id_rol_dia);
-                $a++;
-
-                $id_rol_dia = $rol_dias_actualizar[$a];
-                $id_doctor = $request->get('select_dia_jueves_actualizar_'.$id_rol_dia);
-                RolDia::_editarRolDia($id_doctor,$id_rol_dia);
-                $a++;
-
-                $id_rol_dia = $rol_dias_actualizar[$a];
-                $id_doctor = $request->get('select_dia_viernes_actualizar_'.$id_rol_dia);
-                RolDia::_editarRolDia($id_doctor,$id_rol_dia);
-                $a++;
-
-                $id_rol_dia = $rol_dias_actualizar[$a];
-                $id_doctor = $request->get('select_dia_sabado_actualizar_'.$id_rol_dia);
-                RolDia::_editarRolDia($id_doctor,$id_rol_dia);
-                $a++;
-
-                $id_rol_dia = $rol_dias_actualizar[$a];
-                $id_doctor = $request->get('select_dia_domingo_actualizar_'.$id_rol_dia);
-                RolDia::_editarRolDia($id_doctor,$id_rol_dia);
-                $a++;
-
-                $id_detalle_turno = $id_observaciones_actualizar[($a / 7)-1];
-                $observacion = $request->get('observacion_actualizar_'.$id_detalle_turno);
-                DetalleTurno::_editarDetalleTurno($id_detalle_turno,$observacion);
-            }
-        }
-        if ($request->get('id_turnos_nuevos') != null) {
-            $idturnos = $request->get('id_turnos_nuevos');
-            $idpersonales = $request->get('idpersonal_crear');
-            $a = 0;
-            while ($a < count($idturnos)) {
-                $titulo_turno = $request->get('text_turno'.$idturnos[$a]);
-                $hora_inicio_turno = $request->get('text_hora_inicio'.$idturnos[$a]);
-                $hora_fin_turno = $request->get('text_hora_fin'.$idturnos[$a]);
-                $id_personal = $idpersonales[$a];
-                $id_turno = Turno::_insertarTurno($titulo_turno,$hora_inicio_turno,$hora_fin_turno,null,$id_etapa_servicio,$id_personal);
-                if ($request->get('id_filas_turno'.$idturnos[$a]) != null) {
-                    $idfilas = $request->get('id_filas_turno'.$idturnos[$a]);
-                    $b = 0; 
-                    while ($b < count($idfilas)) {
-                        $id_doctor_rol_dia = $request->get('selec_dia_lunes_nuevo'.$idfilas[$b]);
-                        $id_rol_dia = RolDia::_insertarRolDia('LUNES',$id_turno,$id_doctor_rol_dia);
-                        //
-                        $id_doctor_rol_dia = $request->get('selec_dia_martes_nuevo'.$idfilas[$b]);
-                        $id_rol_dia = RolDia::_insertarRolDia('MARTES',$id_turno,$id_doctor_rol_dia);
-                        //
-                        $id_doctor_rol_dia = $request->get('selec_dia_miercoles_nuevo'.$idfilas[$b]);
-                        $id_rol_dia = RolDia::_insertarRolDia('MIERCOLES',$id_turno,$id_doctor_rol_dia);
-                        //
-                        $id_doctor_rol_dia = $request->get('selec_dia_jueves_nuevo'.$idfilas[$b]);
-                        $id_rol_dia = RolDia::_insertarRolDia('JUEVES',$id_turno,$id_doctor_rol_dia);
-                        //
-                        $id_doctor_rol_dia = $request->get('selec_dia_viernes_nuevo'.$idfilas[$b]);
-                        $id_rol_dia = RolDia::_insertarRolDia('VIERNES',$id_turno,$id_doctor_rol_dia);
-                        //
-                        $id_doctor_rol_dia = $request->get('selec_dia_sabado_nuevo'.$idfilas[$b]);
-                        $id_rol_dia = RolDia::_insertarRolDia('SABADO',$id_turno,$id_doctor_rol_dia);
-                        //
-                        $id_doctor_rol_dia = $request->get('selec_dia_domingo_nuevo'.$idfilas[$b]);
-                        $id_rol_dia = RolDia::_insertarRolDia('DOMINGO',$id_turno,$id_doctor_rol_dia);
-                        $observacion = $request->get('text_observacion_nuevo'.$idfilas[$b]);
-                        DetalleTurno::_insertarDetalleTurno($observacion,$id_turno);
-                        $b++;
-                    }
-                }
-                $a++;
-            }
-        }
-        if ($request->get('idpersonal') != null) {
-            $idpersonal = $request->get('idpersonal');
-            $a = 0;
-            while ($a < count($idpersonal)) {
-                $nombre = $request->get('text_personal'.$idpersonal[$a]);
-                $id_personal = PersonalArea::_insertarPersonalArea($nombre,$id_etapa_servicio);
-                if ($request->get('idturnos'.$idpersonal[$a]) != null) {
-                    $idturnos = $request->get('idturnos'.$idpersonal[$a]);
-                    $b = 0;
-                    while ($b < count($idturnos)) {
-                        $titulo_turno = $request->get('text_turno'.$idturnos[$b]);
-                        $hora_inicio_turno = $request->get('text_hora_inicio'.$idturnos[$b]);
-                        $hora_fin_turno = $request->get('text_hora_fin'.$idturnos[$b]);
-                        $id_turno = Turno::_insertarTurno($titulo_turno,$hora_inicio_turno,$hora_fin_turno,null,$id_etapa_servicio,$id_personal);
-
-                        if ($request->get('id_filas_turno'.$idturnos[$b]) != null) {
-                            $idfilas = $request->get('id_filas_turno'.$idturnos[$b]);
-                            $c = 0; 
-                            while ($c < count($idfilas)) {
-                                $id_doctor_rol_dia = $request->get('selec_dia_lunes_nuevo'.$idfilas[$c]);
-                                $id_rol_dia = RolDia::_insertarRolDia('LUNES',$id_turno,$id_doctor_rol_dia);
-                                //
-                                $id_doctor_rol_dia = $request->get('selec_dia_martes_nuevo'.$idfilas[$c]);
-                                $id_rol_dia = RolDia::_insertarRolDia('MARTES',$id_turno,$id_doctor_rol_dia);
-                                //
-                                $id_doctor_rol_dia = $request->get('selec_dia_miercoles_nuevo'.$idfilas[$c]);
-                                $id_rol_dia = RolDia::_insertarRolDia('MIERCOLES',$id_turno,$id_doctor_rol_dia);
-                                //
-                                $id_doctor_rol_dia = $request->get('selec_dia_jueves_nuevo'.$idfilas[$c]);
-                                $id_rol_dia = RolDia::_insertarRolDia('JUEVES',$id_turno,$id_doctor_rol_dia);
-                                //
-                                $id_doctor_rol_dia = $request->get('selec_dia_viernes_nuevo'.$idfilas[$c]);
-                                $id_rol_dia = RolDia::_insertarRolDia('VIERNES',$id_turno,$id_doctor_rol_dia);
-                                //
-                                $id_doctor_rol_dia = $request->get('selec_dia_sabado_nuevo'.$idfilas[$c]);
-                                $id_rol_dia = RolDia::_insertarRolDia('SABADO',$id_turno,$id_doctor_rol_dia);
-                                //
-                                $id_doctor_rol_dia = $request->get('selec_dia_domingo_nuevo'.$idfilas[$c]);
-                                $id_rol_dia = RolDia::_insertarRolDia('DOMINGO',$id_turno,$id_doctor_rol_dia);
-
-                                $observacion = $request->get('text_observacion_nuevo'.$idfilas[$c]);
-                                DetalleTurno::_insertarDetalleTurno($observacion,$id_turno);
-                                $c++;
-                            }
-                        }
-
-                        $b++;
-                    }
-                }
-                $a++;
-            }
-        }
-        if ($request->get('id_detalle_turno_delete') != null) {
-            $detalle_turnos_eliminar = $request->get('id_detalle_turno_delete');
-            $a = 0;
-            while ($a < count($detalle_turnos_eliminar)) {
-                $id_detalle_turno = $detalle_turnos_eliminar[$a];
-                DetalleTurno::destroy($id_detalle_turno);
-                $a++;
-            }
-        }
-        if($request->get('id_personal_delete') != null){
-            $personal_eliminar = $request->get('id_personal_delete');
-            $a = 0;
-            while ($a < count($personal_eliminar)) {
-                $id_personal = $personal_eliminar[$a];
-                PersonalArea::destroy($id_personal);
-                $a++;
-            }
-        }
-        if ($request->get('id_turnos_delete') != null) {
-            $turnos_eliminar = $request->get('id_turnos_delete');
-            $a = 0;
-            while ($a < count($turnos_eliminar)) {
-                $id_turno = $turnos_eliminar[$a];
-                Turno::destroy($id_turno);
-                $a++;
-            }
-        }
-        if ($request->get('id_rol_dias_delete') != null) {
-            $rol_dias_eliminar = $request->get('id_rol_dias_delete');
-            $a = 0;
-            while ($a < count($rol_dias_eliminar)) {
-                $id_rol_dia = $rol_dias_eliminar[$a];
-                RolDia::destroy($id_rol_dia);
-                $a++;
-            }
-        }
-        // return $request->all();
-        // $this->update_rol_tuno_detalle($request,$id_etapa_servicio);
-        
-        return Redirect::to('adm/centro/edit_rol_turno/'.$id_rol_turno.'/'.$id_centro);
+        })->export('xlsx');
     }
-
-    public function update_rol_tuno_detalle($request,$id_etapa_servicio)
-    {
-        if ($request->get('id_turnos_actualizar') != null) {
-            $turnos_actualizar = $request->get('id_turnos_actualizar');
-            $a = 0;
-            while ($a < count($turnos_actualizar)) {
-                $titulo = $request->get('text_turno_actualizar'.$turnos_actualizar[$a]);
-                $hora_inicio = $request->get('text_hora_inicio_actualizar'.$turnos_actualizar[$a]);
-                $hora_fin = $request->get('text_hora_fin_actualizar'.$turnos_actualizar[$a]);
-                $id_turno = $turnos_actualizar[$a];
-                Turno::_editarTurno($titulo,$hora_inicio,$hora_fin,$id_turno);
-
-                if ($request->get('id_filas_nuevos_turno'.$id_turno) != null) {
-                    $idfilas = $request->get('id_filas_nuevos_turno'.$id_turno);
-                    $b = 0; 
-                    while ($b < count($idfilas)) {
-                        $id_doctor_rol_dia = $request->get('selec_dia_lunes_nuevo'.$idfilas[$b]);
-                        $id_rol_dia = RolDia::_insertarRolDia('LUNES',$id_turno,$id_doctor_rol_dia);
-                        //
-                        $id_doctor_rol_dia = $request->get('selec_dia_martes_nuevo'.$idfilas[$b]);
-                        $id_rol_dia = RolDia::_insertarRolDia('MARTES',$id_turno,$id_doctor_rol_dia);
-                        //
-                        $id_doctor_rol_dia = $request->get('selec_dia_miercoles_nuevo'.$idfilas[$b]);
-                        $id_rol_dia = RolDia::_insertarRolDia('MIERCOLES',$id_turno,$id_doctor_rol_dia);
-                        //
-                        $id_doctor_rol_dia = $request->get('selec_dia_jueves_nuevo'.$idfilas[$b]);
-                        $id_rol_dia = RolDia::_insertarRolDia('JUEVES',$id_turno,$id_doctor_rol_dia);
-                        //
-                        $id_doctor_rol_dia = $request->get('selec_dia_viernes_nuevo'.$idfilas[$b]);
-                        $id_rol_dia = RolDia::_insertarRolDia('VIERNES',$id_turno,$id_doctor_rol_dia);
-                        //
-                        $id_doctor_rol_dia = $request->get('selec_dia_sabado_nuevo'.$idfilas[$b]);
-                        $id_rol_dia = RolDia::_insertarRolDia('SABADO',$id_turno,$id_doctor_rol_dia);
-                        //
-                        $id_doctor_rol_dia = $request->get('selec_dia_domingo_nuevo'.$idfilas[$b]);
-                        $id_rol_dia = RolDia::_insertarRolDia('DOMINGO',$id_turno,$id_doctor_rol_dia);
-                        $observacion = $request->get('text_observacion_nuevo'.$idfilas[$b]);
-                        DetalleTurno::_insertarDetalleTurno($observacion,$id_turno);
-                        $b++;
-                    }
-                }
-                $a++;
-            }
-        }
-
-        if ($request->get('id_rol_dias_actualizar') != null) {
-            $rol_dias_actualizar = $request->get('id_rol_dias_actualizar');
-            $id_observaciones_actualizar = $request->get('observaciones_actualizar');
-            $a = 0;
-            while ($a < count($rol_dias_actualizar)) {
-                $id_rol_dia = $rol_dias_actualizar[$a];
-                $id_doctor = $request->get('select_dia_lunes_actualizar_'.$id_rol_dia);
-                RolDia::_editarRolDia($id_doctor,$id_rol_dia);
-                $a++;
-
-                $id_rol_dia = $rol_dias_actualizar[$a];
-                $id_doctor = $request->get('select_dia_martes_actualizar_'.$id_rol_dia);
-                RolDia::_editarRolDia($id_doctor,$id_rol_dia);
-                $a++;
-
-                $id_rol_dia = $rol_dias_actualizar[$a];
-                $id_doctor = $request->get('select_dia_miercoles_actualizar_'.$id_rol_dia);
-                RolDia::_editarRolDia($id_doctor,$id_rol_dia);
-                $a++;
-
-                $id_rol_dia = $rol_dias_actualizar[$a];
-                $id_doctor = $request->get('select_dia_jueves_actualizar_'.$id_rol_dia);
-                RolDia::_editarRolDia($id_doctor,$id_rol_dia);
-                $a++;
-
-                $id_rol_dia = $rol_dias_actualizar[$a];
-                $id_doctor = $request->get('select_dia_viernes_actualizar_'.$id_rol_dia);
-                RolDia::_editarRolDia($id_doctor,$id_rol_dia);
-                $a++;
-
-                $id_rol_dia = $rol_dias_actualizar[$a];
-                $id_doctor = $request->get('select_dia_sabado_actualizar_'.$id_rol_dia);
-                RolDia::_editarRolDia($id_doctor,$id_rol_dia);
-                $a++;
-
-                $id_rol_dia = $rol_dias_actualizar[$a];
-                $id_doctor = $request->get('select_dia_domingo_actualizar_'.$id_rol_dia);
-                RolDia::_editarRolDia($id_doctor,$id_rol_dia);
-                $a++;
-
-                $id_detalle_turno = $id_observaciones_actualizar[($a / 7)-1];
-                $observacion = $request->get('observacion_actualizar_'.$id_detalle_turno);
-                DetalleTurno::_editarDetalleTurno($id_detalle_turno,$observacion);
-            }
-            // dd("s");
-        }
-        
-        if ($request->get('id_turnos_nuevos') != null) {
-            $idturnos = $request->get('id_turnos_nuevos');
-            $idespecialidades = $request->get('idespecialidad');
-            $a = 0;
-            while ($a < count($idturnos)) {
-                $titulo_turno = $request->get('text_turno'.$idturnos[$a]);
-                $hora_inicio_turno = $request->get('text_hora_inicio'.$idturnos[$a]);
-                $hora_fin_turno = $request->get('text_hora_fin'.$idturnos[$a]);
-                $id_especialidad = $idespecialidades[$a];
-                $id_turno = Turno::_insertarTurno($titulo_turno,$hora_inicio_turno,$hora_fin_turno,$id_especialidad,$id_etapa_servicio,null);
-                if ($request->get('id_filas_turno'.$idturnos[$a]) != null) {
-                    $idfilas = $request->get('id_filas_turno'.$idturnos[$a]);
-                    $b = 0; 
-                    while ($b < count($idfilas)) {
-                        $id_doctor_rol_dia = $request->get('selec_dia_lunes_nuevo'.$idfilas[$b]);
-                        $id_rol_dia = RolDia::_insertarRolDia('LUNES',$id_turno,$id_doctor_rol_dia);
-                        //
-                        $id_doctor_rol_dia = $request->get('selec_dia_martes_nuevo'.$idfilas[$b]);
-                        $id_rol_dia = RolDia::_insertarRolDia('MARTES',$id_turno,$id_doctor_rol_dia);
-                        //
-                        $id_doctor_rol_dia = $request->get('selec_dia_miercoles_nuevo'.$idfilas[$b]);
-                        $id_rol_dia = RolDia::_insertarRolDia('MIERCOLES',$id_turno,$id_doctor_rol_dia);
-                        //
-                        $id_doctor_rol_dia = $request->get('selec_dia_jueves_nuevo'.$idfilas[$b]);
-                        $id_rol_dia = RolDia::_insertarRolDia('JUEVES',$id_turno,$id_doctor_rol_dia);
-                        //
-                        $id_doctor_rol_dia = $request->get('selec_dia_viernes_nuevo'.$idfilas[$b]);
-                        $id_rol_dia = RolDia::_insertarRolDia('VIERNES',$id_turno,$id_doctor_rol_dia);
-                        //
-                        $id_doctor_rol_dia = $request->get('selec_dia_sabado_nuevo'.$idfilas[$b]);
-                        $id_rol_dia = RolDia::_insertarRolDia('SABADO',$id_turno,$id_doctor_rol_dia);
-                        //
-                        $id_doctor_rol_dia = $request->get('selec_dia_domingo_nuevo'.$idfilas[$b]);
-                        $id_rol_dia = RolDia::_insertarRolDia('DOMINGO',$id_turno,$id_doctor_rol_dia);
-
-                        $observacion = $request->get('text_observacion_nuevo'.$idfilas[$b]);
-                        DetalleTurno::_insertarDetalleTurno($observacion,$id_turno);
-                        $b++;
-                    }
-                }
-                $a++;
-            }
-        }
-
-        if ($request->get('id_rol_dias_delete') != null) {
-            $rol_dias_eliminar = $request->get('id_rol_dias_delete');
-            $a = 0;
-            while ($a < count($rol_dias_eliminar)) {
-                $id_rol_dia = $rol_dias_eliminar[$a];
-                RolDia::destroy($id_rol_dia);
-                $a++;
-            }
-        }
-
-        if ($request->get('id_detalle_turno_delete') != null) {
-            $detalle_turnos_eliminar = $request->get('id_detalle_turno_delete');
-            $a = 0;
-            while ($a < count($detalle_turnos_eliminar)) {
-                $id_detalle_turno = $detalle_turnos_eliminar[$a];
-                DetalleTurno::destroy($id_detalle_turno);
-                $a++;
-            }
-        }
-
-        if ($request->get('id_turnos_delete') != null) {
-            $turnos_eliminar = $request->get('id_turnos_delete');
-            $a = 0;
-            while ($a < count($turnos_eliminar)) {
-                $id_turno = $turnos_eliminar[$a];
-                Turno::destroy($id_turno);
-                $a++;
-            }
-        }
-    }
-
-    public function create_rol_turno_emergencia($id_centro)//id centro
-    {
-        $meses = array("Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre");
-        $anios = array("2018","2019","2020","2021","2022","2023","2024","2025","2026","2027","2028","2029","2030");
-        $anio_actual = date("Y");
-        $mes_actual = $meses[date('n')-1];
-
-        // $detalle = CentroMedico::_obtenerDetalleCentro($id);
-        $especialidades_etapa_emergencia = CentroMedico::_obtenerEspecialidadesEtapaEmergencia($id_centro);
-        $medicos = Medico::_getAllMedicos("")->get();
-
-        return view('admCentros.centro.rol_turno.create_emergencia',compact('id_centro','especialidades_etapa_emergencia','medicos','meses','mes_actual','anios','anio_actual'));
-    }
-
-    public function create_rol_turno_consulta($id_centro,$id_rol_turno)
-    {
-        $especialidades_etapa_consulta = CentroMedico::_obtenerEspecialidadesEtapaConsultaExt($id_centro);
-        $medicos = Medico::_getAllMedicos("")->get();
-
-        return view('admCentros.centro.rol_turno.create_consulta_ext',compact('id_centro','id_rol_turno','especialidades_etapa_consulta','medicos'));
-    }
-
-    public function create_rol_turno_hospitalizacion($id_centro,$id_rol_turno)
-    {
-        $especialidades_etapa_hospitalizacion = CentroMedico::_obtenerEspecialidadesEtapaHospitalizacion($id_centro);
-        $medicos = Medico::_getAllMedicos("")->get();
-
-        return view('admCentros.centro.rol_turno.create_hospitalizacion',compact('id_centro','id_rol_turno','especialidades_etapa_hospitalizacion','medicos'));
-    }
-
-    public function create_rol_turno_personal_encargado($id_centro,$id_rol_turno)
-    {
-        $especialidades_etapa_hospitalizacion = CentroMedico::_obtenerEspecialidadesEtapaHospitalizacion($id_centro);
-        $medicos = Medico::_getAllMedicos("")->get();
-
-        return view('admCentros.centro.rol_turno.create_personal_enc',compact('id_centro','id_rol_turno','especialidades_etapa_hospitalizacion','medicos'));
-    }
-
-    public function store_rol_turno_emergencia(Request $request,$id_centro)
-    {
-        $titulo = $request->get('titulo');
-        $mes = $request->get('mes');
-        $anio = $request->get('anio');
-        $id_rol_turno = RolTurno::_insertarRolTurno($titulo,$mes,$anio,$id_centro);
-        $id_etapa_servicio = EtapaServicio::_insertarEtapaServicio('ETAPA DE EMERGENCIA',$id_rol_turno);
-
-        $this->store_rol_turno_detalle($request,$id_etapa_servicio);
-        return Redirect::to('adm/centro/create_rol_turno_consulta/'.$id_centro.'/'.$id_rol_turno)->with('msj','Rol de Turno: "'.$id_rol_turno.'" - Etapa Emergencia Creada exitósamente.');
-    }
-
-    public function store_rol_turno_consulta(Request $request,$id_centro,$id_rol_turno)
-    {
-        $id_etapa_servicio = EtapaServicio::_insertarEtapaServicio('ETAPA DE CONSULTA EXTERNA',$id_rol_turno);
-        $this->store_rol_turno_detalle($request,$id_etapa_servicio);
-        return Redirect::to('adm/centro/create_rol_turno_hospitalizacion/'.$id_centro.'/'.$id_rol_turno)->with('msj','Rol de Turno: "'.$id_rol_turno.'" - Etapa Consulta Externa Creada exitósamente.');
-    }
-
-    public function store_rol_turno_hospitalizacion(Request $request,$id_centro,$id_rol_turno)
-    {
-        $id_etapa_servicio = EtapaServicio::_insertarEtapaServicio('ETAPA DE HOSPITALIZACION',$id_rol_turno);
-        $this->store_rol_turno_detalle($request,$id_etapa_servicio);
-        return Redirect::to('adm/centro/create_rol_turno_personal_encargado/'.$id_centro.'/'.$id_rol_turno)->with('msj','Rol de Turno: "'.$id_rol_turno.'" - Etapa Hospitalizacion Creada exitósamente.');
-    }
-
-    public function store_rol_turno_personal_encargado(Request $request,$id_centro,$id_rol_turno)
-    {
-        // return $request->all();
-        $id_etapa_servicio = EtapaServicio::_insertarEtapaServicio('ETAPA DE PERSONAL ENCARGADO',$id_rol_turno);
-        // $this->store_rol_turno_detalle($request,$id_etapa_servicio);
-        if ($request->get('idpersonal') != null) {
-            $idpersonal = $request->get('idpersonal');
-            $a = 0;
-            while ($a < count($idpersonal)) {
-                $nombre = $request->get('text_personal'.$idpersonal[$a]);
-                $id_personal = PersonalArea::_insertarPersonalArea($nombre,$id_etapa_servicio);
-                if ($request->get('idturnos'.$idpersonal[$a]) != null) {
-                    $idturnos = $request->get('idturnos'.$idpersonal[$a]);
-                    $b = 0;
-                    while ($b < count($idturnos)) {
-                        $titulo_turno = $request->get('text_turno'.$idturnos[$b]);
-                        $hora_inicio_turno = $request->get('text_hora_inicio'.$idturnos[$b]);
-                        $hora_fin_turno = $request->get('text_hora_fin'.$idturnos[$b]);
-                        $id_turno = Turno::_insertarTurno($titulo_turno,$hora_inicio_turno,$hora_fin_turno,null,$id_etapa_servicio,$id_personal);
-
-                        if ($request->get('id_filas_turno'.$idturnos[$b]) != null) {
-                            $idfilas = $request->get('id_filas_turno'.$idturnos[$b]);
-                            $c = 0; 
-                            while ($c < count($idfilas)) {
-                                $id_doctor_rol_dia = $request->get('selec_dia_lunes'.$idfilas[$c]);
-                                $id_rol_dia = RolDia::_insertarRolDia('LUNES',$id_turno,$id_doctor_rol_dia);
-                                //
-                                $id_doctor_rol_dia = $request->get('selec_dia_martes'.$idfilas[$c]);
-                                $id_rol_dia = RolDia::_insertarRolDia('MARTES',$id_turno,$id_doctor_rol_dia);
-                                //
-                                $id_doctor_rol_dia = $request->get('selec_dia_miercoles'.$idfilas[$c]);
-                                $id_rol_dia = RolDia::_insertarRolDia('MIERCOLES',$id_turno,$id_doctor_rol_dia);
-                                //
-                                $id_doctor_rol_dia = $request->get('selec_dia_jueves'.$idfilas[$c]);
-                                $id_rol_dia = RolDia::_insertarRolDia('JUEVES',$id_turno,$id_doctor_rol_dia);
-                                //
-                                $id_doctor_rol_dia = $request->get('selec_dia_viernes'.$idfilas[$c]);
-                                $id_rol_dia = RolDia::_insertarRolDia('VIERNES',$id_turno,$id_doctor_rol_dia);
-                                //
-                                $id_doctor_rol_dia = $request->get('selec_dia_sabado'.$idfilas[$c]);
-                                $id_rol_dia = RolDia::_insertarRolDia('SABADO',$id_turno,$id_doctor_rol_dia);
-                                //
-                                $id_doctor_rol_dia = $request->get('selec_dia_domingo'.$idfilas[$c]);
-                                $id_rol_dia = RolDia::_insertarRolDia('DOMINGO',$id_turno,$id_doctor_rol_dia);
-                                //observacion
-                                $observacion = $request->get('text_observacion'.$idfilas[$c]);
-                                DetalleTurno::_insertarDetalleTurno($observacion,$id_turno);
-                                $c++;   
-                            }
-                        }
-
-                        $b++;
-                    }
-                }
-                $a++;
-            }
-        }
-        return Redirect::to('adm/centro/index_rol_turno/'.$id_centro)->with('msj','Rol de Turno: "'.$id_rol_turno.'" - Etapa Personal Encargado Creada exitósamente.');
-    }
-
-    public function store_rol_turno_detalle($request,$id_etapa_servicio)
-    {
-        if ($request->get('idturnos') != null) {
-            $idturnos = $request->get('idturnos');
-            $idespecialidades = $request->get('idespecialidad');
-            $a = 0;
-            while ($a < count($idturnos)) {
-                $titulo_turno = $request->get('text_turno'.$idturnos[$a]);
-                $hora_inicio_turno = $request->get('text_hora_inicio'.$idturnos[$a]);
-                $hora_fin_turno = $request->get('text_hora_fin'.$idturnos[$a]);
-                $id_especialidad = $idespecialidades[$a];
-                $id_turno = Turno::_insertarTurno($titulo_turno,$hora_inicio_turno,$hora_fin_turno,$id_especialidad,$id_etapa_servicio,null);
-                if ($request->get('id_filas_turno'.$idturnos[$a]) != null) {
-                    $idfilas = $request->get('id_filas_turno'.$idturnos[$a]);
-                    $b = 0; 
-                    while ($b < count($idfilas)) {
-                        $id_doctor_rol_dia = $request->get('selec_dia_lunes'.$idfilas[$b]);
-                        $id_rol_dia = RolDia::_insertarRolDia('LUNES',$id_turno,$id_doctor_rol_dia);
-                        //
-                        $id_doctor_rol_dia = $request->get('selec_dia_martes'.$idfilas[$b]);
-                        $id_rol_dia = RolDia::_insertarRolDia('MARTES',$id_turno,$id_doctor_rol_dia);
-                        //
-                        $id_doctor_rol_dia = $request->get('selec_dia_miercoles'.$idfilas[$b]);
-                        $id_rol_dia = RolDia::_insertarRolDia('MIERCOLES',$id_turno,$id_doctor_rol_dia);
-                        //
-                        $id_doctor_rol_dia = $request->get('selec_dia_jueves'.$idfilas[$b]);
-                        $id_rol_dia = RolDia::_insertarRolDia('JUEVES',$id_turno,$id_doctor_rol_dia);
-                        //
-                        $id_doctor_rol_dia = $request->get('selec_dia_viernes'.$idfilas[$b]);
-                        $id_rol_dia = RolDia::_insertarRolDia('VIERNES',$id_turno,$id_doctor_rol_dia);
-                        //
-                        $id_doctor_rol_dia = $request->get('selec_dia_sabado'.$idfilas[$b]);
-                        $id_rol_dia = RolDia::_insertarRolDia('SABADO',$id_turno,$id_doctor_rol_dia);
-                        //
-                        $id_doctor_rol_dia = $request->get('selec_dia_domingo'.$idfilas[$b]);
-                        $id_rol_dia = RolDia::_insertarRolDia('DOMINGO',$id_turno,$id_doctor_rol_dia);
-                        //observacion
-                        $observacion = $request->get('text_observacion'.$idfilas[$b]);
-                        DetalleTurno::_insertarDetalleTurno($observacion,$id_turno);
-                        $b++;
-                    }
-                }
-                $a++;
-            }
-        }
-    }
-
-    public function renovate_rol_turno($id,$id_centro)
-    {
-    	$rol_turno = RolTurno::findOrFail($id);
-    	$etapa_servicio_uno = RolTurno::_getEtapaServicio($id,'ETAPA DE EMERGENCIA');
-    	$especialidades = RolTurno::_getEspecialidadesPorIdEtapaServicio($etapa_servicio_uno->id);
-    	$turnos = RolTurno::_getTurnosPorIdEtapaServicio($etapa_servicio_uno->id);
-    	$rol_dias = RolTurno::_getRolDiasPorIdEtapaServicio($etapa_servicio_uno->id);
-    	$medicos = Medico::_getAllMedicos("")->get();
-    	
-    	$turnos_json = json_encode($turnos, JSON_UNESCAPED_SLASHES );
-    	$rol_dias_json = json_encode($rol_dias, JSON_UNESCAPED_SLASHES );
-    	$medicos_json = json_encode($medicos, JSON_UNESCAPED_SLASHES );
-    	$detalle2 = json_encode($especialidades, JSON_UNESCAPED_SLASHES );
-    	
-    	return view('admCentros.centro.rol_turno.renovate',compact('id_centro','rol_turno','especialidades','turnos_json','rol_dias_json','medicos_json','medicos','detalle2','etapa_servicio_uno'));
-    }
-
     public function generar_excel_rol_turno($id_rol_turno,$id_centro)
     {
         Excel::create('RolDeTurno', function($excel) use ($id_rol_turno,$id_centro) {
@@ -1713,43 +1106,43 @@ class RolTurnoController extends Controller
         })->export('xlsx');
     }
 
-    public function build_rol_turno($id_rol_turno,$id_centro)
-    {
-        $etapas_servicios = EtapaServicio::_obtejerEtapasPorIdRolTurno($id_rol_turno);
-        
-        if (count($etapas_servicios) == 1) {//le toca la etapa 2 CONSULTA
-            return Redirect::to('adm/centro/create_rol_turno_consulta/'.$id_centro.'/'.$id_rol_turno);
-        }else if (count($etapas_servicios) == 2) {//le toca la etapa 3 HOSPITALIZACION
-            return Redirect::to('adm/centro/create_rol_turno_hospitalizacion/'.$id_centro.'/'.$id_rol_turno);
-        }else if (count($etapas_servicios) == 3 ){//le toca la etapa 4 PERSONAL ENCARGADO
-            return Redirect::to('adm/centro/create_rol_turno_personal_encargado/'.$id_centro.'/'.$id_rol_turno);
-        }else {
-            return Redirect::to('adm/centro/index_rol_turno/'.$id_centro)->with('msj','El Rol de Turno: "'.$id_rol_turno.'" Ya Contiene 4 Etapas.');
-        }
+    public function get_AllRolTurnos($id){
+        return json_encode(array("roles" => CentroMedico::_getAllRolTurnos($id)->get()));
     }
 
-    //PARA LA APLICACION MOVIL
-    // public function get_EtapasServicios($id){
-    //     return json_encode(array("etapas" => RolTurno::_getEtapasServicios($id)->get()));
-    // }
+    public function get_DetalleTurnosPorIdEtapaServicio($id){
+        return json_encode(array("observaciones" => RolTurno::_getDetalleTurnosPorIdEtapaServicio($id)));
+    }
+
+    public function get_EtapasServicios($id){
+        return json_encode(array("etapas" => RolTurno::_getEtapasServicios($id)->get()));
+    }
+
+    public function get_EspecialidadesPorIdEtapa($id){
+        return json_encode(array("especialidades" => RolTurno::_getEspecialidadesPorIdEtapaServicio($id)));
+    }
     
-    // public function get_EspecialidadesPorIdEtapa($id){
-    //     return json_encode(array("especialidades" => RolTurno::_getEspecialidadesPorIdEtapaServicio($id)));
-    // }
-    
-    // public function get_TurnosPorIdEtapaServicio($id){
-    //     return json_encode(array("turnos" => RolTurno::_getTurnosPorIdEtapaServicio($id)));
-    // }
+    public function get_TurnosPorIdEtapaServicio($id){
+        return json_encode(array("turnos" => RolTurno::_getTurnosPorIdEtapaServicio($id)));
+    }
 
-    // public function get_RolDiasPorIdEtapaServicio($id){
-    //     return json_encode(array("rolesDia" => RolTurno::_getRolDiasPorIdEtapaServicio($id)));
-    // }
+    public function get_RolDiasPorIdEtapaServicio($id){
+        return json_encode(array("rolesDia" => RolTurno::_getRolDiasPorIdEtapaServicio($id)));
+    }
 
-    // public function get_obtenerPersonalEtapaPersonalArea($id){
-    //     return json_encode(array("cargosPersonal" => PersonalArea::_obtenerPersonalEtapaPersonalArea($id)));
-    // }
+    public function get_obtenerPersonalEtapaPersonalArea($id){
+        return json_encode(array("cargosPersonal" => PersonalArea::_obtenerPersonalEtapaPersonalArea($id)));
+    }
 
-    // public function get_DetalleTurnosPorIdEtapaServicio($id){
-    //     return json_encode(array("observaciones" => RolTurno::_getDetalleTurnosPorIdEtapaServicio($id)));
-    // }
+    public function get_AllMedicos(){
+        return json_encode(array("medicos" => Medico::_getAllMedicos("")->get()));
+    }
+
+    public function get_CentroMedico($id){
+        return json_encode(array("centro" => CentroMedico::_obtenerCentro($id)));
+    }
+
+    public function get_CentrosMedicos_por_nombre_o_especialidad($searchText, $filtro){
+        return json_encode(array("centros" => CentroMedico::_getAllCentrosMedicos($searchText, $filtro)->get()));
+    }
 }

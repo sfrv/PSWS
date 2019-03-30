@@ -47,14 +47,14 @@ class TipoServicioController extends Controller
     return Redirect::to('adm/servicio');
 	}
 
-  public function getTipoServicios()
-  {
-      return json_encode(array("tiposervicios" => TipoServicio::_getAllTipoServicio()->get()));
-  }
+  // public function getTipoServicios()
+  // {
+  //     return json_encode(array("tiposervicios" => TipoServicio::_getAllTipoServicio()->get()));
+  // }
 
-  public function get_imagen($id)
-  {
-    $servicio = TipoServicio::findOrFail($id);
-    return response()->file('../public/images/' . $servicio->imagen);
-  }
+  // public function get_imagen($id)
+  // {
+  //   $servicio = TipoServicio::findOrFail($id);
+  //   return response()->file('../public/images/' . $servicio->imagen);
+  // }
 }

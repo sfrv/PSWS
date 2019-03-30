@@ -46,7 +46,7 @@ class ZonaController extends Controller
 		return Redirect::to('adm/zona');
 	}
 
-  public function getZonas(){
-      return json_encode(array("zonas" => Zona::_getAllZona()->get()));
-  }
+  // public function getZonas(){
+  //     return json_encode(array("zonas" => Zona::_getAllZona()->get()));
+  // }
 }

@@ -223,124 +223,110 @@ Route::get('/images/tipocentropublico.png', function () {
 //RUTAS PARA WEB SERVICE
 
 Route::get('imagen-red/{id}',[
-	'uses' => 'RedController@get_imagen'
+	'uses' => 'WebServiceController@get_imagen_Red'
 ]);
 Route::get('imagen-tipoServicio/{id}',[
-	'uses' => 'TipoServicioController@get_imagen'
+	'uses' => 'WebServiceController@get_imagen_TipoServicio'
 ]);
 Route::get('imagen-nivel/{id}',[
-	'uses' => 'NivelController@get_imagen'
+	'uses' => 'WebServiceController@get_imagen_Nivel'
 ]);
 Route::get('imagen-centro/{id}',[
-	'uses' => 'CentroMedicoController@get_imagen'
+	'uses' => 'WebServiceController@get_imagen_CentroMedico'
 ]);
-
 Route::get('get-redes', [
-	'uses' => 'RedController@getRedes'
+	'uses' => 'WebServiceController@getRedes'
 ]);
 Route::get('get-tiposervicios', [
-	'uses' => 'TipoServicioController@getTipoServicios'
+	'uses' => 'WebServiceController@getTipoServicios'
 ]);
 Route::get('get-zonas', [
-	'uses' => 'ZonaController@getZonas'
+	'uses' => 'WebServiceController@getZonas'
 ]);
 Route::get('get-niveles', [
-	'uses' => 'NivelController@getNiveles'
+	'uses' => 'WebServiceController@getNiveles'
 ]);
 
 Route::get('get-centros', [
-	'uses' => 'CentroMedicoController@getCentrosMedicos'
+	'uses' => 'WebServiceController@getCentrosMedicos'
 ]);
+
 Route::get('get-centro/{id}', [
-	'uses' => 'CentroMedicoController@getCentroMedico'
+	'uses' => 'WebServiceController@getCentroMedico'
 ]);
 
 Route::get('get-centrosPorRTN/{id_red}/{id_tipo_servicio}/{id_nivel}', [
-	'uses' => 'CentroMedicoController@getCentrosMedicos_por_red_tipo_nivel'
+	'uses' => 'WebServiceController@getCentrosMedicos_por_red_tipo_nivel'
 ]);
 
 
 Route::get('get-last_CS/{id}', [
-	'uses' => 'CentroMedicoController@get_lastCarteraServicio'
+	'uses' => 'WebServiceController@get_lastCarteraServicio'
 ]);
 // obtiene las especilidades de una cartera por el id de la cartera 
 Route::get('get-especialidadesPorID/{id}', [
-	'uses' => 'CarteraServicioController@get_especialidadesPorId'
+	'uses' => 'WebServiceController@get_especialidadesPorId'
 ]);
 
 Route::get('get-serviciosPorIDCarteraIDEspecialidad/{idCartera}/{idEspecilidad}', [
-	'uses' => 'CarteraServicioController@get_ServiciosPorIDCarteraIDEspecialidad'
+	'uses' => 'WebServiceController@get_ServiciosPorIDCarteraIDEspecialidad'
 ]);
 
 Route::get('get-serviciosPorIDCartera/{idCartera}', [
-	'uses' => 'CarteraServicioController@get_ServiciosPorIDCartera'
+	'uses' => 'WebServiceController@get_ServiciosPorIDCartera'
 ]);
 
 //para el excel
 Route::get('get-excelCarteraServicio/{idCartera}/{idCentro}', [
-	'uses' => 'CarteraServicioController@generar_excel_cartera_servicio'
+	'uses' => 'WebServiceController@generar_excel_cartera_servicio'
 ]);
 
 Route::get('get-excelRolTurno/{idRolTurno}/{idCentro}', [
-	'uses' => 'RolTurnoController@generar_excel_rol_turno'
+	'uses' => 'WebServiceController@generar_excel_rol_turno'
 ]);
 
 
 //para rol de turnos
 
 Route::get('get-AllRolTurnos/{id}', [
-	'uses' => 'CentroMedicoController@get_AllRolTurnos'
+	'uses' => 'WebServiceController@get_AllRolTurnos'
 ]);
 
 Route::get('get-DetalleTurnosPorIdEtapaServicio/{id}', [
-	'uses' => 'RolTurnoController@get_DetalleTurnosPorIdEtapaServicio'
+	'uses' => 'WebServiceController@get_DetalleTurnosPorIdEtapaServicio'
 ]);
 
 Route::get('get-Etapas/{id}', [
-	'uses' => 'RolTurnoController@get_EtapasServicios'
+	'uses' => 'WebServiceController@get_EtapasServicios'
 ]);
 
 Route::get('get-especialidadesPorEtapa/{id}', [
-	'uses' => 'RolTurnoController@get_EspecialidadesPorIdEtapa'
+	'uses' => 'WebServiceController@get_EspecialidadesPorIdEtapa'
 ]);
 
 Route::get('get-turnosPorEtapa/{id}', [
-	'uses' => 'RolTurnoController@get_TurnosPorIdEtapaServicio'
+	'uses' => 'WebServiceController@get_TurnosPorIdEtapaServicio'
 ]);
 
 Route::get('get-rolDiaPorEtapa/{id}', [
-	'uses' => 'RolTurnoController@get_RolDiasPorIdEtapaServicio'
+	'uses' => 'WebServiceController@get_RolDiasPorIdEtapaServicio'
 ]);
 
 Route::get('get-medicos', [
-	'uses' => 'MedicoController@get_AllMedicos'
+	'uses' => 'WebServiceController@get_AllMedicos'
 ]);
 
 Route::get('get-CentroMedico/{id}', [
-	'uses' => 'CentroMedicoController@get_CentroMedico'
+	'uses' => 'WebServiceController@get_CentroMedico'
 ]);
 
 Route::get('get-centrosPorN-E/{searchText}/{filtro}', [
-	'uses' => 'CentroMedicoController@get_CentrosMedicos_por_nombre_o_especialidad'
+	'uses' => 'WebServiceController@get_CentrosMedicos_por_nombre_o_especialidad'
 ]);
 
 Route::get('get-cargosPersonal/{id}', [
-	'uses' => 'RolTurnoController@get_obtenerPersonalEtapaPersonalArea'
+	'uses' => 'WebServiceController@get_obtenerPersonalEtapaPersonalArea'
 ]);
-
-
-//modificar
-
-// Route::get('get-especialidades',[
-// 	'uses' => 'EspecialidadController@getEspecialidades'
-// ]);
-// Route::get('get-especialidades-mediante-lugar/{id}',[
-// 	'uses' => 'EspecialidadController@getEspecialidadPorLugar'
-// ]);
-//
-// Route::get('get-detalleespecialidades',[
-// 	'uses' => 'RedController@getRedes'
-// ]);
 
 
 Auth::routes();

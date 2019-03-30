@@ -56,7 +56,7 @@ class MedicoController extends Controller
 
     //para la aplicacion movil
     
-    public function get_AllMedicos(){
-        return json_encode(array("medicos" => Medico::_getAllMedicos("")->get()));
-    }
+    // public function get_AllMedicos(){
+    //     return json_encode(array("medicos" => Medico::_getAllMedicos("")->get()));
+    // }
 }

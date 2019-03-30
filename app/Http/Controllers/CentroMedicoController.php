@@ -129,41 +129,41 @@ class CentroMedicoController extends Controller
     }
 
  
-    public function getCentrosMedicos()
-    {
-        return json_encode(array("centros" => CentroMedico::_getAllCentroMedico()->get()));
-    }
+    // public function getCentrosMedicos()
+    // {
+    //     return json_encode(array("centros" => CentroMedico::_getAllCentroMedico()->get()));
+    // }
 
-    public function getCentrosMedicos_por_red_tipo_nivel($id_red, $id_tipo_servicio, $id_nivel)
-    {
-        return json_encode(array("centros" => CentroMedico::_getCentrosMedicos_por_red_tipo_nivel($id_red, $id_tipo_servicio, $id_nivel)->get()));
-    }
+    // public function getCentrosMedicos_por_red_tipo_nivel($id_red, $id_tipo_servicio, $id_nivel)
+    // {
+    //     return json_encode(array("centros" => CentroMedico::_getCentrosMedicos_por_red_tipo_nivel($id_red, $id_tipo_servicio, $id_nivel)->get()));
+    // }
 
-    public function getCentroMedico($id)
-    {
-        return json_encode(array("centro" => CentroMedico::_getOneCentroMedico($id)->get()));
-    }
+    // public function getCentroMedico($id)
+    // {
+    //     return json_encode(array("centro" => CentroMedico::_getOneCentroMedico($id)->get()));
+    // }
 
     //================================================
 
-    public function get_imagen($id)
-    {
-        $centro = CentroMedico::findOrFail($id);
-        return response()->file('../public/images/Centros/' . $centro->imagen);
-    }
+    // public function get_imagen($id)
+    // {
+    //     $centro = CentroMedico::findOrFail($id);
+    //     return response()->file('../public/images/Centros/' . $centro->imagen);
+    // }
 
-    public function get_lastCarteraServicio($id){
-        return json_encode(array("carteras" => CentroMedico::_getLastCarteraServicio($id)->get()));
-    }
+    // public function get_lastCarteraServicio($id){
+    //     return json_encode(array("carteras" => CentroMedico::_getLastCarteraServicio($id)->get()));
+    // }
 
-    public function get_AllRolTurnos($id){
-        return json_encode(array("roles" => CentroMedico::_getAllRolTurnos($id)->get()));
-    }
-    public function get_CentroMedico($id){
-        return json_encode(array("centro" => CentroMedico::_obtenerCentro($id)));
-    }
-    public function get_CentrosMedicos_por_nombre_o_especialidad($searchText, $filtro){
-        return json_encode(array("centros" => CentroMedico::_getAllCentrosMedicos($searchText, $filtro)->get()));
-    }
+    // public function get_AllRolTurnos($id){
+    //     return json_encode(array("roles" => CentroMedico::_getAllRolTurnos($id)->get()));
+    // }
+    // public function get_CentroMedico($id){
+    //     return json_encode(array("centro" => CentroMedico::_obtenerCentro($id)));
+    // }
+    // public function get_CentrosMedicos_por_nombre_o_especialidad($searchText, $filtro){
+    //     return json_encode(array("centros" => CentroMedico::_getAllCentrosMedicos($searchText, $filtro)->get()));
+    // }
 
 }

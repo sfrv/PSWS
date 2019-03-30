@@ -278,15 +278,15 @@ class CarteraServicioController extends Controller
 
     //================================================
 
-    public function get_especialidadesPorId($id){
-        return json_encode(array("especialidades" => CarteraServicio::_getEspecialidadesPorId($id)));
-    }
+    // public function get_especialidadesPorId($id){
+    //     return json_encode(array("especialidades" => CarteraServicio::_getEspecialidadesPorId($id)));
+    // }
 
-    public function get_ServiciosPorIDCarteraIDEspecialidad($idCartera,$idEspecialidad){
-        return json_encode(array("servicios" => CarteraServicio::_getServiciosPorIDCarteraIDEspecialidad($idCartera,$idEspecialidad)->get()));
-    }
+    // public function get_ServiciosPorIDCarteraIDEspecialidad($idCartera,$idEspecialidad){
+    //     return json_encode(array("servicios" => CarteraServicio::_getServiciosPorIDCarteraIDEspecialidad($idCartera,$idEspecialidad)->get()));
+    // }
 
-    public function get_ServiciosPorIDCartera($id){
-        return json_encode(array("servicios" => CarteraServicio::_getServiciosPorIDCartera($id)->get()));
-    }
+    // public function get_ServiciosPorIDCartera($id){
+    //     return json_encode(array("servicios" => CarteraServicio::_getServiciosPorIDCartera($id)->get()));
+    // }
 }
